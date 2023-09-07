@@ -7,6 +7,7 @@
 #' @usage qqresid(model, scale="normal")
 #'
 #' @param model glm model object (eg. `glm()`, `glm.nb()`, `zeroinfl()`, and `polr()`)
+#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The defalut scale is `normal`.
 #'
 #' @importFrom stats qqplot
 #' @importFrom stats ppoints
@@ -42,7 +43,6 @@ qqresid <- function(model, scale="normal"){
     if(glm.test && !tweedie.test) empcdf <- resid_disc(model)
     if(zero.test) empcdf <- resid_zeroinfl(model)
     if(glm.test && tweedie.test) empcdf <- resid_semiconti(model)
-    # p.max is very very sensitive I need to specify it from model object
 
     n <- length(empcdf)
 
