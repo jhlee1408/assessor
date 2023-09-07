@@ -48,9 +48,9 @@ resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE){
   if(plot==T){
     empcdf2 <- empcdf[empcdf!=1]
     n <- length(empcdf2)
-    qqplot(qnorm(ppoints(n)),qnorm(empcdf2), main="QQ-plot", xlab = "Theoretical Quantiles", ylab = "Empirical Quantiles",
-           cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5,xlim=c(-3,3),ylim=c(-3,3))
-    abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5,xlim=c(-3,3),ylim=c(-3,3))
+    qqplot(qnorm(ppoints(n)),qnorm(empcdf), main=title, xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+           cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+    abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
   }
   return(empcdf)
 }
