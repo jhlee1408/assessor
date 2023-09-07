@@ -1,4 +1,4 @@
-Package: residuals
+Package: assessor
 Title: Residuals for discrete and semicontinuous outcome regressions
 Version: 1.0.0
 Authors@R: 
