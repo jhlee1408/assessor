@@ -2,7 +2,7 @@
 % Please edit documentation in R/qqplot.R
 \name{qqresid}
 \alias{qqresid}
-\title{New QQ plot}
+\title{qqplot with DPIT residuals}
 \usage{
 qqresid(model, scale="normal")
 }
@@ -15,6 +15,14 @@ qqresid(model, scale="normal")
 \code{qqresid} is fucntion for plotting QQ-plot with residuals based on the probability integral transform.
 Note that this function does not return residuals. To get both residuals and QQ-plot,
 use \code{\link[=resid_disc]{resid_disc()}}, \code{\link[=resid_semiconti]{resid_semiconti()}} and \code{\link[=resid_zeroinfl]{resid_zeroinfl()}}.
+}
+\details{
+The calculated residuals follows the uniform distribution under the adequate model assumption.
+Also, taking the normal quantile transformation to DPIT residuals,
+\deqn{\Phi^{-1}[\hat{r}(Y_i|X_i)], i=1,2,3,...,n,}
+the standard normal distribution serves as the null pattern. \cr
+
+Users can choose \code{scale} argument between \code{normal} and \code{uniform}. The default value is \code{normal} as an usual QQ plot.
 }
 \examples{
 library(glmnet)

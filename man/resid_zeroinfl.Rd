@@ -12,29 +12,35 @@ resid_zeroinfl(model, plot=TRUE)
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 }
 \value{
-proposed residuals
+The double probability integral transform residuals(DPIT residuals).
 }
 \description{
-\code{resid_zeroinfl} is used for calculating residuals based on probability integral transform.
+\code{resid_zeroinfl} is used to calculate the newly proposed residuals for a zeroinflated discrete outcome GLM.
 A zeroinflated model from \code{pscl} is recommended in this package.
 }
 \examples{
-## zeroinflated poisson model
+## Zero-Inflated Poisson
 library(pscl)
-# simulation
-n <- 1e3
-x1 <- rnorm(n)
-x2 <- rbinom(n, 1, 0.7)
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n); x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2; beta1 <- 2; beta2 <- 1
+beta00 <- -2; beta10 <- 2
 
-b1 <- 2;b2 <- 1;b0 <- -1
-b00 <- -2;b10 <- 2
-lambda1 <- exp(b0 + b1 * x1 + b2 * x2)
-p0 <- 1 / (1 + exp(-(b00 + b10*x1)))
+# Mean of Poisson part
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# Excess zero probability
+p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
+## simulate outcomes
 y0 <- rbinom(n, size = 1, prob = 1 - p0)
 y1 <- rpois(n, lambda1)
 y <- ifelse(y0 == 0, 0, y1)
-
-m1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-zpois.resid <- resid_zeroinfl(m1) ## with qqplot
-zpois.resid <- resid_zeroinfl(m1, plot=FALSE) ## without qqplot
+## True model
+modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
+resid_zeroinfl(modelzero1,plot = TRUE)
+}
+\references{
+Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
 }
