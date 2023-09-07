@@ -49,7 +49,7 @@ resid_semiconti <- function(model, plot=TRUE){
     if(plot==T){
       empcdf2 <- newp[newp!=1]
       n <- length(empcdf2)
-      qqplot(qnorm(ppoints(n)),qnorm(empcdf), main=title, xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+      qqplot(qnorm(ppoints(n)),qnorm(empcdf), main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
              cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }
