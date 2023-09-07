@@ -4,7 +4,7 @@
 #' Note that this function does not return residuals. To get both residuals and QQ-plot,
 #' use [resid_disc()], [resid_semiconti()] and [resid_zeroinfl()].
 #'
-#' @usage qqresid(model)
+#' @usage qqresid(model, scale="normal")
 #'
 #' @param model glm model object (eg. `glm()`, `glm.nb()`, `zeroinfl()`, and `polr()`)
 #'
@@ -26,7 +26,7 @@
 #' qqresid(m1) ## qqplot of poisson regression
 
 
-qqresid <- function(model){
+qqresid <- function(model, scale="normal"){
   if(is.null(resid)){
 
     glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
@@ -46,9 +46,16 @@ qqresid <- function(model){
 
     n <- length(empcdf)
 
-    qqplot(qnorm(ppoints(n)),qnorm(empcdf), main=title, xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-           cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-    abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    if(scale == "normal"){
+      qqplot(qnorm(ppoints(n)),qnorm(empcdf), main=title, xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    }
+    if(scale == "uniform"){
+      qqplot(ppoints(n),empcdf, main=title, xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    }
   }
   if(is.null(model)){
     empcdf <- resid

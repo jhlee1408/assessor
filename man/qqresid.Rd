@@ -4,10 +4,12 @@
 \alias{qqresid}
 \title{New QQ plot}
 \usage{
-qqresid(model)
+qqresid(model, scale="normal")
 }
 \arguments{
 \item{model}{glm model object (eg. \code{glm()}, \code{glm.nb()}, \code{zeroinfl()}, and \code{polr()})}
+
+\item{scale}{You can choose the scale of qqplot among \code{normal} and \code{uniform} scales. The defalut scale is \code{normal}.}
 }
 \description{
 \code{qqresid} is fucntion for plotting QQ-plot with residuals based on the probability integral transform.
