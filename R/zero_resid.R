@@ -3,10 +3,10 @@
 #' `resid_zeroinfl` is used to calculate the newly proposed residuals for a zeroinflated discrete outcome GLM.
 #' A zeroinflated model from `pscl` is recommended in this package.
 #'
-#' @usage resid_zeroinfl(model, plot=TRUE)
+#' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
 #' @param model glm model object (eg. `zeroinfl()` from `pscl`)
 #' @param plot  A logical value indicating whether or not to return QQ-plot
-#'
+#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The defalut scale is `normal`.
 #'
 #' @returns The double probability integral transform residuals(DPIT residuals).
 #' @importFrom stats family
@@ -59,5 +59,6 @@ resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE){
            cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
     abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
   }
+  if(scale="normal") empcdf <- qnorm(empcdf)
   return(empcdf)
 }

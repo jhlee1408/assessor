@@ -3,11 +3,12 @@
 #' `resid.semiconti` is used to calculate newly proposed residuals for semi-continuous outcomes regression such as tweedie model.
 #' A model object of semicontinuous regression from `tweedie` package is recommended.
 #'
-#' @usage resid_semiconti(model, plot=TRUE)
+#' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
 #'
 #'
 #' @param model model object(using tweedie family)
 #' @param plot A logical value indicating whether or not to return QQ-plot
+#' @param scale You can choose the scale of residuals among `normal` and `uniform` scales. The defalut scale is `normal`.
 #'
 #' @returns The double probability integral transform residuals(DPIT residuals).
 #'
@@ -25,10 +26,10 @@
 #' @export
 #'
 
-resid_semiconti <- function(model, plot=TRUE){
+resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
   model.family <- model$family[[1]]
   if(model.family == "Tweedie"){
-    y1 <- model$y
+    y1 <- model$y.
     p.max <- get("p",envir=environment(model$family$variance))
     n <- length(y1)
     lambda1f <- model$fitted.values
@@ -47,6 +48,8 @@ resid_semiconti <- function(model, plot=TRUE){
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }
   }
+  if(scale ="normal") newp <- qnorm(newp)
+  if(scale ="uniform") newp <- newp
   return(newp)
 }
 
