@@ -59,6 +59,6 @@ resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE){
            cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
     abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
   }
-  if(scale="normal") empcdf <- qnorm(empcdf)
+  if(scale=="normal") empcdf <- qnorm(empcdf)
   return(empcdf)
 }

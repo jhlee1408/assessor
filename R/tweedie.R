@@ -48,8 +48,7 @@ resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }
   }
-  if(scale ="normal") newp <- qnorm(newp)
-  if(scale ="uniform") newp <- newp
+  if(scale=="normal") newp <- qnorm(newp)
   return(newp)
 }
 

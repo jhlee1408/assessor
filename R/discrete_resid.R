@@ -4,7 +4,7 @@
 #' Specifically, the model assumption of logistics(binary), ordinal, poisson, or
 #' negative binomial regression can be assessed through `resid_disc()`.
 #'
-#' @usage resid_disc(model, plot=TRUE)
+#' @usage resid_disc(model, plot=TRUE, scale="normal")
 #' @param model glm model object (eg. `glm`, `glm.nb`, `polr`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The defalut scale is `normal`.
@@ -174,6 +174,6 @@ resid_disc <- function(model, plot=TRUE){
     abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
   }
 
-  if(scale = "normal") empcdf <- qnorm(empcdf)
+  if(scale =="normal") empcdf <- qnorm(empcdf)
   return(empcdf)
 }
