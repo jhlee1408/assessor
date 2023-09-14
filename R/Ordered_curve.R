@@ -17,8 +17,8 @@
 #'
 #' The role of `thr`(threshold variable \eqn{Z}) is to determine the rule  for accumulating \eqn{\hat{\lambda}_i} and \eqn{Y_i}, \eqn{i=1,\ldots,n}
 #' for the ordered curve.
-#' The candidate for `thr` could be any function of predictors such as a single predictor(eg. `x1`),
-#' a linear combination of predictor(eg.`x1+x2`), or fitted values(eg. `fitted(model)`). \cr
+#' The candidate for `thr` could be any function of predictors such as a single predictor(e.g., `x1`),
+#' a linear combination of predictor(e.g.,`x1+x2`), or fitted values(e.g., `fitted(model)`). \cr
 #'
 #' It can also be a variable being considered to be included in the mean function.
 #' If a variable  leads to a large discrepancy between the ordered curve and the diagonal,
