@@ -1,5 +1,5 @@
 Package: assessor
-Title: Residuals for discrete and semicontinuous outcome regressions
+Title: Assessment tools for regression models with discrete and semicontinuous outcomes
 Version: 1.0.0
 Authors@R: 
     person("Lu", "Yang", 
@@ -8,7 +8,9 @@ Authors@R:
     person("Jeonghwan", "Lee",
     email="lee03938@umn.edu",
     role=c("cre"))
-Description: The 'residuals' is a handy package for calculating residuals of generalized regression with discrete and semicontinuous outcomes. It can handle the procedure of calculation of residuals and draw qqplot with the newly proposed residuals by the author.
+Description: Provides assessment tools for regression models with discrete and semicontinuous outcomes proposed 
+            in Yang (2023) <doi:10.48550/arXiv.2308.15596>. It calculates the double probability integral 
+            transorm (DPIT) residuals, constructs QQ plots of residuals, and the ordered curve for assessing mean structures.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -23,4 +25,4 @@ Suggests:
     pscl,
     rmarkdown,
     statmod
-VignetteBuilder: knitr
+VignetteBuilder: rmarkdown

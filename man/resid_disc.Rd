@@ -4,32 +4,41 @@
 \alias{resid_disc}
 \title{Residuals for discrete outcome regression}
 \usage{
-resid_disc(model, plot=TRUE)
+resid_disc(model, plot=TRUE, scale="normal")
 }
 \arguments{
-\item{model}{glm model object (eg. \code{glm}, \code{glm.nb}, \code{polr})}
+\item{model}{model object (e.g. \code{glm}, \code{glm.nb}, \code{polr})}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
+
+\item{scale}{You can choose the scale of qqplot among \code{normal} and \code{uniform} scales.
+The sample quantiles of the residuals are plotted against
+the theoretical quantiles of a standard normal distribution under the normal scale,
+and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
+The defalut scale is \code{normal}.}
 }
 \value{
-The double probability integral transform residuals(DPIT residuals).
+DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.
 }
 \description{
-\code{resid_disc} is used to calculate the newly proposed residuals for a discrete outcome GLM.
-Specifically, the model assumption of logistics(binary), ordinal, poisson, or
-negative binomial regression can be assessed through \code{resid_disc()}.
+Calculates the DPIT residuals for regression models with discrete outcomes.
+Specifically, the model assumption of GLMs with binary, ordinal, Poisson,
+and negative binomial outcomes
+can be assessed using \code{resid_disc()}.
 }
 \details{
-The double probability integral transform residuals (DPIT residuals) is defined as follows.
-\deqn{\hat{G}_{M_i}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}_{M}\bigg(\hat{F}_{M}^{(-1)}(s|X_j)\bigg|X_j\bigg)}
-\deqn{\hat{r}(Y_i|X_i) = \hat{G}_{M_i}\bigg(\hat{F}_{M}(Y_i|X_i)\bigg)}
-where \eqn{\hat{F}_{M}} refers to the cdf of the fitted model.
-DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.\cr
+The DPIT residual for the $i$th observation is defined as follows:
+\deqn{\hat{r}(Y_i|X_i) = \hat{G}_{M_i}\bigg(\hat{F}_{M}(Y_i|\mathbf{X}_i)\bigg)}
+\deqn{\text{where } \hat{G}_{M_i}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}_{M}\bigg(\hat{F}_{M}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
+where \eqn{\hat{F}_{M}} refers to the fitted cumulative distribution function.
+When \code{scale="uniform"}, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
+When \code{scale="normal"}, it applies the normal quantile transformation to the DPIT residuals
+\deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.
+\cr
 
-Check refernce for more details.
+Check reference for more details.
 }
 \examples{
-library(glmnet)
 library(MASS)
 n=500
 set.seed(1234)
@@ -45,11 +54,11 @@ y <- rnbinom(n, mu=lambda1, size=size1)
 
 # True model
 model1 <- glm.nb(y~x1+x2)
-resid_disc(model1,plot = TRUE)
+resid_disc(model1,plot = TRUE, scale="uniform")
 
 # Overdispersion
 model2 <- glm(y~x1+x2,family = poisson(link = "log"))
-resid_disc(model2,plot = TRUE)
+resid_disc(model2,plot = TRUE, scale="normal")
 
 ## Binary example
 n<- 500
@@ -68,6 +77,7 @@ resid_disc(model01,plot = TRUE)
 # Missing covariates
 model02 <- glm(y1~x1,family =binomial(link = "logit") )
 resid_disc(model02,plot = TRUE)
+
 ## Poisson example
 n <- 500
 set.seed(1234)
@@ -76,7 +86,6 @@ x1<-rnorm(n); x2 <-  rbinom(n,1,0.7)
 # Coefficients
 beta0 <- -2; beta1 <- 2; beta2<- 1
 lambda1<-exp(beta0+beta1*x1+beta2*x2)
-
 y <- rpois(n, lambda1)
 
 # True model

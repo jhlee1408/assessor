@@ -1,0 +1,10 @@
+---
+title: "assesor"
+output: rmarkdown::html_vignette
+author: "Jeonghwan Lee"
+date: Sys.Date()
+vignette: >
+  %\VignetteIndexEntry{assesor}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}{inputenc}
+---

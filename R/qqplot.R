@@ -1,21 +1,18 @@
 #' qqplot with DPIT residuals
 #'
-#' `qqresid` is fucntion for plotting QQ-plot with residuals based on the probability integral transform.
+#' Makes a QQ-plot of the DPIT residuals calculated from `resid_disc`, `resid_semiconti` or `resid_zeroinfl`.
+#' The plot should be close to the diagonal if the model is correctly specified.
 #' Note that this function does not return residuals. To get both residuals and QQ-plot,
 #' use [resid_disc()], [resid_semiconti()] and [resid_zeroinfl()].
 #'
 #' @usage qqresid(model, scale="normal")
 #'
-#' @param model glm model object (eg. `glm()`, `glm.nb()`, `zeroinfl()`, and `polr()`)
-#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The defalut scale is `normal`.
-#'
-#' @details
-#' The calculated residuals follows the uniform distribution under the adequate model assumption.
-#' Also, taking the normal quantile transformation to DPIT residuals,
-#' \deqn{\Phi^{-1}[\hat{r}(Y_i|X_i)], i=1,2,3,...,n,}
-#' the standard normal distribution serves as the null pattern. \cr
-#'
-#' Users can choose `scale` argument between `normal` and `uniform`. The default value is `normal` as an usual QQ plot.
+#' @param model Fitted model object (e.g., `glm()`, `glm.nb()`, `zeroinfl()`, and `polr()`)
+#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales.
+#' The sample quantiles of the residuals are plotted against
+#' the theoretical quantiles of a standard normal distribution under the normal scale,
+#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
+#'  The defalut scale is `normal`.
 #'
 #'
 #' @importFrom stats qqplot
@@ -26,14 +23,14 @@
 #' @seealso [resid_disc()], [resid_semiconti()], [resid_zeroinfl()]
 #'
 #' @examples
-#' library(glmnet)
 #' n <- 1e2
 #' b <- c(2, 1, -2)
 #' x1 <- rnorm(n); x2 <- rbinom(n,1,0.7)
 #' y <-  rpois(n, exp(b[1]+b[2]*x1+b[3]*x2))
 #'
 #' m1 <- glm(y~x1+x2, family=poisson)
-#' qqresid(m1) ## qqplot of poisson regression
+#' qqresid(m1, scale="normal") ## qqplot of poisson regression
+#' qqresid(m1, scale="uniform")
 
 
 qqresid <- function(model, scale="normal"){

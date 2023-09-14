@@ -1,14 +1,14 @@
-#' Residuals for zeroinflated regression model
+#' Residuals for zero-inflated regression model
 #'
-#' `resid_zeroinfl` is used to calculate the newly proposed residuals for a zeroinflated discrete outcome GLM.
-#' A zeroinflated model from `pscl` is recommended in this package.
+#' Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
+#' A zero-inflated model from `pscl` is used in this package.
 #'
 #' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
-#' @param model glm model object (eg. `zeroinfl()` from `pscl`)
+#' @param model model object, which is the output of `pscl::zeroinfl`.
 #' @param plot  A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The defalut scale is `normal`.
+#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The default scale is `normal`.
 #'
-#' @returns The double probability integral transform residuals(DPIT residuals).
+#' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #' @importFrom stats family
 #' @export
 #'
@@ -35,10 +35,14 @@
 #' y <- ifelse(y0 == 0, 0, y1)
 #' ## True model
 #' modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-#' resid_zeroinfl(modelzero1,plot = TRUE)
+#' resid_zeroinfl(modelzero1,plot=TRUE, scale="uniform")
+#'
+#' ## Zero inflation
+#' modelzero2 <- glm(y~x1+x2, family=poisson(link="log"))
+#' resid_disc(modelzero2,plot = TRUE,scale="uniform")
 
 
-resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE){
+resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE, scale="normal"){
 
   # Model checking
   zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))

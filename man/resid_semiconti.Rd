@@ -4,12 +4,14 @@
 \alias{resid_semiconti}
 \title{Residuals for semicontinuous outcome regression}
 \usage{
-resid_semiconti(model, plot=TRUE)
+resid_semiconti(model, plot=TRUE, scale = "normal")
 }
 \arguments{
 \item{model}{model object(using tweedie family)}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
+
+\item{scale}{You can choose the scale of residuals among \code{normal} and \code{uniform} scales. The defalut scale is \code{normal}.}
 }
 \value{
 The double probability integral transform residuals(DPIT residuals).

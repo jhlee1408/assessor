@@ -1,21 +1,28 @@
 #' Ordered Curve
 #'
-#' `ord.curve` is used to assess the mean structure of generalized linear models. The result
-#' plot can be used to compare the cumulative sum of the response variable and its hypothesized value.
-#' Deviation from the diagonal suggests possibility that the mean structure of the model is incorrect.
+#' Creates a plot to assess the mean structure of regression models. The
+#' plot compares the cumulative sum of the response variable and its hypothesized value.
+#' Deviation from the diagonal suggests the possibility that the mean structure of the model is incorrect.
 #'
 #'
 #' @details
-#'  If the mean structure is well specified in the model,
-#' \eqn{(L_1(t), L_2(t))} should be close to each other.
+#' The ordered curve plots \deqn{\hat{L}_1(t)=\frac{\sum_{i=1}^n\left[Y_i1(Z_i\leq t)\right]}{\sum_{i=1}^nY_i}} against
+#'  \deqn{\hat{L}_2(t)=\frac{\sum_{i=1}^n\left[\hat{\lambda}_i1(Z_i\leq t)\right]}{\sum_{i=1}^n\hat{\lambda}_i}},
+#' where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
+#'  If the mean structure is correctly specified in the model,
+#' \eqn{(\hat L_1(t), \hat L_2(t))} should be close to each other.
 #' If the curve is distant from the diagonal, it suggests incorrectness in the mean structure.
 #' Moreover, if the curve is above the diagonal, the summation of the response is larger than
 #' the fitted mean, which implies that the mean is underestimated, and vice versa. \cr
 #'
-#' The role of `thr`(threshold variable) is to determine the rule for summing each mean and outcome observation.
+#' The role of `thr`(threshold variable \eqn{Z}) is to determine the rule  for accumulating \eqn{\hat{\lambda}_i} and \eqn{Y_i}, \eqn{i=1,\ldots,n}
+#' for the ordered curve.
 #' The candidate for `thr` could be any function of predictors such as a single predictor(eg. `x1`),
 #' a linear combination of predictor(eg.`x1+x2`), or fitted values(eg. `fitted(model)`). \cr
 #'
+#' It can also be a variable being considered to be included in the mean function.
+#' If a variable  leads to a large discrepancy between the ordered curve and the diagonal,
+#'  including this variable in the mean function should be considered.
 #'
 #' For more details, see the reference paper.
 #'
@@ -23,13 +30,13 @@
 #'
 #' @usage ord_curve(model, thr)
 #'
-#' @param model glm model object (eg. `glm`, `glm.nb`, `polr`)
-#' @param thr threshold variable (predictor, fitted values, or variable to be included as a covariate)
+#' @param model regression model object (e.g., `glm`, `glm.nb`, `polr`)
+#' @param thr threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
 #'
 #' @importFrom graphics abline
 #'
 #' @examples
-#' ## Binomial example of Ordered curve
+#' ## Binary example of ordered curve
 #' n <- 500
 #' set.seed(1234)
 #' x1 <-rnorm(n,1,1); x2 <- rbinom(n,1,0.7)
