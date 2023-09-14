@@ -141,7 +141,6 @@
 
 
 resid_disc <- function(model, plot=TRUE, scale="normal"){
-
   # Model checking
   glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
   polr.test <- (paste(model$call)[1] %in% c("polr"))
@@ -179,7 +178,6 @@ resid_disc <- function(model, plot=TRUE, scale="normal"){
            cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
     abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
   }
-
   if(scale=="normal") empcdf <- qnorm(empcdf)
   return(empcdf)
 }
