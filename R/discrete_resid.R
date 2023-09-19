@@ -172,13 +172,25 @@ resid_disc <- function(model, plot=TRUE, scale="normal"){
     empcdf <- resid.logi(model)
   }
   if(plot==T){
-    empcdf2 <- empcdf[empcdf!=1]
-    n <- length(empcdf2)
-    qqplot(qnorm(ppoints(n)),qnorm(empcdf),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-           cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-    abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    if(scale=="normal"){
+      empcdf <- qnorm(empcdf)
+      empcdf2 <- empcdf[empcdf!=1]
+      n <- length(empcdf2)
+      qqplot(qnorm(ppoints(n)),qnorm(empcdf2),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    }
+    if(scale=="uniform"){
+      empcdf2 <- empcdf[empcdf!=1]
+      n <- length(empcdf2)
+      qqplot(ppoints(n),empcdf2, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    }
   }
-  if(scale=="normal") empcdf <- qnorm(empcdf)
-  if(scale=="uniform") empcdf <- empcdf
+  else{
+    if(scale=="normal") empcdf <- qnorm(empcdf)
+    if(scale=="uniform") empcdf <- empcdf
+  }
   return(empcdf)
 }
