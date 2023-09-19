@@ -1,10 +1,79 @@
 ---
 title: "assesor"
 output: rmarkdown::html_vignette
-author: "Jeonghwan Lee"
-date: Sys.Date()
 vignette: >
   %\VignetteIndexEntry{assesor}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}{inputenc}
 ---
+
+## Introduction
+Assessor is a package that provides tools for assessing the assumptions of regression models with discrete, zero-inflated, and semi-continuous outcomes. Users can calculate the double probability integral transform (DPIT) residuals and draw QQ-plots via the DPIT residuals. 
+
+### `resid_disc()`
+`resid_disc()` is used for calculating the DPIT residuals of regression models with discrete outcomes and drawing QQ-plots. The suitable distribution is as follows: 
+
+* Poisson, `glm(formula, family=poisson(link="log"))` 
+* Binary, `glm(, family=binomial(link="logit"))` 
+* Negative Binomial, `MASS::glm.nb()` 
+* Ordinal, `MASS::polr()` 
+
+And then, the arguments of the function is as follows:
+
+* `model`: model object 
+* `plot`:
+* `scale`: 
+
+```{r discrete outcomes poi, fig.align = 'center', eval=FALSE, warning=FALSE}
+library(assessor)
+library(faraway)
+library(MASS)
+
+## Solder data
+data("solder")
+par(mfrow=c(1,3))
+## Poisson with main effects
+modp <- glm(skips~.,famil=poisson(link="log"),data=solder)
+resid.modp <- resid_disc(modp,plot = TRUE)
+
+## NB with main effects
+modpnb <- glm.nb(skips~.,data=solder)
+resid.modpnb <- resid_disc(modpnb,plot = TRUE,scale = "normal")
+
+## NB with interactions 
+modpnb1 <- stepAIC(glm.nb(skips ~ (Opening +Solder + Mask + PadType + Panel)^2 , data=solder),trace = FALSE)
+resid.modpnb1 <- resid_disc(modpnb1,plot = TRUE,scale = "normal")
+
+## Ordered curve
+par(mfrow=c(1,2))
+ord_curve(modpnb,modpnb$fitted.values)
+ord_curve(modpnb1,modpnb1$fitted.values)
+```
+
+
+```{r disc nb}
+
+```
+
+### `resid_zeroinfl()`
+```{r zeroinflated outcomes}
+
+```
+
+### `resid_semiconti()`
+```{r}
+
+```
+
+
+### `qqresid()`
+```{r plotting}
+
+```
+
+### `ord_curve()`
+```{r }
+
+```
+
+

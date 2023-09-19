@@ -2,7 +2,7 @@
 % Please edit documentation in R/tweedie.R
 \name{resid_semiconti}
 \alias{resid_semiconti}
-\title{Residuals for semicontinuous outcome regression}
+\title{Residuals for regression models with semicontinuous outcomes}
 \usage{
 resid_semiconti(model, plot=TRUE, scale = "normal")
 }
@@ -11,7 +11,7 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
-\item{scale}{You can choose the scale of residuals among \code{normal} and \code{uniform} scales. The defalut scale is \code{normal}.}
+\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
 The double probability integral transform residuals(DPIT residuals).

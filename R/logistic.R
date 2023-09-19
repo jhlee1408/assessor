@@ -1,3 +1,16 @@
+inv.bin0 <- function(s, q10){
+  qres <- 1*(s>=q10)*(s<1)*0 + 1*(s<q10)*(s<1)*(-1) + 1*(s==1)
+  pres <- ifelse(qres==0, q10, ifelse(qres==1,1,0))
+  return(pres)
+}
+
+
+inv.ordi1 <- function(s,q10){
+  qses <- (1*(s==0)*(-2)+1*(s>=q10)*(s<1)*0 + 1*(s<q10)*(s<1)*(-1)+1*(s==1))+1
+  pses <- ifelse(qses==0,q10,ifelse(qses==1,1,0))
+  return(pses)
+}
+
 resid.logi <- function(model){
   # fitted.values
   k <- length(model$lev)
@@ -8,7 +21,6 @@ resid.logi <- function(model){
   q <- t(apply(fitprob,1, cumsum))
   inde <- cbind(1:n,out)
   res <- q[inde]
-
 
   res <- matrix(rep(res,n),n,n,byrow=TRUE)
   note <- list()

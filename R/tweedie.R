@@ -1,4 +1,4 @@
-#' Residuals for semicontinuous outcome regression
+#' Residuals for regression models with semicontinuous outcomes
 #'
 #' `resid.semiconti` is used to calculate newly proposed residuals for semi-continuous outcomes regression such as tweedie model.
 #' A model object of semicontinuous regression from `tweedie` package is recommended.
@@ -8,7 +8,7 @@
 #'
 #' @param model model object(using tweedie family)
 #' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of residuals among `normal` and `uniform` scales. The defalut scale is `normal`.
+#' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
 #' @returns The double probability integral transform residuals(DPIT residuals).
 #'

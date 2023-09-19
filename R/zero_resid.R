@@ -1,12 +1,12 @@
-#' Residuals for zero-inflated regression model
+#' Residuals for regression models with zero-inflated outcomes
 #'
 #' Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
-#' A zero-inflated model from `pscl` is used in this package.
+#' A zero-inflated model from `pscl` is used in this function.
 #'
 #' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
 #' @param model model object, which is the output of `pscl::zeroinfl`.
-#' @param plot  A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of qqplot among `normal` and `uniform` scales. The default scale is `normal`.
+#' @param plot  A logical value indicating whether or not to return QQ-plot.
+#' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
 #' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #' @importFrom stats family
@@ -39,7 +39,7 @@
 #'
 #' ## Zero inflation
 #' modelzero2 <- glm(y~x1+x2, family=poisson(link="log"))
-#' resid_disc(modelzero2,plot = TRUE,scale="uniform")
+#' resid_disc(modelzero2, plot = TRUE,scale="normal")
 
 
 resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE, scale="normal"){

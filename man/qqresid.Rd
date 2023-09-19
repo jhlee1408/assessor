@@ -2,33 +2,33 @@
 % Please edit documentation in R/qqplot.R
 \name{qqresid}
 \alias{qqresid}
-\title{qqplot with DPIT residuals}
+\title{QQ-plots of DPIT residuals}
 \usage{
 qqresid(model, scale="normal")
 }
 \arguments{
 \item{model}{Fitted model object (e.g., \code{glm()}, \code{glm.nb()}, \code{zeroinfl()}, and \code{polr()})}
 
-\item{scale}{You can choose the scale of qqplot among \code{normal} and \code{uniform} scales.
+\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales.
 The sample quantiles of the residuals are plotted against
 the theoretical quantiles of a standard normal distribution under the normal scale,
 and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
 The defalut scale is \code{normal}.}
 }
 \description{
-Makes a QQ-plot of the DPIT residuals calculated from \code{resid_disc}, \code{resid_semiconti} or \code{resid_zeroinfl}.
+Makes a QQ-plot of the DPIT residuals calculated from \code{\link[=resid_disc]{resid_disc()}}, \code{\link[=resid_semiconti]{resid_semiconti()}} or \code{\link[=resid_zeroinfl]{resid_zeroinfl()}}.
 The plot should be close to the diagonal if the model is correctly specified.
 Note that this function does not return residuals. To get both residuals and QQ-plot,
 use \code{\link[=resid_disc]{resid_disc()}}, \code{\link[=resid_semiconti]{resid_semiconti()}} and \code{\link[=resid_zeroinfl]{resid_zeroinfl()}}.
 }
 \examples{
-n <- 1e2
+n <- 100
 b <- c(2, 1, -2)
 x1 <- rnorm(n); x2 <- rbinom(n,1,0.7)
 y <-  rpois(n, exp(b[1]+b[2]*x1+b[3]*x2))
 
 m1 <- glm(y~x1+x2, family=poisson)
-qqresid(m1, scale="normal") ## qqplot of poisson regression
+qqresid(m1, scale="normal")
 qqresid(m1, scale="uniform")
 }
 \seealso{

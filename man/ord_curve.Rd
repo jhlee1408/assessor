@@ -2,7 +2,7 @@
 % Please edit documentation in R/Ordered_curve.R
 \name{ord_curve}
 \alias{ord_curve}
-\title{Ordered Curve}
+\title{Ordered curve for assessing mean structures}
 \usage{
 ord_curve(model, thr)
 }
@@ -18,19 +18,18 @@ Deviation from the diagonal suggests the possibility that the mean structure of 
 }
 \details{
 The ordered curve plots \deqn{\hat{L}_1(t)=\frac{\sum_{i=1}^n\left[Y_i1(Z_i\leq t)\right]}{\sum_{i=1}^nY_i}} against
-\deqn{\hat{L}_2(t)=\frac{\sum_{i=1}^n\left[\hat{\lambda}_i1(Z_i\leq t)\right]}{\sum_{i=1}^n\hat{\lambda}_i}},
+\deqn{\hat{L}_2(t)=\frac{\sum_{i=1}^n\left[\hat{\lambda}_i1(Z_i\leq t)\right]}{\sum_{i=1}^n\hat{\lambda}_i},}
 where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
 If the mean structure is correctly specified in the model,
-\eqn{(\hat L_1(t), \hat L_2(t))} should be close to each other.
+\eqn{\hat L_1(t)} and \eqn{\hat L_2(t))} should be close to each other.
 If the curve is distant from the diagonal, it suggests incorrectness in the mean structure.
 Moreover, if the curve is above the diagonal, the summation of the response is larger than
 the fitted mean, which implies that the mean is underestimated, and vice versa. \cr
 
-The role of \code{thr}(threshold variable \eqn{Z}) is to determine the rule  for accumulating \eqn{\hat{\lambda}_i} and \eqn{Y_i}, \eqn{i=1,\ldots,n}
+The role of \code{thr} (threshold variable \eqn{Z}) is to determine the rule  for accumulating \eqn{\hat{\lambda}_i} and \eqn{Y_i}, \eqn{i=1,\ldots,n}
 for the ordered curve.
-The candidate for \code{thr} could be any function of predictors such as a single predictor(eg. \code{x1}),
-a linear combination of predictor(eg.\code{x1+x2}), or fitted values(eg. \code{fitted(model)}). \cr
-
+The candidate for \code{thr} could be any function of predictors such as a single predictor (e.g., \code{x1}),
+a linear combination of predictor (e.g., \code{x1+x2}), or fitted values (e.g., \code{fitted(model)}).
 It can also be a variable being considered to be included in the mean function.
 If a variable  leads to a large discrepancy between the ordered curve and the diagonal,
 including this variable in the mean function should be considered.

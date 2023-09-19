@@ -2,23 +2,23 @@
 % Please edit documentation in R/zero_resid.R
 \name{resid_zeroinfl}
 \alias{resid_zeroinfl}
-\title{Residuals for zero-inflated regression model}
+\title{Residuals for regression models with zero-inflated outcomes}
 \usage{
 resid_zeroinfl(model, plot=TRUE, scale='normal')
 }
 \arguments{
 \item{model}{model object, which is the output of \code{pscl::zeroinfl}.}
 
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
+\item{plot}{A logical value indicating whether or not to return QQ-plot.}
 
-\item{scale}{You can choose the scale of qqplot among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
+\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
 DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.
 }
 \description{
 Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
-A zero-inflated model from \code{pscl} is used in this package.
+A zero-inflated model from \code{pscl} is used in this function.
 }
 \examples{
 ## Zero-Inflated Poisson
@@ -45,7 +45,7 @@ resid_zeroinfl(modelzero1,plot=TRUE, scale="uniform")
 
 ## Zero inflation
 modelzero2 <- glm(y~x1+x2, family=poisson(link="log"))
-resid_disc(modelzero2,plot = TRUE,scale="uniform")
+resid_disc(modelzero2, plot = TRUE,scale="normal")
 }
 \references{
 Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
