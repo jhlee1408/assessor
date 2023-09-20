@@ -10,7 +10,7 @@
 #'  \deqn{\hat{L}_2(t)=\frac{\sum_{i=1}^n\left[\hat{\lambda}_i1(Z_i\leq t)\right]}{\sum_{i=1}^n\hat{\lambda}_i},}
 #' where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
 #'  If the mean structure is correctly specified in the model,
-#' \eqn{\hat L_1(t)} and \eqn{\hat L_2(t))} should be close to each other.
+#' \eqn{\hat L_1(t)} and \eqn{\hat L_2(t)} should be close to each other.
 #' If the curve is distant from the diagonal, it suggests incorrectness in the mean structure.
 #' Moreover, if the curve is above the diagonal, the summation of the response is larger than
 #' the fitted mean, which implies that the mean is underestimated, and vice versa. \cr

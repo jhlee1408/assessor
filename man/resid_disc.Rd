@@ -7,7 +7,7 @@
 resid_disc(model, plot=TRUE, scale="normal")
 }
 \arguments{
-\item{model}{model object (e.g. \code{glm}, \code{glm.nb}, \code{polr})}
+\item{model}{model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
@@ -29,8 +29,9 @@ can be assessed using \code{resid_disc()}.
 \details{
 The DPIT residual for the \eqn{i}th observation is defined as follows:
 \deqn{\hat{r}(Y_i|X_i) = \hat{G}\bigg(\hat{F}(Y_i|\mathbf{X}_i)\bigg)}
-\deqn{\text{where } \hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
-where \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+where
+\deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
+and \eqn{\hat{F}} refers to the fitted cumulative distribution function.
 When \code{scale="uniform"}, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
 When \code{scale="normal"}, it applies the normal quantile transformation to the DPIT residuals
 \deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.

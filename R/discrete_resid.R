@@ -6,7 +6,7 @@
 #' can be assessed using `resid_disc()`.
 #'
 #' @usage resid_disc(model, plot=TRUE, scale="normal")
-#' @param model model object (e.g. `glm`, `glm.nb`, `polr`)
+#' @param model model object (e.g., `glm`, `glm.nb`, `polr`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales.
 #' The sample quantiles of the residuals are plotted against
@@ -24,8 +24,9 @@
 #' @details
 #' The DPIT residual for the \eqn{i}th observation is defined as follows:
 #' \deqn{\hat{r}(Y_i|X_i) = \hat{G}\bigg(\hat{F}(Y_i|\mathbf{X}_i)\bigg)}
-#' \deqn{\text{where } \hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
-#' where \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+#' where
+#' \deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
+#' and \eqn{\hat{F}} refers to the fitted cumulative distribution function.
 #' When `scale="uniform"`, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
 #' When `scale="normal"`, it applies the normal quantile transformation to the DPIT residuals
 #' \deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.
@@ -174,16 +175,14 @@ resid_disc <- function(model, plot=TRUE, scale="normal"){
   if(plot==T){
     if(scale=="normal"){
       empcdf <- qnorm(empcdf)
-      empcdf2 <- empcdf[empcdf!=1]
-      n <- length(empcdf2)
-      qqplot(qnorm(ppoints(n)),qnorm(empcdf2),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+      n <- length(empcdf)
+      qqplot(qnorm(ppoints(n)),(empcdf),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
              cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }
     if(scale=="uniform"){
-      empcdf2 <- empcdf[empcdf!=1]
-      n <- length(empcdf2)
-      qqplot(ppoints(n),empcdf2, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+      n <- length(empcdf)
+      qqplot(ppoints(n),empcdf, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
              cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }

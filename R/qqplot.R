@@ -37,6 +37,7 @@ qqresid <- function(model, scale="normal"){
     glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
     zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))
     tweedie.test <- ifelse(model$family[[1]]=='Tweedie', T,F)
+    polr.test <- (paste(model$call)[1] %in% c("polr"))
 
 
     if(glm.test) model.family <- paste(family(model)[[1]])
@@ -44,7 +45,7 @@ qqresid <- function(model, scale="normal"){
 
     title <- paste(paste(model$call)[1], model.family, "Model QQ-plot" , sep=" ")
 
-    if(glm.test && !tweedie.test) empcdf <- resid_disc(model, plot=T, scale)
+    if(glm.test && !tweedie.test) empcdf <- rƒesid_disc(model, plot=T, scale)
     if(zero.test) empcdf <- resid_zeroinfl(model, plot=T, scale)
     if(glm.test && tweedie.test) empcdf <- resid_semiconti(model, plot=T, scale)
 }
