@@ -42,10 +42,12 @@ qqresid <- function(model, scale="normal"){
 
     if(glm.test) model.family <- paste(family(model)[[1]])
     if(zero.test) model.family <- model$dist
+    if(polr.test) model.family <- "multi"
 
     title <- paste(paste(model$call)[1], model.family, "Model QQ-plot" , sep=" ")
 
-    if(glm.test && !tweedie.test) empcdf <- rƒesid_disc(model, plot=T, scale)
+    if(glm.test && !tweedie.test) empcdf <- resid_disc(model, plot=T, scale)
+    if(polr.test) empcdf <- resid_disc(model, plot=T, scale)
     if(zero.test) empcdf <- resid_zeroinfl(model, plot=T, scale)
     if(glm.test && tweedie.test) empcdf <- resid_semiconti(model, plot=T, scale)
 }
