@@ -1,6 +1,6 @@
 #' Residuals for regression models with semicontinuous outcomes
 #'
-#' `resid.semiconti` is used to calculate newly proposed residuals for semi-continuous outcomes regression such as tweedie model.
+#' Calculates DPIT residuals for semi-continuous outcome regression such as tweedie model.
 #' A model object of semicontinuous regression from `tweedie` package is recommended.
 #'
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
