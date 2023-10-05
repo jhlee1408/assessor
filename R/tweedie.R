@@ -29,7 +29,7 @@
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
   model.family <- model$family[[1]]
   if(model.family == "Tweedie"){
-    y1 <- model$y.
+    y1 <- model$y
     p.max <- get("p",envir=environment(model$family$variance))
     n <- length(y1)
     lambda1f <- model$fitted.values
