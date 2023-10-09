@@ -23,32 +23,66 @@
 #' @import tweedie
 #' @importFrom tweedie dtweedie
 #' @importFrom tweedie ptweedie
+#' @importFrom VGAM fitted
 #' @export
 #'
 
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
-  model.family <- model$family[[1]]
-  if(model.family == "Tweedie"){
+  is.vglm <- isS4(model)
+  if(!is.vglm){
+    if(!is.null(model$family)) model.family <- model$family[[1]]
+    else model.family <- "AER"
+  }
+
+
+  if(!is.vglm && model.family == "Tweedie"){
     y1 <- model$y
     p.max <- get("p",envir=environment(model$family$variance))
     n <- length(y1)
     lambda1f <- model$fitted.values
     phi1f <- summary(model)$dis
     p1f <- dtweedie(rep(0,n),mu=lambda1f, xi=p.max,phi=phi1f )
-    cdf1 <- ptweedie(y1,mu=lambda1f, xi=p.max,phi=phi1f )
+    cdf1 <- ptweedie(y1,mu=lambda1f, xi=p.max, phi=phi1f )
 
     func <- ecdf(p1f)
 
     newp <- cdf1*func(cdf1)
-    if(plot==T){
-      empcdf2 <- newp[newp!=1]
-      n <- length(empcdf2)
-      qqplot(qnorm(ppoints(n)),qnorm(newp), main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+  }
+
+  if(!is.vglm && model.family == "AER"){
+    p1f <- pnorm(0,mean=VGAM::fitted(model),sd=summary(model)$scale)
+    cdf1 <- pnorm(y,mean=VGAM::fitted(model),sd=summary(model)$scale)
+    newp <- cdf1*ecdf(p1f)(cdf1)
+  }
+
+  if(is.vglm){
+    y <- model@y
+    p1f <- pnorm(0,mean=fitted(model),sd=exp(coef(model)[2]))
+    cdf1 <- pnorm(y,mean=fitted(model),sd=exp(coef(model)[2]))
+    newp <- cdf1*ecdf(p1f)(cdf1)
+  }
+
+
+  if(plot==T){
+    if(scale=="normal"){
+      newp <- qnorm(newp)
+      n <- length(newp)
+      qqplot(qnorm(ppoints(n)),(newp),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
+      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+    }
+    if(scale=="uniform"){
+      newp <- newp
+      n <- length(newp)
+      qqplot(ppoints(n),newp, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
              cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
       abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
     }
   }
-  if(scale=="normal") newp <- qnorm(newp)
+  else{
+    if(scale=="normal") newp <- qnorm(newp)
+    if(scale=="uniform") newp <- newp
+  }
   return(newp)
 }
 
