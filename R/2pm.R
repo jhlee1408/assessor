@@ -25,19 +25,24 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
   if(!missing(model0) && !missing(model1) && !missing(y)){
     if(model1$family[[1]] != "Gamma") stop("The continuous part should follow Gamma() family.")
     else{
+      n <- length(y)
       cdfgamma <- pgamma(y[y==0],scale = model1$fitted.values*gamma.dispersion(model1),
                          shape=1/gamma.dispersion(model1))
       p1f <- model0$fitted.values
       cdf1 <- rep(0,n)
       cdf1[y==0] <- model0$fitted.values[y==0]
-      cdf1[y>0]<-model0$fitted.values[which(y>0)] + (1-model0$fitted.values[which(y>0)])*cdfgamma
+      cdf1[y>0] <- model0$fitted.values[which(y>0)] + (1-model0$fitted.values[which(y>0)])*cdfgamma
 
       newp <- cdf1*ecdf(p1f)(cdf1)
     }
   }
 
-  if(!missing(part0) && !missing(part1)){
-    newp <- part1*ecdf(part0)(part1)
+  if(!missing(part0) && !missing(part1) && !missing(y)){
+    n <- length(y)
+    cdf1 <- rep(0,n)
+    cdf1[y==0] <- part0[which(y==0)] # part1 should be shorter than part0 from y information
+    cdf1[y>0] <- part0[which(y>0)] + (1-part0[which(y>0)])*part1
+    newp <- cdf1*ecdf(part0)(cdf1)
   }
 
   if(plot==T){
