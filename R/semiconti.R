@@ -1,21 +1,22 @@
 #' Residuals for regression models with semicontinuous outcomes
 #'
-#' Calculates DPIT residuals for semi-continuous outcome regression such as tweedie model.
-#' A model object of semicontinuous regression from `tweedie` package is recommended.
+#' Calculates residuals for regression models with semi-continuous outcomes.
+#' Specifically, a tweedie regression model from `tweedie` package or a tobit regression model
+#' from `VGAM`, `AER` packages is used in this fucntion.
 #'
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
 #'
 #'
-#' @param model model object(using tweedie family)
+#' @param model model object(e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
-#' @returns The double probability integral transform residuals(DPIT residuals).
+#' @returns residuals. If plot=TRUE, also produces a QQ plot.
 #'
 #' @details
-#' The proposed residuals are defined as
+#' The proposed residual for the \eqn{i}th observation is defined as follows:
 #' \deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg)}
-#' , which has a null distribution of uniformity.
+#' , which has a null distribution of uniformity. \eqn{\hat{F}} refers to the fitted cumulative distribution function.
 #'
 #'
 #'

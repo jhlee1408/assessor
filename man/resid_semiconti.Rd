@@ -7,21 +7,22 @@
 resid_semiconti(model, plot=TRUE, scale = "normal")
 }
 \arguments{
-\item{model}{model object(using tweedie family)}
+\item{model}{model object(e.g., \code{tweedie}, \code{vglm}, and \code{tobit})}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-The double probability integral transform residuals(DPIT residuals).
+residuals
 }
 \description{
-Calculates DPIT residuals for semi-continuous outcome regression such as tweedie model.
-A model object of semicontinuous regression from \code{tweedie} package is recommended.
+Calculates residuals for regression models with semi-continuous outcomes.
+Specifically, a tweedie regression model from \code{tweedie} package or a tobit regression model
+from \code{VGAM}, \code{AER} packages is used in this fucntion.
 }
 \details{
-The proposed residuals are defined as
+The proposed residual for the \eqn{i}th observation is defined as follows:
 \deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg)}
-, which has a null distribution of uniformity.
+, which has a null distribution of uniformity. \eqn{\hat{F}} refers to the fitted cumulative distribution function.
 }

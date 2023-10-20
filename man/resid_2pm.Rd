@@ -7,23 +7,52 @@
 resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 }
 \arguments{
-\item{model0}{glm model for 0 outcomes}
+\item{model0}{model object for 0 outcomes (e.g., logistic regression)}
 
-\item{model1}{model for continuous outcoms}
+\item{model1}{model object for continuous outcomes (e.g., gamma regression)}
 
 \item{y}{outcome variables}
 
-\item{part0}{cdf for y=0}
+\item{part0}{alternate argument via cdf of model0}
 
-\item{part1}{cdf for y>0}
+\item{part1}{alternate argument via cdf of model1}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-The double probability integral transform residuals(DPIT residuals).
+The double probability integral transform residuals(DPIT residuals). If plot=TRUE, also produces a QQ plot.
 }
 \description{
-Calculates DPIT residuals for semi-continuous outcome regression such as 2PM.
+Calculates DPIT residuals for two parts model for semi-continuous outcomes.
+\code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1}.
+}
+\examples{
+n = 500
+beta10= 1; beta11=-2; beta12=-1
+beta13 <- -1; beta14 <- -1; beta15 <- -2
+x11<-rnorm(n); x12<-rbinom(n,size=1,prob=0.4)
+
+p1<-1/(1+exp(-(beta10+x11*beta11+x12*beta12)))
+lambda1<-exp(beta13+beta14*x11+beta15*x12)
+y2 <- rgamma(n,scale=lambda1/2,shape=2) # gamma case
+y <- rep(0,n)
+u <-runif(n,0,1)
+ind1 <- which(u>=p1)
+y[ind1] <- y2[ind1]
+
+# Putting Model
+mgamma <- glm(y[ind1]~x11[ind1]+x12[ind1],family=Gamma(link = "log"))
+m10 <- glm(y==0~x12+x11,family=binomial(link = "logit"))
+resid_2pm(model0 = m10, model1 = mgamma, y= y)
+
+# Alternative arguments: cdf
+cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
+                  shape=1/gamma.dispersion(mgamma))
+p1f <- m10$fitted.values
+resid_2pm(y=y, part0= p1f, cdfgamma)
+}
+\seealso{
+\code{\link[=resid_semiconti]{resid_semiconti()}}
 }
