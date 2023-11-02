@@ -1,10 +1,11 @@
 #' Residuals for regression models with two-parts outcomes
 #'
 #' Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
-#' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1`.
+#' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
 #' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 #'
+#' @seealso [resid_semiconti()]
 #'
 #' @param model0 model object for 0 outcomes (e.g., logistic regression)
 #' @param model1 model object for continuous outcomes (e.g., gamma regression)
@@ -18,13 +19,13 @@
 #'
 #'
 #' @returns residuals. If plot=TRUE, also produces a QQ plot.
-#' @seealso [resid_semiconti()]
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
 #' @export
 #'
 #' @examples
+#' library(MASS)
 #' n = 500
 #' beta10= 1; beta11=-2; beta12=-1
 #' beta13 <- -1; beta14 <- -1; beta15 <- -2
@@ -45,7 +46,7 @@
 #'
 #' # Alternative arguments: cdf
 #' cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
-#'                   shape=1/gamma.dispersion(mgamma))
+#'                  shape=1/gamma.dispersion(mgamma))
 #' p1f <- m10$fitted.values
 #' resid_2pm(y=y, part0= p1f, cdfgamma)
 
@@ -56,13 +57,12 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
     if(model1$family[[1]] != "Gamma") stop("The continuous part should follow Gamma() family.")
     else{
       n <- length(y)
-      cdfgamma <- pgamma(y[y==0],scale = model1$fitted.values*gamma.dispersion(model1),
+      cdfgamma <- pgamma(y[y>0],scale = model1$fitted.values*gamma.dispersion(model1),
                          shape=1/gamma.dispersion(model1))
       p1f <- model0$fitted.values
       cdf1 <- rep(0,n)
       cdf1[y==0] <- model0$fitted.values[y==0]
       cdf1[y>0] <- model0$fitted.values[which(y>0)] + (1-model0$fitted.values[which(y>0)])*cdfgamma
-
       newp <- cdf1*ecdf(p1f)(cdf1)
     }
   }
@@ -70,8 +70,8 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
   if(!missing(part0) && !missing(part1) && !missing(y)){
     n <- length(y)
     cdf1 <- rep(0,n)
-    cdf1[y==0] <- part0[which(y==0)] # part1 should be shorter than part0 from y information
-    cdf1[y>0] <- part0[which(y>0)] + (1-part0[which(y>0)])*part1
+    cdf1[y==0] <- part0[y==0]
+    cdf1[y>0] <- part1[y>0]
     newp <- cdf1*ecdf(part0)(cdf1)
   }
 

@@ -2,10 +2,10 @@
 #'
 #' Calculates residuals for regression models with semi-continuous outcomes.
 #' Specifically, a tweedie regression model from `tweedie` package or a tobit regression model
-#' from `VGAM`, `AER` packages is used in this fucntion.
+#' from `VGAM`, `AER` packages is used in this function.
 #'
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
-#'
+#' @seealso [resid_2pm()]
 #'
 #' @param model model object(e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
@@ -27,9 +27,41 @@
 #' @importFrom VGAM fitted
 #' @export
 #'
+#' @examples
+#' ## Tweedie model
+#'
+#'
+#'
+#' ## Tobit regression model
+#' library(VGAM)
+#' library(AER)
+#' n <- 500
+#' beta13 <- 1; beta14 <- -3; beta15 <- 3
+#'
+#' set.seed(1234)
+#' x11<-runif(n); x12<-runif(n)
+#' lambda1<-beta13+beta14*x11+beta15*x12
+#' sd0 <- 0.3
+#' yun <- rnorm(n,mean=lambda1,sd=sd0)
+#' y <- ifelse(yun>=0,yun,0)
+#'
+#' # True Model
+#' fit1 <- vglm(formula =y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+#' fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # using AER package
+#
+#' resid_semiconti(fit1, plot=TRUE)
+#' resid_semiconti(fit2, plot=TRUE)
+#'
+#' # Missing Covariates
+#' fit1miss <- vglm(y~x11,tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+#' fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # using AER package
+#' resid_semiconti(fit1miss, plot=TRUE)
+#' resid_semiconti(fit2miss, plot=TRUE)
+
 
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
   is.vglm <- isS4(model)
+
   if(!is.vglm){
     if(!is.null(model$family)) model.family <- model$family[[1]]
     else model.family <- "AER"

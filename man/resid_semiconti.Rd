@@ -14,15 +14,43 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-residuals
+residuals. If plot=TRUE, also produces a QQ plot.
 }
 \description{
 Calculates residuals for regression models with semi-continuous outcomes.
 Specifically, a tweedie regression model from \code{tweedie} package or a tobit regression model
-from \code{VGAM}, \code{AER} packages is used in this fucntion.
+from \code{VGAM}, \code{AER} packages is used in this function.
 }
 \details{
 The proposed residual for the \eqn{i}th observation is defined as follows:
 \deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg)}
 , which has a null distribution of uniformity. \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+}
+\examples{
+library(VGAM)
+library(AER)
+n <- 500
+beta13 <- 1; beta14 <- -3; beta15 <- 3
+
+set.seed(1234)
+x11<-runif(n); x12<-runif(n)
+lambda1<-beta13+beta14*x11+beta15*x12
+sd0 <- 0.3
+yun <- rnorm(n,mean=lambda1,sd=sd0)
+y <- ifelse(yun>=0,yun,0)
+
+# True Model
+fit1 <- vglm(formula =y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # using AER package
+resid_semiconti(fit1, plot=TRUE)
+resid_semiconti(fit2, plot=TRUE)
+
+# Missing Covariates
+fit1miss <- vglm(y~x11,tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # using AER package
+resid_semiconti(fit1miss, plot=TRUE)
+resid_semiconti(fit2miss, plot=TRUE)
+}
+\seealso{
+\code{\link[=resid_2pm]{resid_2pm()}}
 }

@@ -17,5 +17,5 @@ URL: https://github.com/jhlee1408/residuals
 BugReports: https://github.com/jhlee1408/residuals/issues
 Imports: tweedie, MASS, VGAM
 Suggests: 
-    pscl, statmod, rmarkdown, knitr
+    pscl, statmod, rmarkdown, knitr, AER
 VignetteBuilder: rmarkdown

@@ -22,13 +22,14 @@ resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-The double probability integral transform residuals(DPIT residuals). If plot=TRUE, also produces a QQ plot.
+residuals. If plot=TRUE, also produces a QQ plot.
 }
 \description{
-Calculates DPIT residuals for two parts model for semi-continuous outcomes.
-\code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1}.
+Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
+\code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
 }
 \examples{
+library(MASS)
 n = 500
 beta10= 1; beta11=-2; beta12=-1
 beta13 <- -1; beta14 <- -1; beta15 <- -2
@@ -49,10 +50,12 @@ resid_2pm(model0 = m10, model1 = mgamma, y= y)
 
 # Alternative arguments: cdf
 cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
-                  shape=1/gamma.dispersion(mgamma))
+                 shape=1/gamma.dispersion(mgamma))
 p1f <- m10$fitted.values
 resid_2pm(y=y, part0= p1f, cdfgamma)
 }
 \seealso{
+\code{\link[=resid_semiconti]{resid_semiconti()}}
+
 \code{\link[=resid_semiconti]{resid_semiconti()}}
 }
