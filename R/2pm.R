@@ -87,6 +87,14 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
     newp <- cdf1*ecdf(part0)(cdf1)
   }
 
+  if(!missing(model0) && !missing(part1) && !missing(y)){
+
+  }
+
+  if(!missing(part0) && !missing(model1) && !missing(y) ){
+
+  }
+
   if(plot==T){
     if(scale=="normal"){
       newp <- qnorm(newp)
