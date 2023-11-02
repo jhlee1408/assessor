@@ -83,7 +83,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
     n <- length(y)
     cdf1 <- rep(0,n)
     cdf1[y==0] <- part0[y==0]
-    cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*cdfgamma
+    cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*part1
     newp <- cdf1*ecdf(part0)(cdf1)
   }
 
