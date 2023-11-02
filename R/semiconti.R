@@ -93,6 +93,7 @@ resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
     p1f <- pnorm(0,mean=fitted(model),sd=exp(coef(model)[2]))
     cdf1 <- pnorm(y,mean=fitted(model),sd=exp(coef(model)[2]))
     newp <- cdf1*ecdf(p1f)(cdf1)
+    newp <- as.vector(newp)
   }
 
 
