@@ -16,6 +16,18 @@
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
 #'
+#' @details
+#' In two parts model, the binary outcome model part such as the logisitic regression `model0`,
+#' while the continuous outcome regression part (Gamma glm) is related to `model1`.
+#'
+#' In a two parts model, if the continuous outcome model is not gamma or the binary outcome model is not glm,
+#' then the probability integral transform should be used as `part0` for the binary outcome model and `part1`
+#' for the continuous outcome model. Specifically, `part0` is the fitted values calculated from the binary outcome model.
+#' On the other hand, `part1` can be written as
+#'
+#' \deqn{??}
+#'
+#'
 #'
 #'
 #' @returns residuals. If plot=TRUE, also produces a QQ plot.

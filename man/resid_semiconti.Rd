@@ -27,6 +27,11 @@ The proposed residual for the \eqn{i}th observation is defined as follows:
 , which has a null distribution of uniformity. \eqn{\hat{F}} refers to the fitted cumulative distribution function.
 }
 \examples{
+## Tweedie model
+
+
+
+## Tobit regression model
 library(VGAM)
 library(AER)
 n <- 500

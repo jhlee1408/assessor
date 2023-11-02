@@ -28,6 +28,17 @@ residuals. If plot=TRUE, also produces a QQ plot.
 Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
 \code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
 }
+\details{
+In two parts model, the binary outcome model part such as the logisitic regression \code{model0},
+while the continuous outcome regression part (Gamma glm) is related to \code{model1}.
+
+In a two parts model, if the continuous outcome model is not gamma or the binary outcome model is not glm,
+then the probability integral transform should be used as \code{part0} for the binary outcome model and \code{part1}
+for the continuous outcome model. Specifically, \code{part0} is the fitted values calculated from the binary outcome model.
+On the other hand, \code{part1} can be written as
+
+\deqn{??}
+}
 \examples{
 library(MASS)
 n = 500
@@ -55,7 +66,5 @@ p1f <- m10$fitted.values
 resid_2pm(y=y, part0= p1f, cdfgamma)
 }
 \seealso{
-\code{\link[=resid_semiconti]{resid_semiconti()}}
-
 \code{\link[=resid_semiconti]{resid_semiconti()}}
 }
