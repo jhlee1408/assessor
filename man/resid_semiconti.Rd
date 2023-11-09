@@ -17,14 +17,17 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 residuals. If plot=TRUE, also produces a QQ plot.
 }
 \description{
-Calculates residuals for regression models with semi-continuous outcomes.
-Specifically, a tweedie regression model from \code{tweedie} package or a tobit regression model
+Calculates the DPIT residuals for regression models with semi-continuous outcomes.
+The semi-continuous regression model such as
+a tweedie regression model from \code{tweedie} package or a tobit regression model
 from \code{VGAM}, \code{AER} packages is used in this function.
 }
 \details{
-The proposed residual for the \eqn{i}th observation is defined as follows:
-\deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg)}
-, which has a null distribution of uniformity. \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+The DPIT residual for the \eqn{i}th observation is defined as follows:
+\deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg),}
+which has a null distribution of uniformity.
+\eqn{\hat{F}} refers to the fitted cumulative distribution function,
+and \eqn{\hat{p}_0} refers to the fitted probability of being zero.
 }
 \examples{
 ## Tweedie model
@@ -45,13 +48,13 @@ yun <- rnorm(n,mean=lambda1,sd=sd0)
 y <- ifelse(yun>=0,yun,0)
 
 # True Model
-fit1 <- vglm(formula =y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+fit1 <- vglm(formula = y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
 fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # using AER package
 resid_semiconti(fit1, plot=TRUE)
 resid_semiconti(fit2, plot=TRUE)
 
 # Missing Covariates
-fit1miss <- vglm(y~x11,tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
+fit1miss <- vglm(formula = y~x11,tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
 fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # using AER package
 resid_semiconti(fit1miss, plot=TRUE)
 resid_semiconti(fit2miss, plot=TRUE)

@@ -37,7 +37,9 @@ then the probability integral transform should be used as \code{part0} for the b
 for the continuous outcome model. Specifically, \code{part0} is the fitted values calculated from the binary outcome model.
 On the other hand, \code{part1} can be written as
 
-\deqn{??}
+\deqn{G(Y|X), Y_i > 0}
+
+where \eqn{G(Y|X)} is the probability integral transformation for the positive outcomes.
 }
 \examples{
 library(MASS)
@@ -63,7 +65,7 @@ resid_2pm(model0 = m10, model1 = mgamma, y= y)
 cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
                  shape=1/gamma.dispersion(mgamma))
 p1f <- m10$fitted.values
-resid_2pm(y=y, part0= p1f, cdfgamma)
+resid_2pm(y=y, part0= p1f, part1= cdfgamma)
 }
 \seealso{
 \code{\link[=resid_semiconti]{resid_semiconti()}}

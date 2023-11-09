@@ -8,10 +8,10 @@
 #' @seealso [resid_semiconti()]
 #'
 #' @param model0 model object for 0 outcomes (e.g., logistic regression)
-#' @param model1 model object for continuous outcomes (e.g., gamma regression)
+#' @param model1 model object for continuous outcomes (gamma regression)
 #' @param y outcome variables
-#' @param part0 alternate argument via cdf of model0
-#' @param part1 alternate argument via cdf of model1
+#' @param part0 probability integral transformation for \eqn{Y=0} (alternate argument when `model0` is not `glm`)
+#' @param part1 probability integral transformation for \eqn{Y>0} (alternate argument when `model1` is not `glm` with `gamma` family)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
@@ -20,12 +20,15 @@
 #' In two parts model, the binary outcome model part such as the logisitic regression `model0`,
 #' while the continuous outcome regression part (Gamma glm) is related to `model1`.
 #'
-#' In a two parts model, if the continuous outcome model is not gamma or the binary outcome model is not glm,
-#' then the probability integral transform should be used as `part0` for the binary outcome model and `part1`
-#' for the continuous outcome model. Specifically, `part0` is the fitted values calculated from the binary outcome model.
+#' However, if the continuous outcome model is not `glm` with the `gamma` family or the binary outcome model is not `glm`,
+#' then the probability integral transform which was user specified should be used as `part0` for the binary outcome model
+#' and `part1`for the continuous outcome model.
+#' Specifically, `part0` is the fitted probabilities calculated for \eqn{Y=0}.
 #' On the other hand, `part1` can be written as
 #'
-#' \deqn{??}
+#' \deqn{G(Y|X), Y_i > 0}
+#'
+#' where \eqn{G(Y|X)} is the probability integral transformation for the positive outcomes.
 #'
 #'
 #'
@@ -60,7 +63,7 @@
 #' cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
 #'                  shape=1/gamma.dispersion(mgamma))
 #' p1f <- m10$fitted.values
-#' resid_2pm(y=y, part0= p1f, cdfgamma)
+#' resid_2pm(y=y, part0= p1f, part1= cdfgamma)
 
 
 resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "normal"){
@@ -93,6 +96,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
     part0 <-  model0$fitted.values[y==0]
     cdf1[y==0] <- part0[y==0]
     cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*part1
+    newp <- cdf1*ecdf(part0)(cdf1)
   }
 
   if(!missing(part0) && !missing(model1) && !missing(y) ){
@@ -103,6 +107,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
                        shape=1/gamma.dispersion(model1))
     cdf1[y==0] <- part0[y==0]
     cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*part1
+    newp <- cdf1*ecdf(part0)(cdf1)
   }
 
   if(plot==T){
