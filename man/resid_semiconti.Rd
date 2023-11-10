@@ -36,7 +36,6 @@ and \eqn{\hat{p}_0} refers to the fitted probability of being zero.
 
 ## Tobit regression model
 library(VGAM)
-library(AER)
 n <- 500
 beta13 <- 1; beta14 <- -3; beta15 <- 3
 
@@ -47,16 +46,18 @@ sd0 <- 0.3
 yun <- rnorm(n,mean=lambda1,sd=sd0)
 y <- ifelse(yun>=0,yun,0)
 
-# True Model
-fit1 <- vglm(formula = y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
-fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # using AER package
-resid_semiconti(fit1, plot=TRUE)
-resid_semiconti(fit2, plot=TRUE)
+# Using VGAM package
+fit1 <- vglm(formula = y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # True model
+fit1miss <- vglm(formula = y~x11, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # Missing covariate
 
-# Missing Covariates
-fit1miss <- vglm(formula = y~x11,tobit(Upper=Inf,Lower=0,lmu="identitylink")) # using VGAM package
-fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # using AER package
+resid_semiconti(fit1, plot=TRUE)
 resid_semiconti(fit1miss, plot=TRUE)
+
+# Using AER package
+library(AER)
+fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # True model
+fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate
+resid_semiconti(fit2, plot=TRUE)
 resid_semiconti(fit2miss, plot=TRUE)
 }
 \seealso{

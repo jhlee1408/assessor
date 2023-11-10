@@ -9,13 +9,13 @@ resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 \arguments{
 \item{model0}{model object for 0 outcomes (e.g., logistic regression)}
 
-\item{model1}{model object for continuous outcomes (e.g., gamma regression)}
+\item{model1}{model object for continuous outcomes (gamma regression)}
 
 \item{y}{outcome variables}
 
-\item{part0}{alternate argument via cdf of model0}
+\item{part0}{probability integral transformation for \eqn{Y=0} (alternate argument when \code{model0} is not \code{glm})}
 
-\item{part1}{alternate argument via cdf of model1}
+\item{part1}{probability integral transformation for \eqn{Y>0} (alternate argument when \code{model1} is not \code{glm} with \code{gamma} family)}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
@@ -32,9 +32,10 @@ Calculates DPIT proposed residuals for two parts model for semi-continuous outco
 In two parts model, the binary outcome model part such as the logisitic regression \code{model0},
 while the continuous outcome regression part (Gamma glm) is related to \code{model1}.
 
-In a two parts model, if the continuous outcome model is not gamma or the binary outcome model is not glm,
-then the probability integral transform should be used as \code{part0} for the binary outcome model and \code{part1}
-for the continuous outcome model. Specifically, \code{part0} is the fitted values calculated from the binary outcome model.
+However, if the continuous outcome model is not \code{glm} with the \code{gamma} family or the binary outcome model is not \code{glm},
+then the probability integral transform which was user specified should be used as \code{part0} for the binary outcome model
+and \code{part1}for the continuous outcome model.
+Specifically, \code{part0} is the fitted probabilities calculated for \eqn{Y=0}.
 On the other hand, \code{part1} can be written as
 
 \deqn{G(Y|X), Y_i > 0}
