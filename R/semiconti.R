@@ -2,7 +2,7 @@
 #'
 #' Calculates the DPIT residuals for regression models with semi-continuous outcomes.
 #' The semi-continuous regression model such as
-#' a tweedie regression model from `tweedie` package or a Tobit regression model
+#' a Tweedie regression model from `tweedie` package or a Tobit regression model
 #' from `VGAM`, `AER` packages is used in this function.
 #'
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
@@ -73,6 +73,7 @@
 #' resid_semiconti(fit1miss, plot=TRUE)
 #'
 #' # Using AER package
+#' detach("package:VGAM", unload = TRUE)
 #' library(AER)
 #' fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # True model
 #' fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate

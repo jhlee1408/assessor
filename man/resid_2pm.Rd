@@ -29,9 +29,16 @@ Calculates DPIT proposed residuals for two parts model for semi-continuous outco
 \code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
 }
 \details{
-The DPIT residuals for regression models with semicontinuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
+The DPIT residuals for regression models with semi-continuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
 where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
 where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
+
+In two-part models, the probability of zero can be modeled using a logistic regression, \code{model0},
+while the positive observations can be modeled using a gamma regression, \code{model1.}
+Users can choose to use different models and supply the resulting probability transforms.
+\code{part0} should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
+\code{part1} should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
+Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.
 
 \deqn{G(Y|X), Y_i > 0}
 

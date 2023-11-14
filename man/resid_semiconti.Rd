@@ -19,7 +19,7 @@ Residuals. If plot=TRUE, also produces a QQ plot.
 \description{
 Calculates the DPIT residuals for regression models with semi-continuous outcomes.
 The semi-continuous regression model such as
-a tweedie regression model from \code{tweedie} package or a Tobit regression model
+a Tweedie regression model from \code{tweedie} package or a Tobit regression model
 from \code{VGAM}, \code{AER} packages is used in this function.
 }
 \details{
