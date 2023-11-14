@@ -2,20 +2,20 @@
 #'
 #' Calculates the DPIT residuals for regression models with semi-continuous outcomes.
 #' The semi-continuous regression model such as
-#' a tweedie regression model from `tweedie` package or a tobit regression model
+#' a tweedie regression model from `tweedie` package or a Tobit regression model
 #' from `VGAM`, `AER` packages is used in this function.
 #'
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
 #' @seealso [resid_2pm()]
 #'
-#' @param model model object(e.g., `tweedie`, `vglm`, and `tobit`)
+#' @param model model object (e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
-#' @returns residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
 #'
 #' @details
-#' The DPIT residual for the \eqn{i}th observation is defined as follows:
+#' The DPIT residual for the \eqn{i}th semicontinuous observation is defined as follows:
 #' \deqn{\hat{r}_i = \frac{\hat{F}(Y_i|X_i)}{n}\sum_{j=1}^{n}I\bigg(\hat{p}_0(X_j) \leq \hat{F}(Y_i|X_i)\bigg),}
 #' which has a null distribution of uniformity.
 #' \eqn{\hat{F}} refers to the fitted cumulative distribution function,
@@ -32,12 +32,30 @@
 #'
 #' @examples
 #' ## Tweedie model
+#' library(tweedie)
+#' library(statmod)
+#' n <- 500
+#' x11 <- rnorm(n); x12 <- rnorm(n)
+#' beta0 <- 5; beta1 <- 1; beta2 <- 1
+#' lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
+#' y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
+#' xi.vec <- seq(1.1, 1.9, by = 0.1)
+#' # Choose parameter p
+#' out.model <-
+#'   tweedie.profile(y1 ~ x11 + x12,
+#'                   xi.vec = xi.vec,
+#'                   do.plot = FALSE,
+#'                   verbose = FALSE)
+#' # True model
+#' model1 <-
+#'   glm(y1 ~ x11 + x12,
+#'       family = tweedie(var.power = out.model$xi.max, link.power = 0))
+#' resid_semiconti(model1)
 #'
 #'
 #'
 #' ## Tobit regression model
 #' library(VGAM)
-#' n <- 500
 #' beta13 <- 1; beta14 <- -3; beta15 <- 3
 #'
 #' set.seed(1234)
@@ -60,6 +78,7 @@
 #' fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate
 #' resid_semiconti(fit2, plot=TRUE)
 #' resid_semiconti(fit2miss, plot=TRUE)
+#'
 
 
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){

@@ -9,34 +9,29 @@ resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 \arguments{
 \item{model0}{model object for 0 outcomes (e.g., logistic regression)}
 
-\item{model1}{model object for continuous outcomes (gamma regression)}
+\item{model1}{model object for continuous part (gamma regression)}
 
-\item{y}{outcome variables}
+\item{y}{semicontinuous outcome variables}
 
-\item{part0}{probability integral transformation for \eqn{Y=0} (alternate argument when \code{model0} is not \code{glm})}
+\item{part0}{Alternative argument to \code{model0}. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}}
 
-\item{part1}{probability integral transformation for \eqn{Y>0} (alternate argument when \code{model1} is not \code{glm} with \code{gamma} family)}
+\item{part1}{Alternative argument to \code{model1}. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-residuals. If plot=TRUE, also produces a QQ plot.
+Residuals. If plot=TRUE, also produces a QQ plot.
 }
 \description{
 Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
 \code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
 }
 \details{
-In two parts model, the binary outcome model part such as the logisitic regression \code{model0},
-while the continuous outcome regression part (Gamma glm) is related to \code{model1}.
-
-However, if the continuous outcome model is not \code{glm} with the \code{gamma} family or the binary outcome model is not \code{glm},
-then the probability integral transform which was user specified should be used as \code{part0} for the binary outcome model
-and \code{part1}for the continuous outcome model.
-Specifically, \code{part0} is the fitted probabilities calculated for \eqn{Y=0}.
-On the other hand, \code{part1} can be written as
+The DPIT residuals for regression models with semicontinuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
+where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
+where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
 
 \deqn{G(Y|X), Y_i > 0}
 

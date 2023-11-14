@@ -8,23 +8,20 @@
 #' @seealso [resid_semiconti()]
 #'
 #' @param model0 model object for 0 outcomes (e.g., logistic regression)
-#' @param model1 model object for continuous outcomes (gamma regression)
-#' @param y outcome variables
-#' @param part0 probability integral transformation for \eqn{Y=0} (alternate argument when `model0` is not `glm`)
-#' @param part1 probability integral transformation for \eqn{Y>0} (alternate argument when `model1` is not `glm` with `gamma` family)
+#' @param model1 model object for continuous part (gamma regression)
+#' @param y semicontinuous outcome variables
+#' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}
+#' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
 #'
 #' @details
-#' In two parts model, the binary outcome model part such as the logisitic regression `model0`,
-#' while the continuous outcome regression part (Gamma glm) is related to `model1`.
+#' The DPIT residuals for regression models with semicontinuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
+#' where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
+#' where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
 #'
-#' However, if the continuous outcome model is not `glm` with the `gamma` family or the binary outcome model is not `glm`,
-#' then the probability integral transform which was user specified should be used as `part0` for the binary outcome model
-#' and `part1`for the continuous outcome model.
-#' Specifically, `part0` is the fitted probabilities calculated for \eqn{Y=0}.
-#' On the other hand, `part1` can be written as
+#'
 #'
 #' \deqn{G(Y|X), Y_i > 0}
 #'
@@ -33,7 +30,7 @@
 #'
 #'
 #'
-#' @returns residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
