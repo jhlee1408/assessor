@@ -1,3 +1,5 @@
+#' @export
+
 inv.bin0 <- function(s, q10){
   qres <- 1*(s>=q10)*(s<1)*0 + 1*(s<q10)*(s<1)*(-1) + 1*(s==1)
   pres <- ifelse(qres==0, q10, ifelse(qres==1,1,0))
@@ -12,6 +14,7 @@ inv.bin1 <- function(s,q10){
 }
 
 
+
 resid.bin <- function(model){
   # fitted.values
   y <- model$y
@@ -23,12 +26,12 @@ resid.bin <- function(model){
   pres <- sapply(res, inv.bin0, q10)
   pses <- sapply(ses, inv.bin1, q10)
 
-  diag(pres) <-0; diag(pses) <-0
+  diag(pres) <- 0; diag(pses) <-0
   empcdf <- apply(pres, 2,sum)/(n-1)
   rempcdf <- apply(pses ,2 ,sum)/(n-1)
 
   fin.empcdf <- rep(NA, n)
   fin.empcdf[y==0] <- empcdf[y==0]
-  fin.empcdf[y==1] <- empcdf[y==1]
+  fin.empcdf[y==1] <- rempcdf[y==1]
   return(fin.empcdf)
 }

@@ -7,7 +7,7 @@
 resid_zeroinfl(model, plot=TRUE, scale='normal')
 }
 \arguments{
-\item{model}{model object, which is the output of \code{pscl::zeroinfl}.}
+\item{model}{Model object, which is the output of \code{pscl::zeroinfl}.}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot.}
 

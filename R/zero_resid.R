@@ -4,7 +4,7 @@
 #' A zero-inflated model from `pscl` is used in this function.
 #'
 #' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
-#' @param model model object, which is the output of `pscl::zeroinfl`.
+#' @param model Model object, which is the output of `pscl::zeroinfl`.
 #' @param plot  A logical value indicating whether or not to return QQ-plot.
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
@@ -42,12 +42,12 @@
 #' resid_disc(modelzero2, plot = TRUE,scale="normal")
 
 
-resid_zeroinfl <- function(model = stop("model must be specified"), plot=TRUE, scale="normal"){
+resid_zeroinfl <- function(model, plot=TRUE, scale="normal"){
 
   # Model checking
   zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))
   if(zero.test) model.family <- model$dist
-  else stop("model should be zeroinfl model")
+  else stop("model has to be pscl::zeroinfl")
 
   #
   if(model.family == "poisson" && zero.test){

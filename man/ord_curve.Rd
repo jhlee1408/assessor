@@ -7,9 +7,9 @@
 ord_curve(model, thr)
 }
 \arguments{
-\item{model}{regression model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
+\item{model}{Regression model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
 
-\item{thr}{threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
+\item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
 }
 \description{
 Creates a plot to assess the mean structure of regression models. The
@@ -22,6 +22,7 @@ The ordered curve plots \deqn{\hat{L}_1(t)=\frac{\sum_{i=1}^n\left[Y_i1(Z_i\leq 
 where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
 If the mean structure is correctly specified in the model,
 \eqn{\hat L_1(t)} and \eqn{\hat L_2(t)} should be close to each other.
+
 If the curve is distant from the diagonal, it suggests incorrectness in the mean structure.
 Moreover, if the curve is above the diagonal, the summation of the response is larger than
 the fitted mean, which implies that the mean is underestimated, and vice versa. \cr

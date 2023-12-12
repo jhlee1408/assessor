@@ -8,7 +8,7 @@
 #' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
 #' @seealso [resid_2pm()]
 #'
-#' @param model model object (e.g., `tweedie`, `vglm`, and `tobit`)
+#' @param model Model object (e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
@@ -80,16 +80,21 @@
 #' resid_semiconti(fit2, plot=TRUE)
 #' resid_semiconti(fit2miss, plot=TRUE)
 #'
+#' detach("package:AER", unload =TRUE)
+#'
 
 
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
+  if(!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   is.vglm <- isS4(model)
-
+  if(is.vglm){
+    if(!(paste(model@call)[1] %in% c("vglm"))) stop("model has to be tweedie, vglm or tobit")
+  }
   if(!is.vglm){
     if(!is.null(model$family)) model.family <- model$family[[1]]
     else model.family <- "AER"
+    if(!(paste(model$call)[1] %in% c("tobit"))) stop("model has to be tweedie, vglm or tobit")
   }
-
 
   if(!is.vglm && model.family == "Tweedie"){
     y1 <- model$y

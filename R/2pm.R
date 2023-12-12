@@ -1,4 +1,4 @@
-#' Residuals for regression models with two-parts outcomes
+#' Residuals for regression models with two-part outcomes
 #'
 #' Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
 #' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
@@ -7,10 +7,10 @@
 #'
 #' @seealso [resid_semiconti()]
 #'
-#' @param model0 model object for 0 outcomes (e.g., logistic regression)
-#' @param model1 model object for continuous part (gamma regression)
-#' @param y semicontinuous outcome variables
-#' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}
+#' @param model0 Model object for 0 outcomes (e.g., logistic regression)
+#' @param model1 Model object for the continuous part (gamma regression)
+#' @param y Semicontinuous outcome variables
+#' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.
 #' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
@@ -27,11 +27,6 @@
 #'  `part0` should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 #'  `part1` should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
-#'
-#'
-#' \deqn{G(Y|X), Y_i > 0}
-#'
-#' where \eqn{G(Y|X)} is the probability integral transformation for the positive outcomes.
 #'
 #'
 #'
@@ -57,12 +52,12 @@
 #' ind1 <- which(u>=p1)
 #' y[ind1] <- y2[ind1]
 #'
-#' # Putting Model
+#' # models as input
 #' mgamma <- glm(y[ind1]~x11[ind1]+x12[ind1],family=Gamma(link = "log"))
 #' m10 <- glm(y==0~x12+x11,family=binomial(link = "logit"))
 #' resid_2pm(model0 = m10, model1 = mgamma, y= y)
 #'
-#' # Alternative arguments: cdf
+#' # PIT as input
 #' cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
 #'                  shape=1/gamma.dispersion(mgamma))
 #' p1f <- m10$fitted.values
@@ -70,10 +65,16 @@
 
 
 resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "normal"){
+  if(!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   if(missing(y)) stop("argument y is missing, with no default")
+  if(sum(!(y>=0)) != 0) stop("y has to be nonnegative")
+
 
   if(!missing(model0) && !missing(model1) && !missing(y)){
-    if(model1$family[[1]] != "Gamma") stop("The continuous part should follow Gamma() family.")
+    if(model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
+    if(model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
+    if(length(model1$fitted.values) != sum(y >0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
+    if(length(model0$fitted.values) != length(y)) stop("Length of the fitted values of model0 has to be the same as the length of y")
     else{
       n <- length(y)
       cdfgamma <- pgamma(y[y>0],scale = model1$fitted.values*gamma.dispersion(model1),
@@ -87,6 +88,10 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
   }
 
   if(!missing(part0) && !missing(part1) && !missing(y)){
+    if(length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
+    if(sum(y!=0)!=length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
+    if(sum((part1 <0) + (part1 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
+    if(sum((part0 <0) + (part0 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
     n <- length(y)
     cdf1 <- rep(0,n)
     cdf1[y==0] <- part0[y==0]
@@ -95,6 +100,10 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
   }
 
   if(!missing(model0) && !missing(part1) && !missing(y)){
+    if(length(model0$fitted.values) != length(y)) stop("Length of the fitted values of model0 has to be the same as the length of y")
+    if(sum(y!=0)!=length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
+    if(model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
+    if(sum((part1 <0) + (part1 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
     n <- length(y)
     cdf1 <- rep(0,n)
     part0 <-  model0$fitted.values
@@ -104,7 +113,10 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "norma
   }
 
   if(!missing(part0) && !missing(model1) && !missing(y)){
-    if(model1$family[[1]] != "Gamma") stop("model1 should follow Gamma() family.")
+    if(length(model1$fitted.values) != sum(y >0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
+    if(length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
+    if(sum((part0 <0) + (part0 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
+    if(model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
     n <- length(y)
     cdf1 <- rep(0,n)
     cdfgamma <- pgamma(y[y>0],scale = model1$fitted.values*gamma.dispersion(model1),

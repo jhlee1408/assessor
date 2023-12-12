@@ -11,6 +11,7 @@
 #' where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
 #'  If the mean structure is correctly specified in the model,
 #' \eqn{\hat L_1(t)} and \eqn{\hat L_2(t)} should be close to each other.
+#'
 #' If the curve is distant from the diagonal, it suggests incorrectness in the mean structure.
 #' Moreover, if the curve is above the diagonal, the summation of the response is larger than
 #' the fitted mean, which implies that the mean is underestimated, and vice versa. \cr
@@ -29,8 +30,8 @@
 #'
 #' @usage ord_curve(model, thr)
 #'
-#' @param model regression model object (e.g., `glm`, `glm.nb`, `polr`)
-#' @param thr threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
+#' @param model Regression model object (e.g., `glm`, `glm.nb`, `polr`)
+#' @param thr Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
 #'
 #' @importFrom graphics abline
 #'
@@ -67,6 +68,11 @@
 
 ord_curve <- function(model, thr){
   y1 <- model$y
+  glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
+  polr.test <- (paste(model$call)[1] %in% c("polr"))
+  if(length(thr) != length(y1)) stop("Length of thr and model fitted value has to match")
+  if(!glm.test && !polr.test) stop("model has to be glm, glm.nb or polr")
+
   q10 <- model$fitted.values
 
   plot(cumsum((q10[sort(thr,index.return=TRUE)$ix]))/sum(q10), # X

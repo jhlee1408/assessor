@@ -6,7 +6,7 @@
 #' can be assessed using `resid_disc()`.
 #'
 #' @usage resid_disc(model, plot=TRUE, scale="normal")
-#' @param model model object (e.g., `glm`, `glm.nb`, `polr`)
+#' @param model Model object (e.g., `glm`, `glm.nb`, `polr`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales.
 #' The sample quantiles of the residuals are plotted against
@@ -62,7 +62,7 @@
 #' resid_disc(model2,plot = TRUE, scale="normal")
 #'
 #' ## Binary example
-#' n<- 500
+#' n = 500
 #' set.seed(1234)
 #' # Covariates
 #' x1<-rnorm(n,1,1); x2 <- rbinom(n,1,0.7)
@@ -142,6 +142,7 @@
 
 
 resid_disc <- function(model, plot=TRUE, scale="normal"){
+  if(!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   # Model checking
   glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
   polr.test <- (paste(model$call)[1] %in% c("polr"))
@@ -152,12 +153,8 @@ resid_disc <- function(model, plot=TRUE, scale="normal"){
   if(paste(unlist(strsplit(model.family, split= ""))[1:17], collapse = '') == "Negative Binomial") model.family <- "nb"
 
   if(!glm.test && !polr.test){
-    stop("model should have discrete random variable.")
+    stop("model has to be glm, glm.nb or polr")
   }
-  if((glm.test || polr.test) && !(model.family %in% c("poisson", "binomial", "multi","nb"))){
-      stop("Check if your model family is poisson, bionomial, multi or negative binomial. Otherwise, use resid.zeroinfl() for zeroinflated model or resid.semiconti() for tweedie model.")
-  }
-
   #
   if(model.family == "nb" && glm.test){
     empcdf <- resid.nb(model)

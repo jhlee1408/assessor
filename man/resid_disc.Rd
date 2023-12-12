@@ -7,7 +7,7 @@
 resid_disc(model, plot=TRUE, scale="normal")
 }
 \arguments{
-\item{model}{model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
+\item{model}{Model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
@@ -62,7 +62,7 @@ model2 <- glm(y~x1+x2,family = poisson(link = "log"))
 resid_disc(model2,plot = TRUE, scale="normal")
 
 ## Binary example
-n<- 500
+n = 500
 set.seed(1234)
 # Covariates
 x1<-rnorm(n,1,1); x2 <- rbinom(n,1,0.7)

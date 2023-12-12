@@ -7,7 +7,7 @@
 resid_semiconti(model, plot=TRUE, scale = "normal")
 }
 \arguments{
-\item{model}{model object (e.g., \code{tweedie}, \code{vglm}, and \code{tobit})}
+\item{model}{Model object (e.g., \code{tweedie}, \code{vglm}, and \code{tobit})}
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
@@ -72,11 +72,14 @@ resid_semiconti(fit1, plot=TRUE)
 resid_semiconti(fit1miss, plot=TRUE)
 
 # Using AER package
+detach("package:VGAM", unload = TRUE)
 library(AER)
 fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # True model
 fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate
 resid_semiconti(fit2, plot=TRUE)
 resid_semiconti(fit2miss, plot=TRUE)
+
+detach("package:AER", unload =TRUE)
 
 }
 \seealso{
