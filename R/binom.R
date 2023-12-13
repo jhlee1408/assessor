@@ -1,5 +1,3 @@
-#' @export
-
 inv.bin0 <- function(s, q10){
   qres <- 1*(s>=q10)*(s<1)*0 + 1*(s<q10)*(s<1)*(-1) + 1*(s==1)
   pres <- ifelse(qres==0, q10, ifelse(qres==1,1,0))

@@ -52,8 +52,6 @@
 #'       family = tweedie(var.power = out.model$xi.max, link.power = 0))
 #' resid_semiconti(model1)
 #'
-#'
-#'
 #' ## Tobit regression model
 #' library(VGAM)
 #' beta13 <- 1; beta14 <- -3; beta15 <- 3
@@ -81,7 +79,6 @@
 #' resid_semiconti(fit2miss, plot=TRUE)
 #'
 #' detach("package:AER", unload =TRUE)
-#'
 
 
 resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
@@ -91,9 +88,9 @@ resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
     if(!(paste(model@call)[1] %in% c("vglm"))) stop("model has to be tweedie, vglm or tobit")
   }
   if(!is.vglm){
-    if(!is.null(model$family)) model.family <- model$family[[1]]
-    else model.family <- "AER"
-    if(!(paste(model$call)[1] %in% c("tobit"))) stop("model has to be tweedie, vglm or tobit")
+    if(!is.null(model$family)) model.family <- model$family[[1]] # Tweedie
+    else model.family <- "AER" # AER
+    if(!(paste(model$call)[1] %in% c("tobit")) & model.family != "Tweedie") stop("model has to be tweedie, vglm or tobit")
   }
 
   if(!is.vglm && model.family == "Tweedie"){
