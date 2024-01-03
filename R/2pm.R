@@ -1,6 +1,6 @@
 #' Residuals for regression models with two-part outcomes
 #'
-#' Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
+#' Calculates DPIT proposed residuals for model for semi-continuous outcomes.
 #' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
 #' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
@@ -39,114 +39,125 @@
 #'
 #' @examples
 #' library(MASS)
-#' n = 500
-#' beta10= 1; beta11=-2; beta12=-1
-#' beta13 <- -1; beta14 <- -1; beta15 <- -2
-#' x11<-rnorm(n); x12<-rbinom(n,size=1,prob=0.4)
+#' n <- 500
+#' beta10 <- 1
+#' beta11 <- -2
+#' beta12 <- -1
+#' beta13 <- -1
+#' beta14 <- -1
+#' beta15 <- -2
+#' x11 <- rnorm(n)
+#' x12 <- rbinom(n, size = 1, prob = 0.4)
 #'
-#' p1<-1/(1+exp(-(beta10+x11*beta11+x12*beta12)))
-#' lambda1<-exp(beta13+beta14*x11+beta15*x12)
-#' y2 <- rgamma(n,scale=lambda1/2,shape=2) # gamma case
-#' y <- rep(0,n)
-#' u <-runif(n,0,1)
-#' ind1 <- which(u>=p1)
+#' p1 <- 1 / (1 + exp(-(beta10 + x11 * beta11 + x12 * beta12)))
+#' lambda1 <- exp(beta13 + beta14 * x11 + beta15 * x12)
+#' y2 <- rgamma(n, scale = lambda1 / 2, shape = 2)
+#' y <- rep(0, n)
+#' u <- runif(n, 0, 1)
+#' ind1 <- which(u >= p1)
 #' y[ind1] <- y2[ind1]
 #'
 #' # models as input
-#' mgamma <- glm(y[ind1]~x11[ind1]+x12[ind1],family=Gamma(link = "log"))
-#' m10 <- glm(y==0~x12+x11,family=binomial(link = "logit"))
-#' resid_2pm(model0 = m10, model1 = mgamma, y= y)
+#' mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
+#' m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
+#' resid_2pm(model0 = m10, model1 = mgamma, y = y)
 #'
 #' # PIT as input
-#' cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
-#'                  shape=1/gamma.dispersion(mgamma))
+#' cdfgamma <- pgamma(y[ind1],
+#'   scale = mgamma$fitted.values * gamma.dispersion(mgamma),
+#'   shape = 1 / gamma.dispersion(mgamma)
+#' )
 #' p1f <- m10$fitted.values
-#' resid_2pm(y=y, part0= p1f, part1= cdfgamma)
+#' resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal") {
+  if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
+  if (missing(y)) stop("argument y is missing, with no default")
+  if (sum(!(y >= 0)) != 0) stop("y has to be nonnegative")
 
 
-resid_2pm <- function(model0, model1, y, part0, part1, plot=TRUE, scale = "normal"){
-  if(!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
-  if(missing(y)) stop("argument y is missing, with no default")
-  if(sum(!(y>=0)) != 0) stop("y has to be nonnegative")
-
-
-  if(!missing(model0) && !missing(model1) && !missing(y)){
-    if(model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
-    if(model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
-    if(length(model1$fitted.values) != sum(y >0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
-    if(length(model0$fitted.values) != length(y)) stop("Length of the fitted values of model0 has to be the same as the length of y")
-    else{
+  if (!missing(model0) && !missing(model1) && !missing(y)) {
+    if (model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
+    if (model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
+    if (length(model1$fitted.values) != sum(y > 0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
+    if (length(model0$fitted.values) != length(y)) {
+      stop("Length of the fitted values of model0 has to be the same as the length of y")
+    } else {
       n <- length(y)
-      cdfgamma <- pgamma(y[y>0],scale = model1$fitted.values*gamma.dispersion(model1),
-                         shape=1/gamma.dispersion(model1))
+      cdfgamma <- pgamma(y[y > 0],
+        scale = model1$fitted.values * gamma.dispersion(model1),
+        shape = 1 / gamma.dispersion(model1)
+      )
       p1f <- model0$fitted.values
-      cdf1 <- rep(0,n)
-      cdf1[y==0] <- model0$fitted.values[y==0]
-      cdf1[y>0] <- model0$fitted.values[which(y>0)] + (1-model0$fitted.values[which(y>0)])*cdfgamma
-      newp <- cdf1*ecdf(p1f)(cdf1)
+      cdf1 <- rep(0, n)
+      cdf1[y == 0] <- model0$fitted.values[y == 0]
+      cdf1[y > 0] <- model0$fitted.values[which(y > 0)] + (1 - model0$fitted.values[which(y > 0)]) * cdfgamma
+      newp <- cdf1 * ecdf(p1f)(cdf1)
     }
   }
 
-  if(!missing(part0) && !missing(part1) && !missing(y)){
-    if(length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
-    if(sum(y!=0)!=length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
-    if(sum((part1 <0) + (part1 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
-    if(sum((part0 <0) + (part0 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
+  if (!missing(part0) && !missing(part1) && !missing(y)) {
+    if (length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
+    if (sum(y != 0) != length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
+    if (sum((part1 < 0) + (part1 > 1)) != 0) stop("Values of part0 and part1 have to be between 0 and 1")
+    if (sum((part0 < 0) + (part0 > 1)) != 0) stop("Values of part0 and part1 have to be between 0 and 1")
     n <- length(y)
-    cdf1 <- rep(0,n)
-    cdf1[y==0] <- part0[y==0]
-    cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*part1
-    newp <- cdf1*ecdf(part0)(cdf1)
+    cdf1 <- rep(0, n)
+    cdf1[y == 0] <- part0[y == 0]
+    cdf1[y > 0] <- part0[y > 0] + (1 - part0[y > 0]) * part1
+    newp <- cdf1 * ecdf(part0)(cdf1)
   }
 
-  if(!missing(model0) && !missing(part1) && !missing(y)){
-    if(length(model0$fitted.values) != length(y)) stop("Length of the fitted values of model0 has to be the same as the length of y")
-    if(sum(y!=0)!=length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
-    if(model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
-    if(sum((part1 <0) + (part1 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
+  if (!missing(model0) && !missing(part1) && !missing(y)) {
+    if (length(model0$fitted.values) != length(y)) stop("Length of the fitted values of model0 has to be the same as the length of y")
+    if (sum(y != 0) != length(part1)) stop("Length of part1 has to be the same as the number of positive values in y")
+    if (model0$family[[1]] != "binomial") stop("model0 has to be a logistic regression")
+    if (sum((part1 < 0) + (part1 > 1)) != 0) stop("Values of part0 and part1 have to be between 0 and 1")
     n <- length(y)
-    cdf1 <- rep(0,n)
-    part0 <-  model0$fitted.values
-    cdf1[y==0] <- part0[y==0]
-    cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*part1
-    newp <- cdf1*ecdf(part0)(cdf1)
+    cdf1 <- rep(0, n)
+    part0 <- model0$fitted.values
+    cdf1[y == 0] <- part0[y == 0]
+    cdf1[y > 0] <- part0[y > 0] + (1 - part0[y > 0]) * part1
+    newp <- cdf1 * ecdf(part0)(cdf1)
   }
 
-  if(!missing(part0) && !missing(model1) && !missing(y)){
-    if(length(model1$fitted.values) != sum(y >0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
-    if(length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
-    if(sum((part0 <0) + (part0 > 1)) !=0 ) stop("Values of part0 and part1 have to be between 0 and 1")
-    if(model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
+  if (!missing(part0) && !missing(model1) && !missing(y)) {
+    if (length(model1$fitted.values) != sum(y > 0)) stop("Length of the fitted values of model1 has to be the same as the number of positive values in y")
+    if (length(part0) != length(y)) stop("Length of part0 has to be the same as the length of y")
+    if (sum((part0 < 0) + (part0 > 1)) != 0) stop("Values of part0 and part1 have to be between 0 and 1")
+    if (model1$family[[1]] != "Gamma") stop("model1 has to be a gamma regression")
     n <- length(y)
-    cdf1 <- rep(0,n)
-    cdfgamma <- pgamma(y[y>0],scale = model1$fitted.values*gamma.dispersion(model1),
-                       shape=1/gamma.dispersion(model1))
-    cdf1[y==0] <- part0[y==0]
-    cdf1[y>0] <- part0[y>0] + (1-part0[y>0])*cdfgamma
-    newp <- cdf1*ecdf(part0)(cdf1)
+    cdf1 <- rep(0, n)
+    cdfgamma <- pgamma(y[y > 0],
+      scale = model1$fitted.values * gamma.dispersion(model1),
+      shape = 1 / gamma.dispersion(model1)
+    )
+    cdf1[y == 0] <- part0[y == 0]
+    cdf1[y > 0] <- part0[y > 0] + (1 - part0[y > 0]) * cdfgamma
+    newp <- cdf1 * ecdf(part0)(cdf1)
   }
 
-  if(plot==T){
-    if(scale=="normal"){
+  if (plot == T) {
+    if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)),(newp),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+      qqplot(qnorm(ppoints(n)), (newp),
+        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
+      )
+      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
     }
-    if(scale=="uniform"){
+    if (scale == "uniform") {
       n <- length(newp)
-      qqplot(ppoints(n),newp, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+      qqplot(ppoints(n), newp,
+        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
+      )
+      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
     }
-  }
-  else{
-    if(scale=="normal") newp <- qnorm(newp)
-    if(scale=="uniform") newp <- newp
+  } else {
+    if (scale == "normal") newp <- qnorm(newp)
+    if (scale == "uniform") newp <- newp
   }
 
   return(newp)
 }
-
-

@@ -9,7 +9,7 @@ qqresid(model, scale="normal")
 \arguments{
 \item{model}{Fitted model object (e.g., \code{glm()}, \code{glm.nb()}, \code{zeroinfl()}, and \code{polr()})}
 
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales.
+\item{scale}{You can choose the scale of the residuals between \code{normal} and \code{uniform} scales.
 The sample quantiles of the residuals are plotted against
 the theoretical quantiles of a standard normal distribution under the normal scale,
 and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
@@ -24,12 +24,13 @@ use \code{\link[=resid_disc]{resid_disc()}}, \code{\link[=resid_semiconti]{resid
 \examples{
 n <- 100
 b <- c(2, 1, -2)
-x1 <- rnorm(n); x2 <- rbinom(n,1,0.7)
-y <-  rpois(n, exp(b[1]+b[2]*x1+b[3]*x2))
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+y <- rpois(n, exp(b[1] + b[2] * x1 + b[3] * x2))
 
-m1 <- glm(y~x1+x2, family=poisson)
-qqresid(m1, scale="normal")
-qqresid(m1, scale="uniform")
+m1 <- glm(y ~ x1 + x2, family = poisson)
+qqresid(m1, scale = "normal")
+qqresid(m1, scale = "uniform")
 }
 \seealso{
 \code{\link[=resid_disc]{resid_disc()}}, \code{\link[=resid_semiconti]{resid_semiconti()}}, \code{\link[=resid_zeroinfl]{resid_zeroinfl()}}

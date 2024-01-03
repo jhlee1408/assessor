@@ -26,10 +26,14 @@ library(pscl)
 n <- 500
 set.seed(1234)
 # Covariates
-x1 <- rnorm(n); x2 <- rbinom(n, 1, 0.7)
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
 # Coefficients
-beta0 <- -2; beta1 <- 2; beta2 <- 1
-beta00 <- -2; beta10 <- 2
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+beta00 <- -2
+beta10 <- 2
 
 # Mean of Poisson part
 lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
@@ -41,11 +45,11 @@ y1 <- rpois(n, lambda1)
 y <- ifelse(y0 == 0, 0, y1)
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid_zeroinfl(modelzero1,plot=TRUE, scale="uniform")
+resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
 
 ## Zero inflation
-modelzero2 <- glm(y~x1+x2, family=poisson(link="log"))
-resid_disc(modelzero2, plot = TRUE,scale="normal")
+modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid_disc(modelzero2, plot = TRUE, scale = "normal")
 }
 \references{
 Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).

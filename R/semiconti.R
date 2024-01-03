@@ -10,7 +10,7 @@
 #'
 #' @param model Model object (e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
+#' @param scale You can choose the scale of the residuals between `normal` and `uniform` scales. The default scale is `normal`.
 #'
 #' @returns Residuals. If plot=TRUE, also produces a QQ plot.
 #'
@@ -35,114 +35,128 @@
 #' library(tweedie)
 #' library(statmod)
 #' n <- 500
-#' x11 <- rnorm(n); x12 <- rnorm(n)
-#' beta0 <- 5; beta1 <- 1; beta2 <- 1
+#' x11 <- rnorm(n)
+#' x12 <- rnorm(n)
+#' beta0 <- 5
+#' beta1 <- 1
+#' beta2 <- 1
 #' lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
 #' y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
 #' xi.vec <- seq(1.1, 1.9, by = 0.1)
 #' # Choose parameter p
 #' out.model <-
 #'   tweedie.profile(y1 ~ x11 + x12,
-#'                   xi.vec = xi.vec,
-#'                   do.plot = FALSE,
-#'                   verbose = FALSE)
+#'     xi.vec = xi.vec,
+#'     do.plot = FALSE,
+#'     verbose = FALSE
+#'   )
 #' # True model
 #' model1 <-
 #'   glm(y1 ~ x11 + x12,
-#'       family = tweedie(var.power = out.model$xi.max, link.power = 0))
+#'     family = tweedie(var.power = out.model$xi.max, link.power = 0)
+#'   )
 #' resid_semiconti(model1)
 #'
 #' ## Tobit regression model
 #' library(VGAM)
-#' beta13 <- 1; beta14 <- -3; beta15 <- 3
+#' beta13 <- 1
+#' beta14 <- -3
+#' beta15 <- 3
 #'
 #' set.seed(1234)
-#' x11<-runif(n); x12<-runif(n)
-#' lambda1<-beta13+beta14*x11+beta15*x12
+#' x11 <- runif(n)
+#' x12 <- runif(n)
+#' lambda1 <- beta13 + beta14 * x11 + beta15 * x12
 #' sd0 <- 0.3
-#' yun <- rnorm(n,mean=lambda1,sd=sd0)
-#' y <- ifelse(yun>=0,yun,0)
+#' yun <- rnorm(n, mean = lambda1, sd = sd0)
+#' y <- ifelse(yun >= 0, yun, 0)
 #'
 #' # Using VGAM package
-#' fit1 <- vglm(formula = y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # True model
-#' fit1miss <- vglm(formula = y~x11, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # Missing covariate
+#' # True model
+#' fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
+#' # Missing covariate
+#' fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 #'
-#' resid_semiconti(fit1, plot=TRUE)
-#' resid_semiconti(fit1miss, plot=TRUE)
+#' resid_semiconti(fit1, plot = TRUE)
+#' resid_semiconti(fit1miss, plot = TRUE)
 #'
 #' # Using AER package
-#' detach("package:VGAM", unload = TRUE)
 #' library(AER)
-#' fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # True model
-#' fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate
-#' resid_semiconti(fit2, plot=TRUE)
-#' resid_semiconti(fit2miss, plot=TRUE)
-#'
-#' detach("package:AER", unload =TRUE)
+#' # True model
+#' fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
+#' # Missing covariate
+#' fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
+#' resid_semiconti(fit2, plot = TRUE)
+#' resid_semiconti(fit2miss, plot = TRUE)
 
 
-resid_semiconti <- function(model, plot=TRUE, scale = "normal"){
-  if(!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
+resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
+  if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   is.vglm <- isS4(model)
-  if(is.vglm){
-    if(!(paste(model@call)[1] %in% c("vglm"))) stop("model has to be tweedie, vglm or tobit")
+  if (is.vglm) {
+    if (!(paste(model@call)[1] %in% c("vglm"))) stop("model has to be tweedie, vglm or tobit")
   }
-  if(!is.vglm){
-    if(!is.null(model$family)) model.family <- model$family[[1]] # Tweedie
-    else model.family <- "AER" # AER
-    if(!(paste(model$call)[1] %in% c("tobit")) & model.family != "Tweedie") stop("model has to be tweedie, vglm or tobit")
+  if (!is.vglm) {
+    if (!is.null(model$family)) {
+      model.family <- model$family[[1]]
+    } # Tweedie
+    else {
+      model.family <- "AER"
+    } # AER
+    if (!(paste(model$call)[1] %in% c("tobit")) & model.family != "Tweedie") stop("model has to be tweedie, vglm or tobit")
   }
 
-  if(!is.vglm && model.family == "Tweedie"){
+  if (!is.vglm && model.family == "Tweedie") {
     y1 <- model$y
-    p.max <- get("p",envir=environment(model$family$variance))
+    p.max <- get("p", envir = environment(model$family$variance))
     n <- length(y1)
     lambda1f <- model$fitted.values
     phi1f <- summary(model)$dis
-    p1f <- dtweedie(rep(0,n),mu=lambda1f, xi=p.max,phi=phi1f )
-    cdf1 <- ptweedie(y1,mu=lambda1f, xi=p.max, phi=phi1f )
+    p1f <- dtweedie(rep(0, n), mu = lambda1f, xi = p.max, phi = phi1f)
+    cdf1 <- ptweedie(y1, mu = lambda1f, xi = p.max, phi = phi1f)
 
     func <- ecdf(p1f)
 
-    newp <- cdf1*func(cdf1)
+    newp <- cdf1 * func(cdf1)
   }
 
-  if(!is.vglm && model.family == "AER"){
-    p1f <- pnorm(0,mean=VGAM::fitted(model),sd=summary(model)$scale)
-    cdf1 <- pnorm(y,mean=VGAM::fitted(model),sd=summary(model)$scale)
-    newp <- cdf1*ecdf(p1f)(cdf1)
+  if (!is.vglm && model.family == "AER") {
+    p1f <- pnorm(0, mean = VGAM::fitted(model), sd = summary(model)$scale)
+    cdf1 <- pnorm(y, mean = VGAM::fitted(model), sd = summary(model)$scale)
+    newp <- cdf1 * ecdf(p1f)(cdf1)
   }
 
-  if(is.vglm){
+  if (is.vglm) {
     y <- model@y
-    p1f <- pnorm(0,mean=fitted(model),sd=exp(coef(model)[2]))
-    cdf1 <- pnorm(y,mean=fitted(model),sd=exp(coef(model)[2]))
-    newp <- cdf1*ecdf(p1f)(cdf1)
+    p1f <- pnorm(0, mean = fitted(model), sd = exp(coef(model)[2]))
+    cdf1 <- pnorm(y, mean = fitted(model), sd = exp(coef(model)[2]))
+    newp <- cdf1 * ecdf(p1f)(cdf1)
     newp <- as.vector(newp)
   }
 
 
-  if(plot==T){
-    if(scale=="normal"){
+  if (plot == T) {
+    if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)),(newp),main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+      qqplot(qnorm(ppoints(n)), (newp),
+        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
+      )
+      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
     }
-    if(scale=="uniform"){
+    if (scale == "uniform") {
       newp <- newp
       n <- length(newp)
-      qqplot(ppoints(n),newp, main="QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab=1, cex.axis=1, cex.main=1.5,lwd=1.5)
-      abline(0,1,col="red",lty=5,cex.lab=2, cex.axis=2, cex.main=2,lwd=1.5)
+      qqplot(ppoints(n), newp,
+        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
+        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
+      )
+      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
     }
-  }
-  else{
-    if(scale=="normal") newp <- qnorm(newp)
-    if(scale=="uniform") newp <- newp
+  } else {
+    if (scale == "normal") newp <- qnorm(newp)
+    if (scale == "uniform") newp <- newp
   }
   return(newp)
 }
-
-

@@ -7,7 +7,7 @@
 ord_curve(model, thr)
 }
 \arguments{
-\item{model}{Regression model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
+\item{model}{Regression model object (e.g., \code{glm}, \code{glm.nb}, \code{polr}, \code{lm})}
 
 \item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
 }
@@ -20,6 +20,7 @@ Deviation from the diagonal suggests the possibility that the mean structure of 
 The ordered curve plots \deqn{\hat{L}_1(t)=\frac{\sum_{i=1}^n\left[Y_i1(Z_i\leq t)\right]}{\sum_{i=1}^nY_i}} against
 \deqn{\hat{L}_2(t)=\frac{\sum_{i=1}^n\left[\hat{\lambda}_i1(Z_i\leq t)\right]}{\sum_{i=1}^n\hat{\lambda}_i},}
 where \eqn{\hat{\lambda}_i} is the fitted mean, and \eqn{Z_i} is the threshold variable. \cr
+
 If the mean structure is correctly specified in the model,
 \eqn{\hat L_1(t)} and \eqn{\hat L_2(t)} should be close to each other.
 
@@ -41,30 +42,43 @@ For more details, see the reference paper.
 ## Binary example of ordered curve
 n <- 500
 set.seed(1234)
-x1 <-rnorm(n,1,1); x2 <- rbinom(n,1,0.7)
-beta0 <- -5; beta1 <- 2; beta2<- 1; beta3 <- 3
-q1 <-1/(1+exp(beta0+beta1*x1+beta2*x2+beta3*x1*x2))
-y1 <- rbinom(n,size=1,prob = 1-q1)
+x1 <- rnorm(n, 1, 1)
+x2 <- rbinom(n, 1, 0.7)
+beta0 <- -5
+beta1 <- 2
+beta2 <- 1
+beta3 <- 3
+q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
+y1 <- rbinom(n, size = 1, prob = 1 - q1)
 
-model0 <- glm(y1~x1*x2,family =binomial(link = "logit") )
-ord_curve(model0,thr=model0$fitted.values) # set the threshold as fitted values
-model1 <- glm(y1~x1,family =binomial(link = "logit") )
-ord_curve(model1,thr=x2) # set the threshold as a covariate
+## True Model
+model0 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
+ord_curve(model0, thr = model0$fitted.values) # set the threshold as fitted values
 
-## Poisson example of Ordered curve
+## Missing a covariate
+model1 <- glm(y1 ~ x1, family = binomial(link = "logit"))
+ord_curve(model1, thr = x2) # set the threshold as a covariate
+
+## Poisson example of ordered curve
 n <- 500
 set.seed(1234)
-x1 <- rnorm(n); x2 <- rnorm(n)
-beta0 <- 0; beta1 <- 2; beta2 <- 1
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+beta0 <- 0
+beta1 <- 2
+beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 
 y <- rpois(n, lambda1)
-poismodel1 <- glm(y ~ x1+x2, family = poisson(link = "log"))
-ord_curve(poismodel1,thr=poismodel1$fitted.values)
 
+## True Model
+poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+ord_curve(poismodel1, thr = poismodel1$fitted.values)
+
+## Missing a covariate
 poismodel2 <- glm(y ~ x1, family = poisson(link = "log"))
-ord_curve(poismodel2,thr=poismodel2$fitted.values)
-ord_curve(poismodel2,thr=x2)
+ord_curve(poismodel2, thr = poismodel2$fitted.values)
+ord_curve(poismodel2, thr = x2)
 
 }
 \references{

@@ -1,0 +1,77 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# assessor
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The goal of assessor is to …
+
+## Installation
+
+You can install the development version of assessor from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jhlee1408/assessor")
+```
+
+## General function arguments
+
+In `assessor`, there are functions for assessing DPIT residuals for the
+various type of models: discrete, zero-inflated, and semi-continuous
+outcome regression models. `resid_disc()`, `resid_zeroinfl()`,
+`resid_semiconti()` and `resid_2pm()` are functions evaluating DPIT
+residuals. They share the same arguments:
+
+- `model`: Each function supports different types of model objects.
+  Check below which model objects are applicable.
+
+- `plot`:If you set `plot=T`, a function will return QQ-plot drawn with
+  DPIT residuals, or vice versa. Some users may only need the QQ-plot.
+  In that case, `qqresdi()` only returns the QQ-plot without returning
+  the DPIT residuals.
+
+- `scale`: You can choose the scale of the residuals among `normal` and
+  `uniform` scales. The sample quantiles of the residuals are plotted
+  against the theoretical quantiles of a standard normal distribution
+  under the normal scale, and against the theoretical quantiles of a
+  uniform (0,1) distribution under the uniform scale. The default scale
+  is `normal`
+
+## Example
+
+This tab explains
+
+``` r
+library(assessor)
+library(faraway) 
+library(MASS)
+data("solder") # from faraway package
+
+
+## Negative Binomial
+modpnb <- glm.nb(skips~.,data=solder)
+modp <- glm(skips~.,famil=poisson(link="log"),data=solder)
+
+## QQ-plot
+poi.resid <- resid_disc(modp,plot = T)
+```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+``` r
+norm.resid <- resid_disc(modpnb,plot = T, scale = "normal")
+```
+
+<img src="man/figures/README-example-2.png" width="100%" />
+
+``` r
+unif.resid <- resid_disc(modpnb,plot = T, scale = "uniform")
+```
+
+<img src="man/figures/README-example-3.png" width="100%" />

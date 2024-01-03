@@ -1,0 +1,64 @@
+---
+title: "Discrete"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+### Discrete outcome regression models {.tabset .tabset-pills}
+`resid_disc()` is used for calculating the DPIT residuals for regression models with discrete outcomes and drawing corresponding QQ-plots. The suitable model objects are as follows: 
+
+* Negative Binomial, `MASS::glm.nb()` 
+* Poisson, `glm(formula, family=poisson(link="log"))` 
+* Binary, `glm(, family=binomial(link="logit"))` 
+* Ordinal, `MASS::polr()`
+
+
+#### Negative binomial
+An appropriate example of the usage of the `resid_disc()` function is in the context of Negative binomial regression. We can do this usting the code below. 
+
+```{r discrete outcomes nb}
+library(assessor)
+library(MASS)
+n <- 500
+set.seed(1234)
+## Negative Binomial example
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+
+### Parameters
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+size1 <- 2
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+
+# generate outcomes
+y <- rnbinom(n, mu = lambda1, size = size1)
+```
+Hello Hello
+
+```{r nb res, fig.align='center', fig.width=10}
+par(mfrow=c(1,2))
+# True model
+model1 <- glm.nb(y ~ x1 + x2)
+resd1 <- resid_disc(model1, plot = TRUE, scale = "uniform")
+
+# Overdispersion
+model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
+```
+The interpretation is this
+
+
+#### Poisson
+
+#### Binary
+
+#### Ordinal

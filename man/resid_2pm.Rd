@@ -25,7 +25,7 @@ resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 Residuals. If plot=TRUE, also produces a QQ plot.
 }
 \description{
-Calculates DPIT proposed residuals for two parts model for semi-continuous outcomes.
+Calculates DPIT proposed residuals for model for semi-continuous outcomes.
 \code{resid_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
 }
 \details{
@@ -42,29 +42,36 @@ Note that the length of \code{part1} is the number of positive values in \code{y
 }
 \examples{
 library(MASS)
-n = 500
-beta10= 1; beta11=-2; beta12=-1
-beta13 <- -1; beta14 <- -1; beta15 <- -2
-x11<-rnorm(n); x12<-rbinom(n,size=1,prob=0.4)
+n <- 500
+beta10 <- 1
+beta11 <- -2
+beta12 <- -1
+beta13 <- -1
+beta14 <- -1
+beta15 <- -2
+x11 <- rnorm(n)
+x12 <- rbinom(n, size = 1, prob = 0.4)
 
-p1<-1/(1+exp(-(beta10+x11*beta11+x12*beta12)))
-lambda1<-exp(beta13+beta14*x11+beta15*x12)
-y2 <- rgamma(n,scale=lambda1/2,shape=2) # gamma case
-y <- rep(0,n)
-u <-runif(n,0,1)
-ind1 <- which(u>=p1)
+p1 <- 1 / (1 + exp(-(beta10 + x11 * beta11 + x12 * beta12)))
+lambda1 <- exp(beta13 + beta14 * x11 + beta15 * x12)
+y2 <- rgamma(n, scale = lambda1 / 2, shape = 2)
+y <- rep(0, n)
+u <- runif(n, 0, 1)
+ind1 <- which(u >= p1)
 y[ind1] <- y2[ind1]
 
 # models as input
-mgamma <- glm(y[ind1]~x11[ind1]+x12[ind1],family=Gamma(link = "log"))
-m10 <- glm(y==0~x12+x11,family=binomial(link = "logit"))
-resid_2pm(model0 = m10, model1 = mgamma, y= y)
+mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
+m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
+resid_2pm(model0 = m10, model1 = mgamma, y = y)
 
 # PIT as input
-cdfgamma <- pgamma(y[ind1],scale = mgamma$fitted.values*gamma.dispersion(mgamma),
-                 shape=1/gamma.dispersion(mgamma))
+cdfgamma <- pgamma(y[ind1],
+  scale = mgamma$fitted.values * gamma.dispersion(mgamma),
+  shape = 1 / gamma.dispersion(mgamma)
+)
 p1f <- m10$fitted.values
-resid_2pm(y=y, part0= p1f, part1= cdfgamma)
+resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
 }
 \seealso{
 \code{\link[=resid_semiconti]{resid_semiconti()}}

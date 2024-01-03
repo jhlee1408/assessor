@@ -11,7 +11,7 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
+\item{scale}{You can choose the scale of the residuals between \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
 Residuals. If plot=TRUE, also produces a QQ plot.
@@ -34,53 +34,59 @@ and \eqn{\hat{p}_0} refers to the fitted probability of being zero.
 library(tweedie)
 library(statmod)
 n <- 500
-x11 <- rnorm(n); x12 <- rnorm(n)
-beta0 <- 5; beta1 <- 1; beta2 <- 1
+x11 <- rnorm(n)
+x12 <- rnorm(n)
+beta0 <- 5
+beta1 <- 1
+beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
 y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
 xi.vec <- seq(1.1, 1.9, by = 0.1)
 # Choose parameter p
 out.model <-
   tweedie.profile(y1 ~ x11 + x12,
-                  xi.vec = xi.vec,
-                  do.plot = FALSE,
-                  verbose = FALSE)
+    xi.vec = xi.vec,
+    do.plot = FALSE,
+    verbose = FALSE
+  )
 # True model
 model1 <-
   glm(y1 ~ x11 + x12,
-      family = tweedie(var.power = out.model$xi.max, link.power = 0))
+    family = tweedie(var.power = out.model$xi.max, link.power = 0)
+  )
 resid_semiconti(model1)
-
-
 
 ## Tobit regression model
 library(VGAM)
-beta13 <- 1; beta14 <- -3; beta15 <- 3
+beta13 <- 1
+beta14 <- -3
+beta15 <- 3
 
 set.seed(1234)
-x11<-runif(n); x12<-runif(n)
-lambda1<-beta13+beta14*x11+beta15*x12
+x11 <- runif(n)
+x12 <- runif(n)
+lambda1 <- beta13 + beta14 * x11 + beta15 * x12
 sd0 <- 0.3
-yun <- rnorm(n,mean=lambda1,sd=sd0)
-y <- ifelse(yun>=0,yun,0)
+yun <- rnorm(n, mean = lambda1, sd = sd0)
+y <- ifelse(yun >= 0, yun, 0)
 
 # Using VGAM package
-fit1 <- vglm(formula = y~x11+x12, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # True model
-fit1miss <- vglm(formula = y~x11, tobit(Upper=Inf,Lower=0,lmu="identitylink")) # Missing covariate
+# True model
+fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
+# Missing covariate
+fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 
-resid_semiconti(fit1, plot=TRUE)
-resid_semiconti(fit1miss, plot=TRUE)
+resid_semiconti(fit1, plot = TRUE)
+resid_semiconti(fit1miss, plot = TRUE)
 
 # Using AER package
-detach("package:VGAM", unload = TRUE)
 library(AER)
-fit2 <- tobit(y~x11+x12,left=0,right=Inf,dist="gaussian") # True model
-fit2miss <- tobit(y~x11,left=0,right=Inf,dist="gaussian") # Missing covariate
-resid_semiconti(fit2, plot=TRUE)
-resid_semiconti(fit2miss, plot=TRUE)
-
-detach("package:AER", unload =TRUE)
-
+# True model
+fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
+# Missing covariate
+fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
+resid_semiconti(fit2, plot = TRUE)
+resid_semiconti(fit2miss, plot = TRUE)
 }
 \seealso{
 \code{\link[=resid_2pm]{resid_2pm()}}

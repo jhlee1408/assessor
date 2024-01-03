@@ -1,0 +1,15 @@
+url: https://jhlee1408.github.io/assessor/
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+home:
+  title: Assessing assumptions
+
+authors:
+  Lu Yang:
+    href: https://luyang95.github.io
+  Jeonghwan Lee:
+
+
+
