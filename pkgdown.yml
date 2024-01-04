@@ -2,13 +2,11 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  assessor: assessor.html
   2pm: test/2pm.html
   disc: test/disc.html
   ord: test/ord.html
   semiconti: test/semiconti.html
   zeroinfl: test/zeroinfl.html
-last_built: 2024-01-04T00:09Z
-urls:
-  reference: https://jhlee1408.github.io/assessor/reference
-  article: https://jhlee1408.github.io/assessor/articles
+last_built: 2024-01-04T05:04Z
 

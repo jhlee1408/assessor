@@ -36,6 +36,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../../articles/assessor.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
@@ -44,7 +47,7 @@
     <a class="dropdown-item" href="../../articles/test/2pm.html">Two part</a>
     <a class="dropdown-item" href="../../articles/test/disc.html">Discrete</a>
     <a class="dropdown-item" href="../../articles/test/ord.html">Ordered curve</a>
-    <a class="dropdown-item" href="../../articles/test/semiconti.html">semiconti</a>
+    <a class="dropdown-item" href="../../articles/test/semiconti.html">Semicontinuous</a>
     <a class="dropdown-item" href="../../articles/test/zeroinfl.html">zeroinfl</a>
   </div>
 </li>
@@ -131,7 +134,7 @@ this usting the code below.</p>
 <span></span>
 <span><span class="co"># generate outcomes</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, size <span class="op">=</span> <span class="va">size1</span><span class="op">)</span></span></code></pre></div>
-<p>Hello Hello</p>
+<p>Description here</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -142,16 +145,114 @@ this usting the code below.</p>
 <span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="disc_files/figure-html/nb%20res-1.png" width="960" style="display: block; margin: auto;">
-The interpretation is this</p>
+The interpretation is here</p>
 </div>
 <div class="tab-pane" id="poisson" role="tabpanel" aria-labelledby="poisson-tab">
 
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Poisson example</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="co"># Covariates</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span>, <span class="fl">0.7</span><span class="op">)</span></span>
+<span><span class="co"># Coefficients</span></span>
+<span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span></span>
+<span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span></span></code></pre></div>
+<p>Description here</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># True model</span></span>
+<span><span class="va">poismodel1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">poismodel1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Enlarge three outcomes</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">poismodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">poismodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="disc_files/figure-html/poisson%202-1.png" width="960" style="display: block; margin: auto;">
+Interpretation here</p>
 </div>
 <div class="tab-pane" id="binary" role="tabpanel" aria-labelledby="binary-tab">
 
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Binary example</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="co"># Covariates</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span>, <span class="fl">0.7</span><span class="op">)</span></span>
+<span><span class="co"># Coefficients</span></span>
+<span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">5</span></span>
+<span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">beta3</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">beta3</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">q1</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># True model</span></span>
+<span><span class="va">model01</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model01</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Missing covariates</span></span>
+<span><span class="va">model02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x1</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model02</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="disc_files/figure-html/bin2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="ordinal" role="tabpanel" aria-labelledby="ordinal-tab">
 
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Ordinal example</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="co"># Covariates</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co"># Coefficient</span></span>
+<span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span></span>
+<span><span class="co"># True model</span></span>
+<span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">1</span>, location <span class="op">=</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">4</span>, location <span class="op">=</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span> <span class="op">-</span> <span class="va">p0</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">p0</span> <span class="op">-</span> <span class="va">p1</span></span>
+<span><span class="va">genemult</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">p0</span>, <span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span>, <span class="fl">1</span>, <span class="va">genemult</span><span class="op">)</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">multimodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
+<p>True model here</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Non-Proportionality</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">1</span>, location <span class="op">=</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">4</span>, location <span class="op">=</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span> <span class="op">-</span> <span class="va">p0</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">p0</span> <span class="op">-</span> <span class="va">p1</span></span>
+<span><span class="va">genemult</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">p0</span>, <span class="va">p1</span>, <span class="va">p2</span><span class="op">)</span>, <span class="fl">1</span>, <span class="va">genemult</span><span class="op">)</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">multimodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
+<p>Non proportinality here</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="disc_files/figure-html/ordinal%203-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>

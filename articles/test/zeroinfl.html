@@ -36,6 +36,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../../articles/assessor.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
@@ -44,7 +47,7 @@
     <a class="dropdown-item" href="../../articles/test/2pm.html">Two part</a>
     <a class="dropdown-item" href="../../articles/test/disc.html">Discrete</a>
     <a class="dropdown-item" href="../../articles/test/ord.html">Ordered curve</a>
-    <a class="dropdown-item" href="../../articles/test/semiconti.html">semiconti</a>
+    <a class="dropdown-item" href="../../articles/test/semiconti.html">Semicontinuous</a>
     <a class="dropdown-item" href="../../articles/test/zeroinfl.html">zeroinfl</a>
   </div>
 </li>
@@ -81,9 +84,73 @@
 
     
     
-<div class="section level4">
-<h4 id="zeroinflation-model">zeroinflation model<a class="anchor" aria-label="anchor" href="#zeroinflation-model"></a>
-</h4>
+<div class="section level3 tabset tabset-pills">
+<h3 class="tabset tabset-pills" id="zeroinflation-regression-models">Zeroinflation regression models<a class="anchor" aria-label="anchor" href="#zeroinflation-regression-models"></a>
+</h3>
+<p><code><a href="../../reference/resid_zeroinfl.html">resid_zeroinfl()</a></code> is used for calculating the DPIT
+residuals for regression models with zero-inflation outcomes and drawing
+corresponding QQ-plots. The suitable model objects are as follows:</p>
+<ul>
+<li>Zero-Inflated Poisson,
+<code>pscl::zeroinfl(dist = "poisson")</code>
+</li>
+<li>Zero-Inflated Negative Binomial,
+<code>pscl::zeroinfl( dist = "negbin")</code>
+</li>
+</ul>
+
+<ul class="nav nav-pills" id="zeroinflation-regression-models" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#zero-inflation-poisson" id="zero-inflation-poisson-tab" type="button" role="tab" aria-controls="zero-inflation-poisson" aria-selected="true" class="active nav-link">Zero-inflation Poisson</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#zero-inflation-negative-binomial" id="zero-inflation-negative-binomial-tab" type="button" role="tab" aria-controls="zero-inflation-negative-binomial" aria-selected="false" class="nav-link">Zero-Inflation Negative Binomial</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="zero-inflation-poisson" role="tabpanel" aria-labelledby="zero-inflation-poisson-tab">
+
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Zero-Inflated Poisson</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/atahk/pscl" class="external-link">pscl</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Classes and Methods for R developed in the</span></span>
+<span><span class="co">#&gt; Political Science Computational Laboratory</span></span>
+<span><span class="co">#&gt; Department of Political Science</span></span>
+<span><span class="co">#&gt; Stanford University</span></span>
+<span><span class="co">#&gt; Simon Jackman</span></span>
+<span><span class="co">#&gt; hurdle and zeroinfl functions by Achim Zeileis</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="co"># Covariates</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span>, <span class="fl">0.7</span><span class="op">)</span></span>
+<span><span class="co"># Coefficients</span></span>
+<span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span></span>
+<span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">beta00</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span></span>
+<span><span class="va">beta10</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span></span>
+<span><span class="co"># Mean of Poisson part</span></span>
+<span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></span>
+<span><span class="co"># Excess zero probability</span></span>
+<span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="op">(</span><span class="va">beta00</span> <span class="op">+</span> <span class="va">beta10</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## simulate outcomes</span></span>
+<span><span class="va">y0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">p0</span><span class="op">)</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">y0</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">y1</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## True model</span></span>
+<span><span class="va">modelzero1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pscl/man/zeroinfl.html" class="external-link">zeroinfl</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">|</span> <span class="va">x1</span>, dist <span class="op">=</span> <span class="st">"poisson"</span>, link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_zeroinfl.html">resid_zeroinfl</a></span><span class="op">(</span><span class="va">modelzero1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Zero inflation</span></span>
+<span><span class="va">modelzero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modelzero2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="zeroinfl_files/figure-html/2-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+<div class="tab-pane" id="zero-inflation-negative-binomial" role="tabpanel" aria-labelledby="zero-inflation-negative-binomial-tab">
+
+</div>
+</div>
 </div>
   </main>
 </div>

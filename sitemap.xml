@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jhlee1408.github.io/assessor/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/index.html</loc>
+    <loc>/articles/assessor.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/test/2pm.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/test/disc.html</loc>
+    <loc>/articles/test/2pm.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/test/ord.html</loc>
+    <loc>/articles/test/disc.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/test/semiconti.html</loc>
+    <loc>/articles/test/ord.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/test/zeroinfl.html</loc>
+    <loc>/articles/test/semiconti.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/authors.html</loc>
+    <loc>/articles/test/zeroinfl.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/index.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/ord_curve.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/qqresid.html</loc>
+    <loc>/reference/ord_curve.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_2pm.html</loc>
+    <loc>/reference/qqresid.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_disc.html</loc>
+    <loc>/reference/resid_2pm.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_semiconti.html</loc>
+    <loc>/reference/resid_disc.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.html</loc>
+    <loc>/reference/resid_semiconti.html</loc>
+  </url>
+  <url>
+    <loc>/reference/resid_zeroinfl.html</loc>
   </url>
 </urlset>
