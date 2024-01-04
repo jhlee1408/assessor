@@ -71,12 +71,12 @@
 <div class="page-header"><h1 id="assessor">assessor<a class="anchor" aria-label="anchor" href="#assessor"></a>
 </h1></div>
 <!-- badges: start -->
-
-<p>The goal of assessor is to …</p>
+<!-- badges: end -->
+<p>The goal of assessor is to provide assessment tools for regression models with discrete and semicontinuous outcomes proposed in Yang (2023) <a href="doi:10.48550/arXiv.2308.15596" class="uri">doi:10.48550/arXiv.2308.15596</a>. It calculates the double probability integral transorm (DPIT) residuals, constructs QQ plots of residuals and the ordered curve for assessing mean structures.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of assessor from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <code>assessor</code> from <a href="https://github.com/jhlee1408/assessor" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jhlee1408/assessor"</span><span class="op">)</span></span></code></pre></div>
@@ -107,14 +107,11 @@
 <span><span class="va">modp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">skips</span><span class="op">~</span><span class="va">.</span>,famil<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"log"</span><span class="op">)</span>,data<span class="op">=</span><span class="va">solder</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## QQ-plot</span></span>
-<span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modp</span>,plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modp</span>,plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-2.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-3.png" width="100%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -150,12 +147,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>
