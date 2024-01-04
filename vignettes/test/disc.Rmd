@@ -42,7 +42,7 @@ lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 # generate outcomes
 y <- rnbinom(n, mu = lambda1, size = size1)
 ```
-Hello Hello
+Description here
 
 ```{r nb res, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
@@ -54,11 +54,123 @@ resd1 <- resid_disc(model1, plot = TRUE, scale = "uniform")
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
 ```
-The interpretation is this
+The interpretation is here
 
 
 #### Poisson
+```{r poisson}
+## Poisson example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+y <- rpois(n, lambda1)
+```
+Description here
+
+```{r poisson 2, fig.align='center', fig.width=10}
+par(mfrow=c(1,2))
+# True model
+poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid1 <- resid_disc(poismodel1, plot = TRUE)
+
+# Enlarge three outcomes
+y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
+poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid2 <- resid_disc(poismodel2, plot = TRUE)
+```
+Interpretation here
+
+
+
 
 #### Binary
+```{r bin 1}
+## Binary example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n, 1, 1)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -5
+beta1 <- 2
+beta2 <- 1
+beta3 <- 3
+q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
+y1 <- rbinom(n, size = 1, prob = 1 - q1)
+```
+
+```{r bin2,  fig.align='center', fig.width=10} 
+par(mfrow=c(1,2))
+# True model
+model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
+resid1 <- resid_disc(model01, plot = TRUE)
+
+# Missing covariates
+model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
+resid2 <- resid_disc(model02, plot = TRUE)
+```
+
+
+
+
 
 #### Ordinal
+```{r ordinal 1}
+## Ordinal example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n, mean = 2)
+# Coefficient
+beta1 <- 3
+
+# True model
+p0 <- plogis(1, location = beta1 * x1)
+p1 <- plogis(4, location = beta1 * x1) - p0
+p2 <- 1 - p0 - p1
+genemult <- function(p) {
+  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
+}
+test <- apply(cbind(p0, p1, p2), 1, genemult)
+y1 <- rep(0, n)
+y1[which(test[1, ] == 1)] <- 0
+y1[which(test[2, ] == 1)] <- 1
+y1[which(test[3, ] == 1)] <- 2
+multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
+```
+True model here
+```{r ordinal 2}
+## Non-Proportionality
+n <- 500
+set.seed(1234)
+x1 <- rnorm(n, mean = 2)
+beta1 <- 3
+beta2 <- 1
+p0 <- plogis(1, location = beta1 * x1)
+p1 <- plogis(4, location = beta2 * x1) - p0
+p2 <- 1 - p0 - p1
+genemult <- function(p) {
+  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
+}
+test <- apply(cbind(p0, p1, p2), 1, genemult)
+y1 <- rep(0, n)
+y1[which(test[1, ] == 1)] <- 0
+y1[which(test[2, ] == 1)] <- 1
+y1[which(test[3, ] == 1)] <- 2
+multimodel2 <- polr(as.factor(y1) ~ x1, method = "logistic")
+```
+Non proportinality here
+
+```{r ordinal 3, fig.align='center', fig.width=10}
+par(mfrow=c(1,2))
+resid1 <- resid_disc(multimodel, plot = TRUE)
+resid2 <- resid_disc(multimodel2, plot = TRUE)
+```

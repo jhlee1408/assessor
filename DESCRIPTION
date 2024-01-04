@@ -13,5 +13,5 @@ URL: https://github.com/jhlee1408/assessor
 BugReports: https://github.com/jhlee1408/assessor/issues
 Imports: tweedie, MASS,VGAM
 Suggests: 
-    pscl, statmod, rmarkdown, knitr, AER
-VignetteBuilder: knitr
+    pscl, statmod, rmarkdown, knitr, AER, faraway
+VignetteBuilder: rmarkdown

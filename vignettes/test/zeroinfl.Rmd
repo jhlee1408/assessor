@@ -9,4 +9,51 @@ knitr::opts_chunk$set(
 )
 ```
 
-#### zeroinflation model
+### Zeroinflation regression models {.tabset .tabset-pills}
+`resid_zeroinfl()` is used for calculating the DPIT residuals for regression models with zero-inflation outcomes and drawing corresponding QQ-plots. The suitable model objects are as follows: 
+
+* Zero-Inflated Poisson, `pscl::zeroinfl(dist = "poisson")` 
+* Zero-Inflated Negative Binomial, `pscl::zeroinfl( dist = "negbin")`
+
+#### Zero-inflation Poisson
+```{r zeroinfl poi}
+## Zero-Inflated Poisson
+library(assessor)
+library(pscl)
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+beta00 <- -2
+beta10 <- 2
+
+# Mean of Poisson part
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# Excess zero probability
+p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
+## simulate outcomes
+y0 <- rbinom(n, size = 1, prob = 1 - p0)
+y1 <- rpois(n, lambda1)
+y <- ifelse(y0 == 0, 0, y1)
+```
+
+```{r 2, fig.align='center', fig.width=10}
+par(mfrow=c(1,2))
+## True model
+modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
+resid1 <- resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
+
+## Zero inflation
+modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
+```
+
+#### Zero-Inflation Negative Binomial
+
+
+
