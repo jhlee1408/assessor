@@ -4,16 +4,18 @@
 # assessor
 
 <!-- badges: start -->
-
-[![R-CMD-check](https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jhlee1408/assessor/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of assessor is to …
+The goal of assessor is to provide assessment tools for regression
+models with discrete and semicontinuous outcomes proposed in Yang (2023)
+<doi:10.48550/arXiv.2308.15596>. It calculates the double probability
+integral transorm (DPIT) residuals, constructs QQ plots of residuals and
+the ordered curve for assessing mean structures.
 
 ## Installation
 
-You can install the development version of assessor from
-[GitHub](https://github.com/) with:
+You can install the development version of `assessor` from
+[GitHub](https://github.com/jhlee1408/assessor) with:
 
 ``` r
 # install.packages("devtools")
@@ -59,19 +61,10 @@ modpnb <- glm.nb(skips~.,data=solder)
 modp <- glm(skips~.,famil=poisson(link="log"),data=solder)
 
 ## QQ-plot
+par(mfrow=c(1,3))
 poi.resid <- resid_disc(modp,plot = T)
-```
-
-<img src="man/figures/README-example-1.png" width="100%" />
-
-``` r
 norm.resid <- resid_disc(modpnb,plot = T, scale = "normal")
-```
-
-<img src="man/figures/README-example-2.png" width="100%" />
-
-``` r
 unif.resid <- resid_disc(modpnb,plot = T, scale = "uniform")
 ```
 
-<img src="man/figures/README-example-3.png" width="100%" />
+<img src="man/figures/README-example-1.png" width="100%" />
