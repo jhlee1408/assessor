@@ -70,52 +70,10 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="assessor">assessor<a class="anchor" aria-label="anchor" href="#assessor"></a>
-</h1></div>
-<!-- badges: start -->
-<!-- badges: end -->
+  <main id="main" class="col-md-9"><div class="section level3">
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h3>
 <p>The goal of assessor is to provide assessment tools for regression models with discrete and semicontinuous outcomes proposed in Yang (2023) <a href="doi:10.48550/arXiv.2308.15596" class="uri">doi:10.48550/arXiv.2308.15596</a>. It calculates the double probability integral transorm (DPIT) residuals, constructs QQ plots of residuals and the ordered curve for assessing mean structures.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the development version of <code>assessor</code> from <a href="https://github.com/jhlee1408/assessor" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jhlee1408/assessor"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="general-function-arguments">General function arguments<a class="anchor" aria-label="anchor" href="#general-function-arguments"></a>
-</h2>
-<p>In <code>assessor</code>, there are functions for assessing DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. <code><a href="reference/resid_disc.html">resid_disc()</a></code>, <code><a href="reference/resid_zeroinfl.html">resid_zeroinfl()</a></code>, <code><a href="reference/resid_semiconti.html">resid_semiconti()</a></code> and <code><a href="reference/resid_2pm.html">resid_2pm()</a></code> are functions evaluating DPIT residuals. They share the same arguments:</p>
-<ul>
-<li><p><code>model</code>: Each function supports different types of model objects. Check below which model objects are applicable.</p></li>
-<li><p><code>plot</code>:If you set <code>plot=T</code>, a function will return QQ-plot drawn with DPIT residuals, or vice versa. Some users may only need the QQ-plot. In that case, <code>qqresdi()</code> only returns the QQ-plot without returning the DPIT residuals.</p></li>
-<li><p><code>scale</code>: You can choose the scale of the residuals among <code>normal</code> and <code>uniform</code> scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is <code>normal</code></p></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
-<p>This tab explains</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/julianfaraway/faraway" class="external-link">faraway</a></span><span class="op">)</span> </span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"solder"</span><span class="op">)</span> <span class="co"># from faraway package</span></span>
-<span></span>
-<span></span>
-<span><span class="co">## Negative Binomial</span></span>
-<span><span class="va">modpnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">skips</span><span class="op">~</span><span class="va">.</span>,data<span class="op">=</span><span class="va">solder</span><span class="op">)</span></span>
-<span><span class="va">modp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">skips</span><span class="op">~</span><span class="va">.</span>,famil<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"log"</span><span class="op">)</span>,data<span class="op">=</span><span class="va">solder</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## QQ-plot</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modp</span>,plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
-<span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" width="100%"></p>
-</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
