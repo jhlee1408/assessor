@@ -185,6 +185,32 @@ y1[which(test[3, ] == 1)] <- 2
 
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
 
+k <- length(multimodel$lev)
+out <- as.numeric(factor(multimodel$model[,1],ordered = TRUE))
+fitprob <- multimodel$fitted.values
+q <- t(apply(fitprob,1, cumsum))
+inde <- cbind(1:n,out)
+res <- q[inde]
+res <- matrix(rep(res,n),n,n,byrow=TRUE)
+note <- list()
+for(i in 1:k){
+  note[[i]] <- fitprob[,i]*(res > q[,i])
+}
+pres <- Reduce("+", note)
+diag(pres) <- 0
+empcdf <- colSums(pres)/(n-1)
+ses <- ifelse(out==k,q[,1],0)
+ses <- matrix(rep(ses,n),n,n,byrow=TRUE)
+pses <- ifelse(ses==0,0,ifelse(ses<q[,1],q[,k-1],1))
+diag(pses) <- 0
+rempcdf <- colSums(pses)/(n-1)
+
+multiresid1 <- rep(NA,n)
+multiresid1[y1<(k-1)] <- empcdf[y1<(k-1)]
+multiresid1[y1==(k-1)] <- rempcdf[y1==(k-1)]
+multiresid1 <- qnorm(multiresid1)
+
+
 ## non-prop
 n <- 500
 set.seed(1234)
@@ -205,6 +231,33 @@ y1[which(test[3, ] == 1)] <- 2
 
 multimodel2 <- polr(as.factor(y1) ~ x1, method = "logistic")
 
+k <- length(multimodel2$lev)
+out <- as.numeric(factor(multimodel2$model[,1],ordered = TRUE))
+fitprob <- multimodel2$fitted.values
+q <- t(apply(fitprob,1, cumsum))
+inde <- cbind(1:n,out)
+res <- q[inde]
+res <- matrix(rep(res,n),n,n,byrow=TRUE)
+note <- list()
+for(i in 1:k){
+  note[[i]] <- fitprob[,i]*(res > q[,i])
+}
+pres <- Reduce("+", note)
+diag(pres) <- 0
+empcdf <- colSums(pres)/(n-1)
+ses <- ifelse(out==k,q[,1],0)
+ses <- matrix(rep(ses,n),n,n,byrow=TRUE)
+pses <- ifelse(ses==0,0,ifelse(ses<q[,1],q[,k-1],1))
+diag(pses) <- 0
+rempcdf <- colSums(pses)/(n-1)
+multiresid2 <- rep(NA,n)
+multiresid2[y1<(k-1)] <- empcdf[y1<(k-1)]
+multiresid2[y1==(k-1)] <- rempcdf[y1==(k-1)]
+multiresid2 <- qnorm(multiresid2)
 
-
+## test_that: ordinal
+test_that("Ordinal regression residuals are the same with the reference residuals", {
+  expect_identical(resid_disc(multimodel, plot=F), multiresid1, tolerance =1e-5)
+  expect_identical(resid_disc(multimodel2, plot=F), multiresid2, tolerance =1e-5)
+})
 
