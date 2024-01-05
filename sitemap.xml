@@ -10,25 +10,25 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
+    <loc>/articles/2pm.html</loc>
+  </url>
+  <url>
     <loc>/articles/assessor.html</loc>
+  </url>
+  <url>
+    <loc>/articles/disc.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/test/2pm.html</loc>
+    <loc>/articles/ord.html</loc>
   </url>
   <url>
-    <loc>/articles/test/disc.html</loc>
+    <loc>/articles/semiconti.html</loc>
   </url>
   <url>
-    <loc>/articles/test/ord.html</loc>
-  </url>
-  <url>
-    <loc>/articles/test/semiconti.html</loc>
-  </url>
-  <url>
-    <loc>/articles/test/zeroinfl.html</loc>
+    <loc>/articles/zeroinfl.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>

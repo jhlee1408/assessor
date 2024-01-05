@@ -2,11 +2,11 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  2pm: 2pm.html
+  disc: disc.html
+  ord: ord.html
+  semiconti: semiconti.html
+  zeroinfl: zeroinfl.html
   assessor: assessor.html
-  2pm: test/2pm.html
-  disc: test/disc.html
-  ord: test/ord.html
-  semiconti: test/semiconti.html
-  zeroinfl: test/zeroinfl.html
-last_built: 2024-01-04T05:07Z
+last_built: 2024-01-05T16:16Z
 
