@@ -179,6 +179,7 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
   if (model.family == "multi" && polr.test) {
     empcdf <- resid.logi(model)
   }
+
   if (plot == T) {
     if (scale == "normal") {
       empcdf <- qnorm(empcdf)

@@ -20,8 +20,7 @@ knitr::opts_chunk$set(
 
 
 #### Negative binomial
-An appropriate example of the usage of the `resid_disc()` function is in the context of Negative binomial regression. We can do this usting the code below. 
-
+An appropriate example of the usage of the `resid_disc()` function is in the context of Negative binomial regression. We can do this using the code below. 
 ```{r discrete outcomes nb}
 library(assessor)
 library(MASS)
@@ -117,10 +116,6 @@ resid1 <- resid_disc(model01, plot = TRUE)
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
 resid2 <- resid_disc(model02, plot = TRUE)
 ```
-
-
-
-
 
 #### Ordinal
 ```{r ordinal 1}
