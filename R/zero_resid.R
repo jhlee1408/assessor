@@ -39,11 +39,11 @@
 #' y <- ifelse(y0 == 0, 0, y1)
 #' ## True model
 #' modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-#' resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
+#' resid.zero1 <- resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
 #'
 #' ## Zero inflation
 #' modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-#' resid_disc(modelzero2, plot = TRUE, scale = "normal")
+#' resid.zero2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
 resid_zeroinfl <- function(model, plot = TRUE, scale = "normal") {
   # Model checking
   zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))

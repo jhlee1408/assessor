@@ -1,5 +1,5 @@
 ---
-title: "assessor"
+title: "Assessor Tutorial"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{assessor}
@@ -37,14 +37,14 @@ They share the same arguments:
 * `model`: Each function supports different types of model objects. Check below which model objects are applicable.
 
 * `plot`:If you set `plot=T`, a function will return QQ-plot drawn with DPIT residuals, or vice versa. 
-Some users may only need the QQ-plot. In that case, `qqresdi()` only returns the QQ-plot without returning the DPIT residuals.
+Some users may only need the QQ-plot. In that case, `qqresid()` only returns the QQ-plot without returning the DPIT residuals.
 
 * `scale`: You can choose the scale of the residuals among `normal` and `uniform` scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is `normal`
 
 ## Example
 This tab explains 
 
-```{r example, fig.width= 7, fig.height=4}
+```{r example, fig.width= 7}
 library(assessor)
 library(faraway) 
 library(MASS)

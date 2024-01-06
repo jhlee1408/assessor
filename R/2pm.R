@@ -60,7 +60,7 @@
 #' # models as input
 #' mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 #' m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-#' resid_2pm(model0 = m10, model1 = mgamma, y = y)
+#' resid.model <- resid_2pm(model0 = m10, model1 = mgamma, y = y)
 #'
 #' # PIT as input
 #' cdfgamma <- pgamma(y[ind1],
@@ -68,7 +68,7 @@
 #'   shape = 1 / gamma.dispersion(mgamma)
 #' )
 #' p1f <- m10$fitted.values
-#' resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+#' resid.pit <- resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
 resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal") {
   if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   if (missing(y)) stop("argument y is missing, with no default")
