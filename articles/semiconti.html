@@ -121,22 +121,23 @@ The suitable model objects are as follows:</p>
 <span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x11</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x12</span><span class="op">)</span></span>
-<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tweedie/man/dtweedie.html" class="external-link">rtweedie</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, xi <span class="op">=</span> <span class="fl">1.6</span>, phi <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="va">xi.vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">1.9</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="co"># Choose parameter p</span></span>
-<span><span class="va">out.model</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/tweedie/man/tweedie.profile.html" class="external-link">tweedie.profile</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x11</span> <span class="op">+</span> <span class="va">x12</span>,</span>
-<span>    xi.vec <span class="op">=</span> <span class="va">xi.vec</span>,</span>
-<span>    do.plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tweedie/man/dtweedie.html" class="external-link">rtweedie</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, xi <span class="op">=</span> <span class="fl">1.6</span>, phi <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># True model</span></span>
 <span><span class="va">model1</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x11</span> <span class="op">+</span> <span class="va">x12</span>,</span>
-<span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/statmod/man/tweedie.html" class="external-link">tweedie</a></span><span class="op">(</span>var.power <span class="op">=</span> <span class="va">out.model</span><span class="op">$</span><span class="va">xi.max</span>, link.power <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/statmod/man/tweedie.html" class="external-link">tweedie</a></span><span class="op">(</span>var.power <span class="op">=</span> <span class="fl">1.6</span>, link.power <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># missing covariate</span></span>
+<span><span class="va">model2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x11</span> ,</span>
+<span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/statmod/man/tweedie.html" class="external-link">tweedie</a></span><span class="op">(</span>var.power <span class="op">=</span> <span class="fl">1.6</span>, link.power <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="semiconti_files/figure-html/tweedie2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="tobit" role="tabpanel" aria-labelledby="tobit-tab">
 
@@ -164,6 +165,7 @@ The suitable model objects are as follows:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="semiconti_files/figure-html/tobit%20vgam2-1.png" width="960" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Using AER package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AER</span><span class="op">)</span></span>
@@ -174,6 +176,7 @@ The suitable model objects are as follows:</p>
 <span><span class="va">fit2miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AER/man/tobit.html" class="external-link">tobit</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x11</span>, left <span class="op">=</span> <span class="fl">0</span>, right <span class="op">=</span> <span class="cn">Inf</span>, dist <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span>
 <span><span class="va">reisd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="semiconti_files/figure-html/tobit%20aer-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>
