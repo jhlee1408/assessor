@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 * Tobit(AER), `AER::tobit()` 
 
 #### Tweedie 
-```{r tweedie1, eval=FALSE}
+```{r tweedie1}
 ## Tweedie model
 library(assessor)
 library(tweedie)
@@ -30,28 +30,28 @@ beta1 <- 1
 beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
 y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
-xi.vec <- seq(1.1, 1.9, by = 0.1)
-# Choose parameter p
-out.model <-
-  tweedie.profile(y1 ~ x11 + x12,
-    xi.vec = xi.vec,
-    do.plot = FALSE,
-    verbose = FALSE
-  )
 ```
 
-```{r tweedie2, fig.align='center', eval=FALSE}
+```{r tweedie2, fig.align='center', fig.width=10}
 # True model
 model1 <-
   glm(y1 ~ x11 + x12,
-    family = tweedie(var.power = out.model$xi.max, link.power = 0)
+    family = tweedie(var.power = 1.6, link.power = 0)
   )
+
+# missing covariate
+model2 <-  glm(y1 ~ x11 ,
+    family = tweedie(var.power = 1.6, link.power = 0)
+  )
+
+par(mfrow=c(1,2))
 resid1 <- resid_semiconti(model1)
+resid2 <- resid_semiconti(model2)
 ```
 
 
 #### Tobit
-```{r tobit vgam1, eval=FALSE}
+```{r tobit vgam1, message=FALSE}
 ## Tobit regression model
 library(VGAM)
 beta13 <- 1
@@ -67,7 +67,8 @@ yun <- rnorm(n, mean = lambda1, sd = sd0)
 y <- ifelse(yun >= 0, yun, 0)
 ```
 
-```{r tobit vgam2, fig.align='center', fig.width=10, eval=FALSE}
+
+```{r tobit vgam2, fig.align='center', fig.width=10}
 # Using VGAM package
 # True model
 fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
@@ -79,7 +80,8 @@ resid1 <- resid_semiconti(fit1, plot = TRUE)
 resid2 <- resid_semiconti(fit1miss, plot = TRUE)
 ```
 
-```{r tobit aer, fig.align='center', fig.width=10, eval=FALSE}
+
+```{r tobit aer, fig.align='center', fig.width=10, message=FALSE}
 # Using AER package
 library(AER)
 # True model

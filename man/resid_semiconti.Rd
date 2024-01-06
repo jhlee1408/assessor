@@ -41,18 +41,11 @@ beta1 <- 1
 beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
 y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
-xi.vec <- seq(1.1, 1.9, by = 0.1)
 # Choose parameter p
-out.model <-
-  tweedie.profile(y1 ~ x11 + x12,
-    xi.vec = xi.vec,
-    do.plot = FALSE,
-    verbose = FALSE
-  )
 # True model
 model1 <-
   glm(y1 ~ x11 + x12,
-    family = tweedie(var.power = out.model$xi.max, link.power = 0)
+    family = tweedie(var.power = 1.6, link.power = 0)
   )
 resid_semiconti(model1)
 
