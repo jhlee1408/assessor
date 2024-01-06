@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# assessor
+
 ## Overview
 
 The goal of assessor is to provide assessment tools for regression
