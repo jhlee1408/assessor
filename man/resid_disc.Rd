@@ -58,11 +58,11 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resid_disc(model1, plot = TRUE, scale = "uniform")
+resid.nb1 <- resid_disc(model1, plot = TRUE, scale = "uniform")
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid_disc(model2, plot = TRUE, scale = "normal")
+resid.nb2 <- resid_disc(model2, plot = TRUE, scale = "normal")
 
 ## Binary example
 n <- 500
@@ -80,11 +80,11 @@ y1 <- rbinom(n, size = 1, prob = 1 - q1)
 
 # True model
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid_disc(model01, plot = TRUE)
+resid.bin1 <- resid_disc(model01, plot = TRUE)
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid_disc(model02, plot = TRUE)
+resid.bin2 <- resid_disc(model02, plot = TRUE)
 
 ## Poisson example
 n <- 500
@@ -101,12 +101,12 @@ y <- rpois(n, lambda1)
 
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid_disc(poismodel1, plot = TRUE)
+resid.poi1 <- resid_disc(poismodel1, plot = TRUE)
 
 # Enlarge three outcomes
 y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid_disc(poismodel2, plot = TRUE)
+resid.poi2 <- resid_disc(poismodel2, plot = TRUE)
 
 ## Ordinal example
 n <- 500
@@ -129,7 +129,7 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid_disc(multimodel, plot = TRUE)
+resid.ord1 <- resid_disc(multimodel, plot = TRUE)
 
 ## Non-Proportionality
 n <- 500
@@ -149,7 +149,7 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid_disc(multimodel, plot = TRUE)
+resid.ord2 <- resid_disc(multimodel, plot = TRUE)
 }
 \references{
 Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).

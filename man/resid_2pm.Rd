@@ -63,7 +63,7 @@ y[ind1] <- y2[ind1]
 # models as input
 mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-resid_2pm(model0 = m10, model1 = mgamma, y = y)
+resid.model <- resid_2pm(model0 = m10, model1 = mgamma, y = y)
 
 # PIT as input
 cdfgamma <- pgamma(y[ind1],
@@ -71,7 +71,7 @@ cdfgamma <- pgamma(y[ind1],
   shape = 1 / gamma.dispersion(mgamma)
 )
 p1f <- m10$fitted.values
-resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+resid.pit <- resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
 }
 \seealso{
 \code{\link[=resid_semiconti]{resid_semiconti()}}

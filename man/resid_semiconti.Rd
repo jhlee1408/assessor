@@ -47,7 +47,7 @@ model1 <-
   glm(y1 ~ x11 + x12,
     family = tweedie(var.power = 1.6, link.power = 0)
   )
-resid_semiconti(model1)
+resid.tweedie <- resid_semiconti(model1)
 
 ## Tobit regression model
 library(VGAM)
@@ -69,8 +69,8 @@ fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "ident
 # Missing covariate
 fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 
-resid_semiconti(fit1, plot = TRUE)
-resid_semiconti(fit1miss, plot = TRUE)
+resid.tobit1 <- resid_semiconti(fit1, plot = TRUE)
+resid.tobit2 <- resid_semiconti(fit1miss, plot = TRUE)
 
 # Using AER package
 library(AER)
@@ -78,8 +78,8 @@ library(AER)
 fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
 # Missing covariate
 fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
-resid_semiconti(fit2, plot = TRUE)
-resid_semiconti(fit2miss, plot = TRUE)
+resid.aer1 <- resid_semiconti(fit2, plot = TRUE)
+resid.aer2 <- resid_semiconti(fit2miss, plot = TRUE)
 }
 \seealso{
 \code{\link[=resid_2pm]{resid_2pm()}}
