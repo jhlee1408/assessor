@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 
 #### Negative binomial
-An appropriate example of the usage of the `resid_disc()` function is in the context of Negative binomial regression. We can do this using the code below. 
+An appropriate example of the usage of the `resid_disc()` function is in the context of negative binomial regression. We can do this using the code below. 
 ```{r discrete outcomes nb}
 library(assessor)
 library(MASS)
@@ -41,22 +41,31 @@ lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 # generate outcomes
 y <- rnbinom(n, mu = lambda1, size = size1)
 ```
-Description here
+
+The true mean of $Y$ is intricately linked to both $x_1$  and $x_2$, defined by the following relationship:
+$$
+ Y \sim \text{NB}(r=2, \mu = \beta_0 + \beta_1x_1 + \beta_2x_2)
+$$
+Note that this notation provides an alternative parametrization, accentuating the emphasis on the mean structure rather than employing $p$. 
+Consequently, assuming the GLM model family follows a Poisson distribution would result in a violation of the model assumption. 
+To assess this assumption,one can employ a QQ-plot generated through either `reisd_disc()` or `qqresid()`.
 
 ```{r nb res, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resd1 <- resid_disc(model1, plot = TRUE, scale = "uniform")
+resd1 <- resid_disc(model1, plot = TRUE, scale = "normal")
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
 ```
-The interpretation is here
+The `model1` is correctly specified as a Generalized Linear Model (GLM) assuming a negative binomial distribution, whereas `model2` incorrectly assumes the Poisson family. The interpretation of the plots aligns with a standard QQ-plot used in regression models assuming normal distribution. The left panel displays a diagonal QQ-plot along the straight red line, indicative of the model assumption holding. In contrast, the right panel deviates from a diagonal line, suggesting a lack of adherence to the assumption. Consequently, we can say that the model assumption holds when the QQ-plot is diagonal, and it does not hold when the plot deviates.
+
 
 
 #### Poisson
+Similarly, we can simulate Poisson random variable depending on covariates, $x_1$ and $x_2$.
 ```{r poisson}
 ## Poisson example
 n <- 500
@@ -64,6 +73,7 @@ set.seed(1234)
 # Covariates
 x1 <- rnorm(n)
 x2 <- rbinom(n, 1, 0.7)
+
 # Coefficients
 beta0 <- -2
 beta1 <- 2
@@ -71,7 +81,12 @@ beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 y <- rpois(n, lambda1)
 ```
-Description here
+The true mean of $Y$ is intricately connected to both $x_1$ and $x_2$, as expressed in the ensuing relationship:
+$$
+Y \sim \text{Poisson}(\lambda = \beta_0 + \beta_1 x_1 + \beta_2 x_2)
+$$
+
+
 
 ```{r poisson 2, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
@@ -84,12 +99,16 @@ y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resid2 <- resid_disc(poismodel2, plot = TRUE)
 ```
-Interpretation here
-
+In the case of the negative binomial example, the left panel corresponding to the true `model1` 
+demonstrates the adherence of the model to its assumptions. 
+Conversely, intentionally enlarging three observations and applying them to the `model2` results in
+the three points on the right panel deviating from the red diagonal line. 
+This departure indicates that outlier detection can be performed by examining a QQ-plot.
 
 
 
 #### Binary
+For the binary example, generate Bernoulli random variable, $Y$, whose mean depends on covariates $x_1$ and $x_2$. 
 ```{r bin 1}
 ## Binary example
 n <- 500
@@ -103,8 +122,16 @@ beta1 <- 2
 beta2 <- 1
 beta3 <- 3
 q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
+
 y1 <- rbinom(n, size = 1, prob = 1 - q1)
 ```
+Then, the exact $Y$ follows the distribution as follows:
+$$
+Y \sim \text{Ber}(p) \quad \text{where } p = \frac{1}{1+e^{-\beta_0-\beta_1x_1-\beta_2x_2-\beta_4x_1x_2}}
+$$
+In contrast to the preceding examples, we introduce the interaction term between $x_1$ and $x_2.$ 
+Consequently, the omission of $x_2$ in the model is anticipated to result in a non-diagonal QQ-plot.
+
 
 ```{r bin2,  fig.align='center', fig.width=10} 
 par(mfrow=c(1,2))
@@ -116,8 +143,14 @@ resid1 <- resid_disc(model01, plot = TRUE)
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
 resid2 <- resid_disc(model02, plot = TRUE)
 ```
+The true model, distinguished as `model1`, is visually represented in the left panel, showcasing an alignment with the red diagonal line. This alignment serves as an indicator of the model's adherence to the expected pattern. 
+On the other hand, `model2`, made without the inclusion of the variable $x_2$, presents a deviation 
+from the prescribed red diagonal line. 
+
 
 #### Ordinal
+Our `resid_disc()` function is also applicable to ordinal regression fitted by `MASS::polr()`. 
+
 ```{r ordinal 1}
 ## Ordinal example
 n <- 500
@@ -141,7 +174,11 @@ y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
 ```
-True model here
+We generate a multinomial random variable depending on $x_1$ in such a way that
+$$
+(Y_1, Y_2, Y_3) \sim \text{multi}(2;\ p_1, p_2, p_3) \quad \text{where } \sum_{i=1}^3 p_i = 1   
+$$
+
 ```{r ordinal 2}
 ## Non-Proportionality
 n <- 500
@@ -150,7 +187,7 @@ x1 <- rnorm(n, mean = 2)
 beta1 <- 3
 beta2 <- 1
 p0 <- plogis(1, location = beta1 * x1)
-p1 <- plogis(4, location = beta2 * x1) - p0
+p1 <- plogis(4, location = beta2 * x1) - p0 
 p2 <- 1 - p0 - p1
 genemult <- function(p) {
   rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
@@ -162,10 +199,11 @@ y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel2 <- polr(as.factor(y1) ~ x1, method = "logistic")
 ```
-Non proportinality here
+However, we opted for the utilization of `beta2` instead of `beta1.` This deliberate selection was made with the specific aim of creating a non-proportional scenario, introducing variability in the influence of variables on the model that deviates from the model assumption.
 
 ```{r ordinal 3, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
 resid1 <- resid_disc(multimodel, plot = TRUE)
 resid2 <- resid_disc(multimodel2, plot = TRUE)
 ```
+As a result, when considering the diagnostic assessment through QQ-plots, `model1` exhibits a diagonal QQ-plot, indicating a favorable alignment with the underlying assumptions. In contrast, the QQ-plot associated with `model2` deviates from the expected diagonal line, suggesting a departure from the idealized model assumptions. This discrepancy underscores the importance of careful consideration and inclusion of relevant variables in model specification to ensure the robustness and validity of statistical models.
