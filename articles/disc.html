@@ -113,7 +113,7 @@ QQ-plots. The suitable model objects are as follows:</p>
 <div class="active  tab-pane" id="negative-binomial" role="tabpanel" aria-labelledby="negative-binomial-tab">
 
 <p>An appropriate example of the usage of the <code><a href="../reference/resid_disc.html">resid_disc()</a></code>
-function is in the context of Negative binomial regression. We can do
+function is in the context of negative binomial regression. We can do
 this using the code below.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
@@ -134,21 +134,43 @@ this using the code below.</p>
 <span></span>
 <span><span class="co"># generate outcomes</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, size <span class="op">=</span> <span class="va">size1</span><span class="op">)</span></span></code></pre></div>
-<p>Description here</p>
+<p>The true mean of <span class="math inline">\(Y\)</span> is
+intricately linked to both <span class="math inline">\(x_1\)</span> and
+<span class="math inline">\(x_2\)</span>, defined by the following
+relationship: <span class="math display">\[
+Y \sim \text{NB}(r=2, \mu = \beta_0 + \beta_1x_1 + \beta_2x_2)
+\]</span> Note that this notation provides an alternative
+parametrization, accentuating the emphasis on the mean structure rather
+than employing <span class="math inline">\(p\)</span>. Consequently,
+assuming the GLM model family follows a Poisson distribution would
+result in a violation of the model assumption. To assess this
+assumption,one can employ a QQ-plot generated through either
+<code>reisd_disc()</code> or <code><a href="../reference/qqresid.html">qqresid()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
 <span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span><span class="op">)</span></span>
-<span><span class="va">resd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
+<span><span class="va">resd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Overdispersion</span></span>
 <span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="disc_files/figure-html/nb%20res-1.png" width="960" style="display: block; margin: auto;">
-The interpretation is here</p>
+The <code>model1</code> is correctly specified as a Generalized Linear
+Model (GLM) assuming a negative binomial distribution, whereas
+<code>model2</code> incorrectly assumes the Poisson family. The
+interpretation of the plots aligns with a standard QQ-plot used in
+regression models assuming normal distribution. The left panel displays
+a diagonal QQ-plot along the straight red line, indicative of the model
+assumption holding. In contrast, the right panel deviates from a
+diagonal line, suggesting a lack of adherence to the assumption.
+Consequently, we can say that the model assumption holds when the
+QQ-plot is diagonal, and it does not hold when the plot deviates.</p>
 </div>
 <div class="tab-pane" id="poisson" role="tabpanel" aria-labelledby="poisson-tab">
 
+<p>Similarly, we can simulate Poisson random variable depending on
+covariates, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Poisson example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -156,13 +178,19 @@ The interpretation is here</p>
 <span><span class="co"># Covariates</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span>, <span class="fl">0.7</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Coefficients</span></span>
 <span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span></span>
 <span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span></span></code></pre></div>
-<p>Description here</p>
+<p>The true mean of <span class="math inline">\(Y\)</span> is
+intricately connected to both <span class="math inline">\(x_1\)</span>
+and <span class="math inline">\(x_2\)</span>, as expressed in the
+ensuing relationship: <span class="math display">\[
+Y \sim \text{Poisson}(\lambda = \beta_0 + \beta_1 x_1 + \beta_2 x_2)
+\]</span></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -174,10 +202,17 @@ The interpretation is here</p>
 <span><span class="va">poismodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">poismodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="disc_files/figure-html/poisson%202-1.png" width="960" style="display: block; margin: auto;">
-Interpretation here</p>
+In the case of the negative binomial example, the left panel
+corresponding to the true <code>model1</code> demonstrates the adherence
+of the model to its assumptions. Conversely, intentionally enlarging
+three observations and applying them to the <code>model2</code> results
+in the three points on the right panel deviating from the red diagonal
+line. This departure indicates that outlier detection can be performed
+by examining a QQ-plot.</p>
 </div>
 <div class="tab-pane" id="binary" role="tabpanel" aria-labelledby="binary-tab">
 
+<p>For the binary example, generate Bernoulli random variable, <span class="math inline">\(Y\)</span>, whose mean depends on covariates <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Binary example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -191,7 +226,17 @@ Interpretation here</p>
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">beta3</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
 <span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">beta3</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">q1</span><span class="op">)</span></span></code></pre></div>
+<p>Then, the exact <span class="math inline">\(Y\)</span> follows the
+distribution as follows: <span class="math display">\[
+Y \sim \text{Ber}(p) \quad \text{where } p =
+\frac{1}{1+e^{-\beta_0-\beta_1x_1-\beta_2x_2-\beta_4x_1x_2}}
+\]</span> In contrast to the preceding examples, we introduce the
+interaction term between <span class="math inline">\(x_1\)</span> and
+<span class="math inline">\(x_2.\)</span> Consequently, the omission of
+<span class="math inline">\(x_2\)</span> in the model is anticipated to
+result in a non-diagonal QQ-plot.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -201,10 +246,18 @@ Interpretation here</p>
 <span><span class="co"># Missing covariates</span></span>
 <span><span class="va">model02</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y1</span> <span class="op">~</span> <span class="va">x1</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model02</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="disc_files/figure-html/bin2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="disc_files/figure-html/bin2-1.png" width="960" style="display: block; margin: auto;">
+The true model, distinguished as <code>model1</code>, is visually
+represented in the left panel, showcasing an alignment with the red
+diagonal line. This alignment serves as an indicator of the model’s
+adherence to the expected pattern. On the other hand,
+<code>model2</code>, made without the inclusion of the variable <span class="math inline">\(x_2\)</span>, presents a deviation from the
+prescribed red diagonal line.</p>
 </div>
 <div class="tab-pane" id="ordinal" role="tabpanel" aria-labelledby="ordinal-tab">
 
+<p>Our <code><a href="../reference/resid_disc.html">resid_disc()</a></code> function is also applicable to ordinal
+regression fitted by <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Ordinal example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -227,7 +280,10 @@ Interpretation here</p>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">multimodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>True model here</p>
+<p>We generate a multinomial random variable depending on <span class="math inline">\(x_1\)</span> in such a way that <span class="math display">\[
+(Y_1, Y_2, Y_3) \sim \text{multi}(2;\ p_1, p_2, p_3) \quad \text{where }
+\sum_{i=1}^3 p_i = 1   
+\]</span></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Non-Proportionality</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -236,7 +292,7 @@ Interpretation here</p>
 <span><span class="va">beta1</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">1</span>, location <span class="op">=</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">4</span>, location <span class="op">=</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span> <span class="op">-</span> <span class="va">p0</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">4</span>, location <span class="op">=</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x1</span><span class="op">)</span> <span class="op">-</span> <span class="va">p0</span> </span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">p0</span> <span class="op">-</span> <span class="va">p1</span></span>
 <span><span class="va">genemult</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
@@ -247,12 +303,24 @@ Interpretation here</p>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">multimodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>Non proportinality here</p>
+<p>However, we opted for the utilization of <code>beta2</code> instead
+of <code>beta1.</code> This deliberate selection was made with the
+specific aim of creating a non-proportional scenario, introducing
+variability in the influence of variables on the model that deviates
+from the model assumption.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="disc_files/figure-html/ordinal%203-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="disc_files/figure-html/ordinal%203-1.png" width="960" style="display: block; margin: auto;">
+As a result, when considering the diagnostic assessment through
+QQ-plots, <code>model1</code> exhibits a diagonal QQ-plot, indicating a
+favorable alignment with the underlying assumptions. In contrast, the
+QQ-plot associated with <code>model2</code> deviates from the expected
+diagonal line, suggesting a departure from the idealized model
+assumptions. This discrepancy underscores the importance of careful
+consideration and inclusion of relevant variables in model specification
+to ensure the robustness and validity of statistical models.</p>
 </div>
 </div>
 </div>
