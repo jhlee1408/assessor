@@ -10,12 +10,12 @@ knitr::opts_chunk$set(
 ```
 
 
-### Two part models {.tabset .tabset-pills}
+### Two part models {.tabset}
 The input arguments for the `resid_2pm()` function differ from those of other functions in `assessor`. Specifically, users can utilize this function with either models or Probability Integral Transform (PIT) as input.
 
-For instance, if the two-part model you wish to assess for distribution assumption comprises logistic and gamma regression, you should provide the logistic regression model object as the argument for `model0` and the gamma regression model object for `model1.` We recommend using the model input when assessing a gamma+logistic two-part model. Alternatively, users can directly use PIT as input if their two-part model is not a gamma+logistic combination. In such cases, users should first calculate the PIT and then input the results into `part0` and `part1`, respectively.
+For instance, in evaluating the distribution assumption of a two-part model that combines logistic and gamma regression, you should provide the logistic regression model object as the argument for `model0` and the gamma regression model object for `model1`. We recommend utilizing the model input when assessing a gamma+logistic two-part model. Alternatively, users can directly use PIT as input if their two-part model does not consist of a gamma+logistic combination. In such cases, users should first calculate the PIT and then input the results into `part0` and `part1`, respectively.
 
-This function accommodates two combinations: either `model0` or `part0` in combination with either `model1` or `part1`. Note that it is essential to specify the `y` (outcome) values in the function arguments.
+This function accommodates two combinations: either `model0` or `part0` in conjunction with either `model1` or `part1`. Note that it is essential to specify the `y` (outcome) values in the function arguments.
 
 #### Models as input
 ```{r model as input}

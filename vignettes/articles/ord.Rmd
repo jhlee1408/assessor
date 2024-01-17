@@ -31,3 +31,6 @@ ord_curve(model0,thr=model0$fitted.values)
 model1 <- glm(y1~x1,family =binomial(link = "logit") )
 ord_curve(model1,thr=x2) 
 ```
+
+
+

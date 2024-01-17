@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 
-### Discrete outcome regression models {.tabset .tabset-pills}
+### Discrete outcome regression models {.tabset}
 `resid_disc()` is used for calculating the DPIT residuals for regression models with discrete outcomes and drawing corresponding QQ-plots. The suitable model objects are as follows: 
 
 * Negative Binomial, `MASS::glm.nb()` 

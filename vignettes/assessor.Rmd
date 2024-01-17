@@ -44,7 +44,7 @@ Some users may only need the QQ-plot. In that case, `qqresid()` only returns the
 ## Example
 This tab explains 
 
-```{r example, fig.width= 7}
+```{r example, fig.width= 7, fig.height=3}
 library(assessor)
 library(faraway) 
 library(MASS)
