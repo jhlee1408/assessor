@@ -22,6 +22,7 @@
 #' and \eqn{\hat{p}_0} refers to the fitted probability of being zero.
 #'
 #'
+#' @references Lu Yang (2024). Diagnostics for Regression Models with Semicontinuous Outcomes, Biometrics, https://arxiv.org/abs/2401.06347
 #'
 #' @importFrom stats ecdf
 #' @import tweedie
