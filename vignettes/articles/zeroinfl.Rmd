@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Zero-Inflation regression models {.tabset}
+### Zero-Inflation regression models {.tabset .tabset-pills}
 `resid_zeroinfl()` is used for calculating the DPIT residuals for regression models with zero-inflation outcomes and drawing corresponding QQ-plots. The suitable model objects are as follows: 
 
 * Zero-Inflated Poisson, `pscl::zeroinfl(dist = "poisson")` 

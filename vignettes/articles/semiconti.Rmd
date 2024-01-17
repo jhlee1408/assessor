@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Semicontinuous outcome regression models {.tabset}
+### Semicontinuous outcome regression models {.tabset .tabset-pills}
 `resid_semiconti()` is used for calculating the DPIT residuals for regression models with semicontinuous outcomes and drawing corresponding QQ-plots. Specifically, a Tobit regression and a Tweedie regression model are suitable models for `resid_semiconti()`. The suitable model objects are as follows: 
 
 * Tweedie, `glm(family= tweedie())`
