@@ -81,6 +81,9 @@ fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
 resid.aer1 <- resid_semiconti(fit2, plot = TRUE)
 resid.aer2 <- resid_semiconti(fit2miss, plot = TRUE)
 }
+\references{
+Lu Yang (2024). Diagnostics for Regression Models with Semicontinuous Outcomes, Biometrics, https://arxiv.org/abs/2401.06347
+}
 \seealso{
 \code{\link[=resid_2pm]{resid_2pm()}}
 }
