@@ -20,15 +20,6 @@ The goal of assessor is to provide assessment tools for regression models with d
 integral transform (DPIT) residuals, constructs QQ plots of residuals and the ordered curve for assessing mean 
 structures.
 
-## Installation
-
-You can install the development version of `assessor` from [GitHub](https://github.com/jhlee1408/assessor) 
-with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("jhlee1408/assessor")
-```
 
 ## General function arguments
 In `assessor`, there are functions for assessing DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. `resid_disc()`, `resid_zeroinfl()`, `resid_semiconti()` and `resid_2pm()` are functions evaluating DPIT residuals. 

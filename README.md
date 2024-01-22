@@ -10,3 +10,13 @@ models with discrete and semicontinuous outcomes proposed in [Yang
 (2023)](https://arxiv.org/pdf/2308.15596.pdf). It calculates the double
 probability integral transform (DPIT) residuals, constructs QQ plots of
 residuals and the ordered curve for assessing mean structures.
+
+## Installation
+
+You can install the development version of `assessor` from
+[GitHub](https://github.com/jhlee1408/assessor) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jhlee1408/assessor")
+```

@@ -177,7 +177,7 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
     empcdf <- resid.bin(model)
   }
   if (model.family == "multi" && polr.test) {
-    empcdf <- resid.logi(model)
+    empcdf <- resid.ordi(model)
   }
 
   if (plot == T) {
