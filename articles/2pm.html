@@ -48,7 +48,7 @@
     <a class="dropdown-item" href="../articles/disc.html">Discrete</a>
     <a class="dropdown-item" href="../articles/ord.html">Ordered curve</a>
     <a class="dropdown-item" href="../articles/semiconti.html">Semicontinuous</a>
-    <a class="dropdown-item" href="../articles/zeroinfl.html">Zeroinfl</a>
+    <a class="dropdown-item" href="../articles/zeroinfl.html">Zero-inflated</a>
   </div>
 </li>
       </ul>
@@ -91,18 +91,18 @@
 from those of other functions in <code>assessor</code>. Specifically,
 users can utilize this function with either models or Probability
 Integral Transform (PIT) as input.</p>
-<p>For instance, if the two-part model you wish to assess for
-distribution assumption comprises logistic and gamma regression, you
-should provide the logistic regression model object as the argument for
+<p>For instance, in evaluating the distribution assumption of a two-part
+model that combines logistic and gamma regression, you should provide
+the logistic regression model object as the argument for
 <code>model0</code> and the gamma regression model object for
-<code>model1.</code> We recommend using the model input when assessing a
-gamma+logistic two-part model. Alternatively, users can directly use PIT
-as input if their two-part model is not a gamma+logistic combination. In
-such cases, users should first calculate the PIT and then input the
-results into <code>part0</code> and <code>part1</code>,
-respectively.</p>
+<code>model1</code>. We recommend utilizing the model input when
+assessing a gamma+logistic two-part model. Alternatively, users can
+directly use PIT as input if their two-part model does not consist of a
+gamma+logistic combination. In such cases, users should first calculate
+the PIT and then input the results into <code>part0</code> and
+<code>part1</code>, respectively.</p>
 <p>This function accommodates two combinations: either
-<code>model0</code> or <code>part0</code> in combination with either
+<code>model0</code> or <code>part0</code> in conjunction with either
 <code>model1</code> or <code>part1</code>. Note that it is essential to
 specify the <code>y</code> (outcome) values in the function
 arguments.</p>
