@@ -1,10 +1,3 @@
-inv.pois <- function(s, mu.hat) {
-  qres <- qpois(s, lambda = mu.hat) - 1
-  pres <- ppois(qres, lambda = mu.hat)
-  return(pres)
-}
-
-
 resid.pois <- function(model) {
   # fitted.values
   y <- model$model[, 1]
@@ -12,9 +5,12 @@ resid.pois <- function(model) {
   n <- length(y)
   res <- ppois(y, lambda = lambda1f)
 
-  # residuals
-  pres <- sapply(res, inv.pois, lambda1f)
-  diag(pres) <- 0
-  empcdf <- apply(pres, 2, sum) / (n - 1)
+  empcdf <- rep(NA,n)
+  for(i in 1:n){
+    qres <- qpois(res[i], lambda=lambda1f)-1
+    pres <- ppois(qres,lambda = lambda1f)
+    pres[i] <- 0
+    empcdf[i] <-sum(pres)/(n-1)
+  }
   return(empcdf)
 }

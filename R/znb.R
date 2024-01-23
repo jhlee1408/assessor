@@ -18,8 +18,11 @@ resid.znb <- function(model) {
   res <- (pzero + (1 - pzero) * (pnbinom(y, size = size1f, mu = mu.hat)))
 
   # residuals
-  pres <- sapply(res, inv.znb, pzero, mu.hat, size1f)
-  diag(pres) <- 0
-  empcdf <- apply(pres, 2, sum) / (n - 1)
+  empcdf <- rep(NA,0)
+  for(i in 1:n){
+    pres <- inv.znb(res[i], pzero, mu.hat, size1f)
+    pres[i] <-0
+    empcdf[i] <- sum(pres)/(n-1)
+  }
   return(empcdf)
 }
