@@ -42,7 +42,6 @@ qres <- ifelse(res < (pzero + (1 - pzero) * (ppois(0, lambda = meanpoisson))), 0
 pres <- ifelse(qres==-1,0,(pzero + (1 - pzero) * (ppois(qres, meanpoisson))))
 diag(pres) <- 0
 zero.resid1 <- qnorm(apply(pres,2,sum)/(n-1))
-names(zero.resid1) <- 1:500
 
 
 
