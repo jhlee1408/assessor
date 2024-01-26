@@ -1,21 +1,3 @@
-## Binary example
-n <- 500
-set.seed(1234)
-# Covariates
-x1 <- rnorm(n, 1, 1)
-x2 <- rbinom(n, 1, 0.7)
-# Coefficients
-beta0 <- -5
-beta1 <- 2
-beta2 <- 1
-beta3 <- 3
-q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
-y1 <- rbinom(n, size = 1, prob = 1 - q1)
-
-# True model
-model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-
-
 resid.bin <- function(model) {
   # fitted.values
   y <- model$y
