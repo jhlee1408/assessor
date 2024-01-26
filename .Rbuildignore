@@ -9,3 +9,5 @@
 ^README\.Rmd$
 ^\.github$
 vignettes/
+^README\.md$
+^NEWS\.md$
