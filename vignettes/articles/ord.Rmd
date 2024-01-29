@@ -1,5 +1,5 @@
 ---
-title: "Ordered curve"
+title: "`ord_curve()`: Ordered curve"
 ---
 
 ```{r, include = FALSE}
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 ### Assessing the mean structure 
 `ord_curve()`creates a plot to assess the mean structure of regression models. The plot compares the cumulative sum of the response variable and its hypothesized value. Deviation from the diagonal suggests the possibility that the mean structure of the model is incorrect.
 
-Ordered curve method is not restricted to a discrete outcome regression model. This function also supports a continuous outcome regression such as `lm()` object as well as `glm`, `glm.nb`, or `polr`.
+Ordered curve method is not restricted to a discrete outcome regression model. This function also supports a continuous outcome regression such as `lm` object as well as `glm`, `glm.nb`, or `polr`.
 
 #### Example
 ```{r ord curve poisson, fig.align='center', fig.width=10}
@@ -31,6 +31,8 @@ ord_curve(model0,thr=model0$fitted.values)
 model1 <- glm(y1~x1,family =binomial(link = "logit") )
 ord_curve(model1,thr=x2) 
 ```
+The figures above illustrate ordered curves plots corresponding to `model0` and `model1`. In the left panel, the curve closely aligns with the diagonal line, indicating that the mean structure of `model0` is correctly specified. On the contrary, `model1` exhibits a deviation from the diagonal line due to the omission of the variable $x_2$. This misspecification, coupled with the choice of the threshold value as $x_2$, results in the observed discrepancy in the ordered curve in the right panel.
 
+The substantial disparity between the observed curve in `model1` and the diagonal line strongly suggests the necessity of including the variable $x_2$ in the model. This inclusion is crucial for accurately capturing the underlying mean structure. 
 
 

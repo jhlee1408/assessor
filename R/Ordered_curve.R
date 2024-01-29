@@ -31,8 +31,15 @@
 #'
 #' @usage ord_curve(model, thr)
 #'
-#' @param model Regression model object (e.g., `glm`, `glm.nb`, `polr`, `lm`)
+#' @param model Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`, `lm`)
 #' @param thr Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
+#'
+#' @returns
+#' \itemize{
+#'  \item x-axis: \eqn{\hat L_1(t)}
+#'  \item y-axis: \eqn{\hat L_2(t)}
+#' }
+#' which are defined in Details.
 #'
 #' @importFrom graphics abline
 #'
@@ -94,7 +101,7 @@ ord_curve <- function(model, thr) {
 
   q10 <- model$fitted.values
 
-  plot(cumsum((q10[sort(thr, index.return = TRUE)$ix])) / sum(q10), # X
+  plot(cumsum((q10[sort(thr, index.return = TRUE)$ix])) / sum(q10),
     cumsum(y1[sort(thr, index.return = TRUE)$ix]) / sum(y1),
     main = paste("Z:", deparse(substitute(thr))),
     xlab = expression(L[2](t)), ylab = expression(L[1](t)),

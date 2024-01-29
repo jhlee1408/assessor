@@ -1,5 +1,5 @@
 ---
-title: "Zero-inflated"
+title: "`resid_zeroinfl()`: Zero-inflated discrete outcome"
 ---
 
 ```{r, include = FALSE}
@@ -41,6 +41,7 @@ y0 <- rbinom(n, size = 1, prob = 1 - p0)
 y1 <- rpois(n, lambda1)
 y <- ifelse(y0 == 0, 0, y1)
 ```
+In this analysis, we generate a zero-inflated Poisson random variable denoted as `y`, which is dependent on the variables `x1` and `x2`. The simulation involves modeling the occurrence of zeros in the variable `y` through a zero-inflated Poisson distribution.
 
 ```{r 2, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
@@ -52,9 +53,9 @@ resid1 <- resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resid2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
 ```
+The figure above illustrates QQ plots corresponding to `modelzero1` and `modelzero2`. Given that the true underlying distribution of `y` follows a zero-inflated Poisson distribution, we anticipate observing deviations from the diagonal line in the QQ plot of `modelzero2`. As expected, the left QQ plot aligns closely along the diagonal line. However, in the right panel, both the left and right tails of the QQ plot for `modelzero2` deviate from the diagonal line, indicating that the assumption of a Poisson distribution may not be accurate.
 
-
-
+The discrepancies observed in the QQ plot of `modelzero2` suggest that the Poisson distribution assumption is not well-supported by the data. This finding emphasizes the importance of considering alternative distributional assumptions, such as the zero-inflated Poisson distribution, which may better capture the characteristics of the simulated data.
 
 #### Zero-Inflation Negative Binomial
 ```{r zero bn, message=FALSE, fig.align='center', fig.width=10}
@@ -84,8 +85,10 @@ p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
 y0 <- rbinom(n, size = 1, prob = 1 - p0)
 y1 <- rnbinom(n, size=size1, mu= lambda1)
 y <- ifelse(y0 == 0, 0, y1)
+```
+Similarly, we generate a zero-inflated Negative Binomial random variable denoted as `y`, which is dependent on the variables `x1` and `x2`. The simulation involves modeling the occurrence of zeros in the variable `y` through a zero-inflated Negative Binomial distribution.
 
-
+```{r zero2 nb}
 model.negbin1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin")
 model.negbin2 <- glm.nb(y ~ x1 + x2)
 
@@ -93,7 +96,4 @@ par(mfrow=c(1,2))
 resid.zero1 <- resid_zeroinfl(model.negbin1, plot = TRUE, scale = "uniform")
 resid.zero2 <- resid_disc(model.negbin2, plot = TRUE, scale = "normal")
 ```
-
-
-
-
+The figure also presents QQ plots corresponding to `model.negbin1` and `model.negbin2`. In contrast to our simulation setting, `model.negbin2` assumes a Negative Binomial distribution rather than a zero-inflated Negative Binomial distribution. Consequently, the right panel of the figure displays deviations at both the left and right tails. While these deviations may not be substantial, a comparison with the left panel suggests that the QQ plots lean towards supporting the zero-inflated Negative Binomial regression.

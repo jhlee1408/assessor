@@ -7,9 +7,16 @@
 ord_curve(model, thr)
 }
 \arguments{
-\item{model}{Regression model object (e.g., \code{glm}, \code{glm.nb}, \code{polr}, \code{lm})}
+\item{model}{Regression model object (e.g.,\code{lm}, \code{glm}, \code{glm.nb}, \code{polr}, \code{lm})}
 
 \item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
+}
+\value{
+\itemize{
+\item x-axis: \eqn{\hat L_1(t)}
+\item y-axis: \eqn{\hat L_2(t)}
+}
+which are defined in Details.
 }
 \description{
 Creates a plot to assess the mean structure of regression models. The

@@ -1,5 +1,5 @@
 ---
-title: "Discrete"
+title: "resid_disc(): Discrete outcome"
 ---
 
 ```{r, include = FALSE}
@@ -174,10 +174,7 @@ y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
 ```
-We generate a multinomial random variable depending on $x_1$ in such a way that
-$$
-(Y_1, Y_2, Y_3) \sim \text{multi}(2;\ p_1, p_2, p_3) \quad \text{where } \sum_{i=1}^3 p_i = 1   
-$$
+We simulate the ordinal random variable $Y$ which takes on the values $0,1$ and $2$ with probabilities depending on $x_1$. Given the simulation setting, an appropriate model to use is `model1`.
 
 ```{r ordinal 2}
 ## Non-Proportionality
