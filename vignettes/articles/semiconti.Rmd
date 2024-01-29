@@ -1,5 +1,5 @@
 ---
-title: "`resid_semiconti()`: Semicontinuous outcome"
+title: "Semicontinuous"
 ---
 
 ```{r, include = FALSE}

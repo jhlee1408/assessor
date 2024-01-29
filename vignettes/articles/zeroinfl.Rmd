@@ -1,5 +1,5 @@
 ---
-title: "`resid_zeroinfl()`: Zero-inflated discrete outcome"
+title: "Zero-inflated discrete"
 ---
 
 ```{r, include = FALSE}

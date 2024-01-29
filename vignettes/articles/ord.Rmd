@@ -1,5 +1,5 @@
 ---
-title: "`ord_curve()`: Ordered curve"
+title: "Ordered curve"
 ---
 
 ```{r, include = FALSE}
