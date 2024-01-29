@@ -44,11 +44,11 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/2pm.html">Two part</a>
-    <a class="dropdown-item" href="../articles/disc.html">Discrete</a>
-    <a class="dropdown-item" href="../articles/ord.html">Ordered curve</a>
-    <a class="dropdown-item" href="../articles/semiconti.html">Semicontinuous</a>
-    <a class="dropdown-item" href="../articles/zeroinfl.html">Zero-inflated</a>
+    <a class="dropdown-item" href="../articles/2pm.html">`resid_2pm()`: Two part regression</a>
+    <a class="dropdown-item" href="../articles/disc.html">resid_disc(): Discrete outcome</a>
+    <a class="dropdown-item" href="../articles/ord.html">`ord_curve()`: Ordered curve</a>
+    <a class="dropdown-item" href="../articles/semiconti.html">`resid_semiconti()`: Semicontinuous outcome</a>
+    <a class="dropdown-item" href="../articles/zeroinfl.html">`resid_zeroinfl()`: Zero-inflated discrete outcome</a>
   </div>
 </li>
       </ul>
@@ -117,9 +117,15 @@ uniform scale. The default scale is <code>normal</code></p></li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h3 id="real-data-example">Real data example<a class="anchor" aria-label="anchor" href="#real-data-example"></a>
 </h3>
-<p>This tab explains</p>
+<p>The <code>solder</code> data, extracted from the <code>faraway</code>
+package, lends itself to fitting through either Poisson regression or
+Negative Binomial regression. The selection between these models depends
+on the underlying distribution characteristics of the data. To validate
+the distribution assumption, a comprehensive approach involves assessing
+the DPIT residuals and scrutinizing the QQ plot derived from these
+residuals.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/julianfaraway/faraway" class="external-link">faraway</a></span><span class="op">)</span> </span>
@@ -136,7 +142,23 @@ uniform scale. The default scale is <code>normal</code></p></li>
 <span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modp</span>,plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
 <span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">T</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="assessor_files/figure-html/example-1.png" width="672"></p>
+<p><img src="assessor_files/figure-html/example-1.png" width="672">
+The figure above depicts three versions of QQ plots. The second and
+third plots essentially represent the same graph, corresponding to the
+QQ plot for Negative Binomial regression (<code>modpnb</code>). Both
+plots align closely along the diagonal line, suggesting that the
+assumption of Negative Binomial distribution appears appropriate. The
+only distinction between them lies in the <code>scale</code> parameter;
+the middle panel displays the plot in normal scale, with the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes spanning values larger than 1,
+while the right panel limits the axes to a range of 0 to 1.</p>
+<p>Conversely, the left panel corresponds to the QQ plot from Poisson
+regression (<code>modp</code>). In this plot, a slight deviation from
+the diagonal line is observed. Consequently, we can infer that the
+outcome variable, <code>skips</code>, is more likely to follow a
+Negative Binomial distribution rather than a Poisson distribution. This
+inference is drawn based on the examination of QQ plots generated by
+DPIT residuals, highlighting the suitability of the Negative Binomial
+model for capturing the distributional characteristics of the data.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -31,11 +31,11 @@ Deviation from the diagonal suggests the possibility that the mean structure of 
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/2pm.html">Two part</a>
-    <a class="dropdown-item" href="../articles/disc.html">Discrete</a>
-    <a class="dropdown-item" href="../articles/ord.html">Ordered curve</a>
-    <a class="dropdown-item" href="../articles/semiconti.html">Semicontinuous</a>
-    <a class="dropdown-item" href="../articles/zeroinfl.html">Zero-inflated</a>
+    <a class="dropdown-item" href="../articles/2pm.html">`resid_2pm()`: Two part regression</a>
+    <a class="dropdown-item" href="../articles/disc.html">resid_disc(): Discrete outcome</a>
+    <a class="dropdown-item" href="../articles/ord.html">`ord_curve()`: Ordered curve</a>
+    <a class="dropdown-item" href="../articles/semiconti.html">`resid_semiconti()`: Semicontinuous outcome</a>
+    <a class="dropdown-item" href="../articles/zeroinfl.html">`resid_zeroinfl()`: Zero-inflated discrete outcome</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -73,13 +73,21 @@ Deviation from the diagonal suggests the possibility that the mean structure of 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>model</dt>
-<dd><p>Regression model object (e.g., <code>glm</code>, <code>glm.nb</code>, <code>polr</code>, <code>lm</code>)</p></dd>
+<dd><p>Regression model object (e.g.,<code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>polr</code>, <code>lm</code>)</p></dd>
 
 
 <dt>thr</dt>
 <dd><p>Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<ul><li><p>x-axis: \(\hat L_1(t)\)</p></li>
+<li><p>y-axis: \(\hat L_2(t)\)</p></li>
+</ul><p>which are defined in Details.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The ordered curve plots $$\hat{L}_1(t)=\frac{\sum_{i=1}^n\left[Y_i1(Z_i\leq t)\right]}{\sum_{i=1}^nY_i}$$ against
