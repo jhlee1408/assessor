@@ -22,8 +22,12 @@ The goal of assessor is to provide assessment tools for regression models with d
 
 
 ## Installation
+Install the latest release from CRAN:
+``` r
+install.package('assessor')
+```
 
-You can install the development version of `assessor` from [GitHub](https://github.com/jhlee1408/assessor) 
+Also, you can install the development version of `assessor` from [GitHub](https://github.com/jhlee1408/assessor) 
 with:
 
 ``` r

@@ -14,7 +14,13 @@ plots of residuals and the ordered curve for assessing mean structures.
 
 ## Installation
 
-You can install the development version of `assessor` from
+Install the latest release from CRAN:
+
+``` r
+install.package('assessor')
+```
+
+Also, you can install the development version of `assessor` from
 [GitHub](https://github.com/jhlee1408/assessor) with:
 
 ``` r
