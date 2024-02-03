@@ -17,6 +17,12 @@ For instance, in evaluating the distribution assumptions of a two-part model tha
 
 This function accommodates two combinations: either `model0` in conjunction with `model1` or `part0` in conjunction with `part1`. Note that it is essential to specify the `y` (outcome) values in the function arguments.
 
+
+The underlying model  is a two-part model. The probability of zero is  $$p_0(\mathbf{X})=\text{logit}^{-1}\left(\beta_0+X_{1}\beta_{1}+X_{2}\beta_{2} \right),$$
+where $X_1$ is a standard normal variable,  $X_2$ is binary with probability of one as 0.4, and $(\beta_0,\beta_{1},\beta_{2})=(1,-2,-1)$.  
+A gamma distribution is employed to generate positive data. The mean function of the positive part is described as $$\lambda_S=\exp\left(\beta_{0S}+\beta_{1S}X_1+\beta_{2S}X_2\right).$$ 
+We let  $(\beta_{0S},\beta_{1S},\beta_{2S})=(-1,-1,-2)$. The dispersion parameter is set to be 0.5.
+
 #### Models as input
 ```{r model as input}
 library(assessor)

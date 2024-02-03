@@ -21,6 +21,11 @@ knitr::opts_chunk$set(
 
 #### Negative binomial
 An example of the usage of the `resid_disc()` function for a negative binomial regression is included below. 
+The data are generated using a negative binomial distribution with  mean   $\mu =  \exp\left(\beta_0 +X_1\beta_1+X_2\beta_2\right)$, where $X_1 \sim N(0,1)$, and $X_2$ is binary with a probability of success as 0.7. 
+The coefficients  are set as $\beta_0 = -2, \beta_1 = 2$, and  $\beta_2=1$. The underlying size parameter is 2. 
+To assess model assumptions, one can employ a QQ-plot generated through either `reisd_disc()` or `qqresid()`.
+
+
 ```{r discrete outcomes nb}
 library(assessor)
 library(MASS)
@@ -42,12 +47,6 @@ lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 y <- rnbinom(n, mu = lambda1, size = size1)
 ```
 
-The true mean of $Y$ is intricately linked to both $x_1$  and $x_2$, defined by the following relationship:
-$$
- Y \sim \text{NB}(r=2, \mu = exp(\beta_0 + \beta_1x_1 + \beta_2x_2)).
-$$
-Consequently, using a Poisson GLM would result in the violation of the model assumption. 
-To assess model assumptions, one can employ a QQ-plot generated through either `reisd_disc()` or `qqresid()`.
 
 ```{r nb res, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
@@ -59,12 +58,20 @@ resd1 <- resid_disc(model1, plot = TRUE, scale = "normal")
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
 ```
-The `model1` is correctly specified as a GLM with a negative binomial distribution, whereas `model2` incorrectly assumes the Poisson family. The interpretation of the plots aligns with a standard QQ-plot used in regression models assuming normal distribution. The left panel displays a diagonal QQ-plot along the straight red line, indicative of the model assumption holding. In contrast, the right panel deviates from a diagonal line, suggesting a lack of adherence to the assumption. Consequently, we can say that the model assumption holds when the QQ-plot is diagonal, and it does not hold when the plot deviates.
+The `model1` is correctly specified as a GLM with a negative binomial distribution, whereas `model2` incorrectly assumes the Poisson family, and thus overdispersion is present.
+The left panel displays a diagonal QQ-plot along the straight red line, indicative of the model assumption holding. 
+In contrast, the right panel deviates from a diagonal line, suggesting a lack of adherence to the assumption. 
 In addition, in an overdispersed model, due to the underestimated variance, a S-shaped pattern presents in the QQ-plot.
 
 
 #### Poisson
 Similarly, we can simulate a Poisson random variable using covariates $x_1$ and $x_2$.
+The true mean of $Y$ is intricately connected to both $x_1$ and $x_2$, as expressed in the ensuing relationship:
+$$
+Y \sim \text{Poisson}(\lambda = \exp(\beta_0 + \beta_1 x_1 + \beta_2 x_2)),
+$$
+where $\beta_0=-2,~\beta_1=2,~\beta_2=1$.
+
 ```{r poisson}
 ## Poisson example
 n <- 500
@@ -80,11 +87,9 @@ beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
 y <- rpois(n, lambda1)
 ```
-The true mean of $Y$ is intricately connected to both $x_1$ and $x_2$, as expressed in the ensuing relationship:
-$$
-Y \sim \text{Poisson}(\lambda = \exp(\beta_0 + \beta_1 x_1 + \beta_2 x_2)).
-$$
 
+
+We manually enlarged three outcomes by adding values of 10, 15, and 20 to them, respectively. In the right panel, we can see the three modified data points stand out, signaling they are potential outliers.
 
 
 ```{r poisson 2, fig.align='center', fig.width=10}
@@ -99,12 +104,12 @@ poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resid2 <- resid_disc(poismodel2, plot = TRUE)
 ```
 
-We manually enlarged three outcomes by adding values of 10, 15, and 20 to them, respectively. In the right panel above, we can see the three modified data points stand out, signaling they are potential outliers.
 
 
 
 #### Binary
 For the binary example, generate Bernoulli random variable, $Y$, whose mean depends on covariates $x_1$ and $x_2$. 
+The underlying model is a logistic regression with the probability of 1 as $\mathrm{logit}^{-1}(\beta_0+\beta_1 X_1+\beta_2 X_2+\beta_3X_1 X_2)$, where $(\beta_0,\beta_1,\beta_2,\beta_3)=(-5,2,1,3)$, $X_1\sim N(1,1)$, and $X_2$ is a dummy variable with a probability of one equal to 0.7. 
 ```{r bin 1}
 ## Binary example
 n <- 500
@@ -121,13 +126,8 @@ q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
 
 y1 <- rbinom(n, size = 1, prob = 1 - q1)
 ```
-Then, the exact $Y$ follows the distribution as follows:
-$$
-Y \sim \text{Ber}(p) \quad \text{where } p = \frac{1}{1+e^{-\beta_0-\beta_1x_1-\beta_2x_2-\beta_4x_1x_2}}
-$$
-In contrast to the preceding examples, we introduce the interaction term between $x_1$ and $x_2.$ 
-Consequently, the omission of $x_2$ in the model is anticipated to result in a non-diagonal QQ-plot.
 
+For the misspecified model, the binary covariate and the interaction term are omitted.
 
 ```{r bin2,  fig.align='center', fig.width=10} 
 par(mfrow=c(1,2))
@@ -140,7 +140,7 @@ model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
 resid2 <- resid_disc(model02, plot = TRUE)
 ```
 The true model, distinguished as `model1`, is visually represented in the left panel, showcasing an alignment with the red diagonal line. This alignment serves as an indicator of the model's adherence to the expected pattern. 
-On the other hand, `model2`, made without the inclusion of the variable $x_2$, presents a deviation 
+On the other hand, `model2`, made without the inclusion of the variable $x_2$ and the interaction, presents a deviation 
 from the prescribed red diagonal line. 
 
 
