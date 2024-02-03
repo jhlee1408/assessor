@@ -22,7 +22,7 @@ structures.
 
 
 ## General function arguments
-In `assessor`, there are functions for assessing DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. `resid_disc()`, `resid_zeroinfl()`, `resid_semiconti()` and `resid_2pm()` are functions evaluating DPIT residuals. 
+In `assessor`, there are functions for calculating DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. `resid_disc()`, `resid_zeroinfl()`, `resid_semiconti()`, and `resid_2pm()` are functions evaluating DPIT residuals for discrete, zero-inflated discrete, semicontinuous, and two-part outcomes, respectively. 
 They share the same arguments:
 
 * `model`: Each function supports different types of model objects. Check below which model objects are applicable.
