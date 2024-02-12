@@ -96,9 +96,12 @@ is incorrect.</p>
 regression model. This function also supports a continuous outcome
 regression such as <code>lm</code> object as well as <code>glm</code>,
 <code>glm.nb</code>, or <code>polr</code>.</p>
-<div class="section level4">
-<h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h4>
+<p>In the example below, the underlying model is a logistic regression
+with the probability of 1 as <span class="math inline">\(\mathrm{logit}^{-1}(\beta_0+\beta_1 X_1+\beta_2
+X_2+\beta_3X_1 X_2)\)</span>, where <span class="math inline">\((\beta_0,\beta_1,\beta_2,\beta_3)=(-5,2,1,3)\)</span>,
+<span class="math inline">\(X_1\sim N(1,1)\)</span>, and <span class="math inline">\(X_2\)</span> is a dummy variable with a
+probability of one equal to 0.7. For the misspecified model, the binary
+covariate and the interaction term are omitted. #### Example</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
 <span><span class="co">## Binary example of ordered curve</span></span>
@@ -128,9 +131,7 @@ in the ordered curve in the right panel.</p>
 necessity of including the variable <span class="math inline">\(x_2\)</span> in the model. This inclusion is
 crucial for accurately capturing the underlying mean structure.</p>
 </div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 

@@ -91,21 +91,30 @@
 from those of other functions in <code>assessor</code> package.
 Specifically, users can utilize this function with either models or
 Probability Integral Transform (PIT) as input.</p>
-<p>For instance, in evaluating the distribution assumption of a two-part
-model that combines logistic and gamma regression, you should provide
-the logistic regression model object as the argument for
+<p>For instance, in evaluating the distribution assumptions of a
+two-part model that combines a logistic and a gamma regression, you
+should provide the logistic regression model object as the argument for
 <code>model0</code> and the gamma regression model object for
 <code>model1</code>. We recommend utilizing the model input when
-assessing a gamma+logistic two-part model. Alternatively, users can
-directly use PIT as input if their two-part model does not consist of a
+assessing a gamma + logistic two-part model. Alternatively, users can
+directly use the PIT as input if their two-part model is not a
 gamma+logistic combination. In such cases, users should first calculate
-the PIT and then input the results into <code>part0</code> and
-<code>part1</code>, respectively.</p>
+the PIT and then input into <code>part0</code> and <code>part1</code>,
+respectively.</p>
 <p>This function accommodates two combinations: either
-<code>model0</code> or <code>part0</code> in conjunction with either
-<code>model1</code> or <code>part1</code>. Note that it is essential to
-specify the <code>y</code> (outcome) values in the function
-arguments.</p>
+<code>model0</code> in conjunction with <code>model1</code> or
+<code>part0</code> in conjunction with <code>part1</code>. Note that it
+is essential to specify the <code>y</code> (outcome) values in the
+function arguments.</p>
+<p>The underlying model is a two-part model. The probability of zero is
+<span class="math display">\[p_0(\mathbf{X})=\text{logit}^{-1}\left(\beta_0+X_{1}\beta_{1}+X_{2}\beta_{2}
+\right),\]</span> where <span class="math inline">\(X_1\)</span> is a
+standard normal variable, <span class="math inline">\(X_2\)</span> is
+binary with probability of one as 0.4, and <span class="math inline">\((\beta_0,\beta_{1},\beta_{2})=(1,-2,-1)\)</span>.<br>
+A gamma distribution is employed to generate positive data. The mean
+function of the positive part is described as <span class="math display">\[\lambda_S=\exp\left(\beta_{0S}+\beta_{1S}X_1+\beta_{2S}X_2\right).\]</span>
+We let <span class="math inline">\((\beta_{0S},\beta_{1S},\beta_{2S})=(-1,-1,-2)\)</span>.
+The dispersion parameter is set to be 0.5.</p>
 
 
 <ul class="nav nav-pills" id="two-part-models" role="tablist">

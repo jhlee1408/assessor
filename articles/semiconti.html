@@ -89,10 +89,11 @@
 models<a class="anchor" aria-label="anchor" href="#semicontinuous-outcome-regression-models"></a>
 </h3>
 <p><code><a href="../reference/resid_semiconti.html">resid_semiconti()</a></code> is used for calculating the DPIT
-residuals for regression models with semicontinuous outcomes and drawing
-corresponding QQ-plots. Specifically, a Tobit regression and a Tweedie
-regression model are suitable models for <code><a href="../reference/resid_semiconti.html">resid_semiconti()</a></code>.
-The suitable model objects are as follows:</p>
+residuals for regression models with semicontinuous outcomes and
+constructing corresponding QQ-plots. Specifically, a Tobit regression
+and a Tweedie regression model are suitable models for
+<code><a href="../reference/resid_semiconti.html">resid_semiconti()</a></code>. The suitable model objects are as
+follows:</p>
 <ul>
 <li>Tweedie, <code>glm(family= tweedie())</code>
 </li>
@@ -109,6 +110,8 @@ The suitable model objects are as follows:</p>
 <div class="tab-content">
 <div class="active  tab-pane" id="tweedie" role="tabpanel" aria-labelledby="tweedie-tab">
 
+<p>We simulate <code>y1</code> to follow Tweedie distribution depending
+on covariates <code>x11</code> and <code>x12</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Tweedie model</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
@@ -122,8 +125,16 @@ The suitable model objects are as follows:</p>
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x11</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x12</span><span class="op">)</span></span>
 <span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tweedie/man/dtweedie.html" class="external-link">rtweedie</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, xi <span class="op">=</span> <span class="fl">1.6</span>, phi <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p>We simulate <code>y1</code> to follow Tweedie distribution depending
-on covariates <code>x11</code> and <code>x12</code>.</p>
+<p>In constructing <code>model2</code>, the intentional omission of the
+covariate <code>x12</code> was aimed at facilitating a direct comparison
+with the true model, <code>model1</code>. As expected, the QQ plot in
+the right panel corresponding to <code>model2</code> exhibits a
+substantial deviation from the diagonal line, attributing this deviation
+to the deliberate omission. Conversely, the left panel shows a closer
+alignment along the diagonal, implying a better fit when including both
+covariates, <code>x11</code> and <code>x12</code>. This outcome strongly
+suggests that incorporating all covariates results in a more appropriate
+and improved model.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># True model</span></span>
 <span><span class="va">model1</span> <span class="op">&lt;-</span></span>
@@ -139,23 +150,20 @@ on covariates <code>x11</code> and <code>x12</code>.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tweedie2-1.png" width="960" style="display: block; margin: auto;">
-In constructing <code>model2</code>, the intentional omission of the
-covariate <code>x12</code> was aimed at facilitating a direct comparison
-with the true model, <code>model1</code>. As expected, the QQ plot in
-the right panel corresponding to <code>model2</code> exhibits a
-substantial deviation from the diagonal line, attributing this deviation
-to the deliberate omission. Conversely, the left panel shows a closer
-alignment along the diagonal, implying a better fit when including both
-covariates, <code>x11</code> and <code>x12</code>. This outcome strongly
-suggests that incorporating all covariates results in a more appropriate
-and improved model.</p>
+<p><img src="semiconti_files/figure-html/tweedie2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="tobit" role="tabpanel" aria-labelledby="tobit-tab">
 
 <p><code><a href="../reference/resid_semiconti.html">resid_semiconti()</a></code> function supports calculating DPIT
 residuals for a Tobit regression from both <code><a href="https://rdrr.io/pkg/VGAM/man/vglm.html" class="external-link">VGAM::vglm</a></code> and
 <code><a href="https://rdrr.io/pkg/AER/man/tobit.html" class="external-link">AER::tobit</a></code> packages.</p>
+<p>In this example, we assume that the latent variable <span class="math inline">\(Y^*\)</span> follows a normal distribution with a
+mean given by <span class="math display">\[\mu=\beta_0+\beta_1X_1+\beta_2X_2, \]</span>
+where <span class="math inline">\(X_1, X_2 \sim Unif (0, 1)\)</span>
+independently, and <span class="math inline">\(\beta_0 = 1, \beta_1 =
+-3,  \beta_2 = 3\)</span>. We observe <span class="math inline">\(Y=0\)</span> if <span class="math inline">\(Y^*&lt;0\)</span>. These variables will be
+employed as inputs for Tobit regression analyses provided by the
+<code>VGAM</code> and <code>AER</code> packages.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Tobit regression model</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.auckland.ac.nz/~yee/VGAM/" class="external-link">VGAM</a></span><span class="op">)</span></span>
@@ -170,10 +178,12 @@ residuals for a Tobit regression from both <code><a href="https://rdrr.io/pkg/VG
 <span><span class="va">sd0</span> <span class="op">&lt;-</span> <span class="fl">0.3</span></span>
 <span><span class="va">yun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="va">lambda1</span>, sd <span class="op">=</span> <span class="va">sd0</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">yun</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="va">yun</span>, <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p>The variable <code>y</code> has been generated to conform to a Tobit
-model depending on the covariates <code>x11</code> and <code>x12</code>.
-These variables will be employed as inputs for Tobit regression analyses
-provided by the <code>VGAM</code> and <code>AER</code> packages.</p>
+<p>The model <code>fit1miss</code>, corresponding to the right QQ plot,
+intentionally omits the covariate x12. This omission leads to a
+deviation from the diagonal line in the QQ plot, observed in the right
+panel. Thus, it can be interpreted as the model misspecification. In
+contrast, the left panel, corresponding to the model including all
+covariates, aligns closely along the diagonal line.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Using VGAM package</span></span>
 <span><span class="co"># True model</span></span>
@@ -184,15 +194,10 @@ provided by the <code>VGAM</code> and <code>AER</code> packages.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tobit%20vgam2-1.png" width="960" style="display: block; margin: auto;">
-The model <code>fit1miss</code>, corresponding to the right QQ plot,
-intentionally omits the covariate x12. This omission leads to a
-deviation from the diagonal line in the QQ plot, observed in the right
-panel. Thus, it can be interpreted as the model misspecification. In
-contrast, the left panel, corresponding to the model including all
-covariates, aligns closely along the diagonal line.</p>
-<p>In the left panel, there is one point that deviates from the diagonal
-line, indicating the presence of an outlier.</p>
+<p><img src="semiconti_files/figure-html/tobit%20vgam2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p>The interpretation remains the same as the <code>VGAM</code> example.
+Note that the results from the <code>AER</code> are exactly the same as
+those from the <code>VGAM</code> example.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Using AER package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AER</span><span class="op">)</span></span>
@@ -203,10 +208,7 @@ line, indicating the presence of an outlier.</p>
 <span><span class="va">fit2miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AER/man/tobit.html" class="external-link">tobit</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x11</span>, left <span class="op">=</span> <span class="fl">0</span>, right <span class="op">=</span> <span class="cn">Inf</span>, dist <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span>
 <span><span class="va">reisd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tobit%20aer-1.png" width="960" style="display: block; margin: auto;">
-The interpretation remains the same as the <code>VGAM</code> example.
-Note that the results from the <code>AER</code> are exactly the same as
-those from the <code>VGAM</code> example.</p>
+<p><img src="semiconti_files/figure-html/tobit%20aer-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>

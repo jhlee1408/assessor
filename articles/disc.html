@@ -88,14 +88,15 @@
 <h3 class="tabset tabset-pills" id="discrete-outcome-regression-models">Discrete outcome regression models<a class="anchor" aria-label="anchor" href="#discrete-outcome-regression-models"></a>
 </h3>
 <p><code><a href="../reference/resid_disc.html">resid_disc()</a></code> is used for calculating the DPIT residuals
-for regression models with discrete outcomes and drawing corresponding
+for regression models with discrete outcomes and constructing their
 QQ-plots. The suitable model objects are as follows:</p>
 <ul>
-<li>Negative Binomial, <code><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">MASS::glm.nb()</a></code>
+<li>Negative binomial, <code><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">MASS::glm.nb()</a></code>
 </li>
 <li>Poisson, <code>glm(formula, family=poisson(link="log"))</code>
 </li>
-<li>Binary, <code>glm(, family=binomial(link="logit"))</code>
+<li>Binary,
+<code>glm(formula, family=binomial(link="logit"))</code>
 </li>
 <li>Ordinal, <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>
 </li>
@@ -112,9 +113,13 @@ QQ-plots. The suitable model objects are as follows:</p>
 <div class="tab-content">
 <div class="active  tab-pane" id="negative-binomial" role="tabpanel" aria-labelledby="negative-binomial-tab">
 
-<p>An appropriate example of the usage of the <code><a href="../reference/resid_disc.html">resid_disc()</a></code>
-function is in the context of negative binomial regression. We can do
-this using the code below.</p>
+<p>An example of the usage of the <code><a href="../reference/resid_disc.html">resid_disc()</a></code> function for
+a negative binomial regression is included below. The data are generated
+using a negative binomial distribution with mean <span class="math inline">\(\mu = \exp\left(\beta_0
++X_1\beta_1+X_2\beta_2\right)\)</span>, where <span class="math inline">\(X_1 \sim N(0,1)\)</span>, and <span class="math inline">\(X_2\)</span> is binary with a probability of
+success as 0.7. The coefficients are set as <span class="math inline">\(\beta_0 = -2, \beta_1 = 2\)</span>, and <span class="math inline">\(\beta_2=1\)</span>. The underlying size parameter
+is 2. To assess model assumptions, one can employ a QQ-plot generated
+through either <code>reisd_disc()</code> or <code><a href="../reference/qqresid.html">qqresid()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jhlee1408/assessor" class="external-link">assessor</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
@@ -134,18 +139,6 @@ this using the code below.</p>
 <span></span>
 <span><span class="co"># generate outcomes</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="va">n</span>, mu <span class="op">=</span> <span class="va">lambda1</span>, size <span class="op">=</span> <span class="va">size1</span><span class="op">)</span></span></code></pre></div>
-<p>The true mean of <span class="math inline">\(Y\)</span> is
-intricately linked to both <span class="math inline">\(x_1\)</span> and
-<span class="math inline">\(x_2\)</span>, defined by the following
-relationship: <span class="math display">\[
-Y \sim \text{NB}(r=2, \mu = \beta_0 + \beta_1x_1 + \beta_2x_2)
-\]</span> Note that this notation provides an alternative
-parametrization, accentuating the emphasis on the mean structure rather
-than employing <span class="math inline">\(p\)</span>. Consequently,
-assuming the GLM model family follows a Poisson distribution would
-result in a violation of the model assumption. To assess this
-assumption,one can employ a QQ-plot generated through either
-<code>reisd_disc()</code> or <code><a href="../reference/qqresid.html">qqresid()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -156,21 +149,23 @@ assumption,one can employ a QQ-plot generated through either
 <span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="disc_files/figure-html/nb%20res-1.png" width="960" style="display: block; margin: auto;">
-The <code>model1</code> is correctly specified as a Generalized Linear
-Model (GLM) assuming a negative binomial distribution, whereas
-<code>model2</code> incorrectly assumes the Poisson family. The
-interpretation of the plots aligns with a standard QQ-plot used in
-regression models assuming normal distribution. The left panel displays
-a diagonal QQ-plot along the straight red line, indicative of the model
-assumption holding. In contrast, the right panel deviates from a
-diagonal line, suggesting a lack of adherence to the assumption.
-Consequently, we can say that the model assumption holds when the
-QQ-plot is diagonal, and it does not hold when the plot deviates.</p>
+The <code>model1</code> is correctly specified as a GLM with a negative
+binomial distribution, whereas <code>model2</code> incorrectly assumes
+the Poisson family, and thus overdispersion is present. The left panel
+displays a diagonal QQ-plot along the straight red line, indicative of
+the model assumption holding. In contrast, the right panel deviates from
+a diagonal line, suggesting a lack of adherence to the assumption. In
+addition, in an overdispersed model, due to the underestimated variance,
+a S-shaped pattern presents in the QQ-plot.</p>
 </div>
 <div class="tab-pane" id="poisson" role="tabpanel" aria-labelledby="poisson-tab">
 
-<p>Similarly, we can simulate Poisson random variable depending on
-covariates, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</p>
+<p>Similarly, we can simulate a Poisson random variable using covariates
+<span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>. The true mean of <span class="math inline">\(Y\)</span> is intricately connected to both <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, as expressed in the ensuing
+relationship: <span class="math display">\[
+Y \sim \text{Poisson}(\lambda = \exp(\beta_0 + \beta_1 x_1 + \beta_2
+x_2)),
+\]</span> where <span class="math inline">\(\beta_0=-2,~\beta_1=2,~\beta_2=1\)</span>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Poisson example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -185,12 +180,10 @@ covariates, <span class="math inline">\(x_1\)</span> and <span class="math inlin
 <span><span class="va">beta2</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span></span></code></pre></div>
-<p>The true mean of <span class="math inline">\(Y\)</span> is
-intricately connected to both <span class="math inline">\(x_1\)</span>
-and <span class="math inline">\(x_2\)</span>, as expressed in the
-ensuing relationship: <span class="math display">\[
-Y \sim \text{Poisson}(\lambda = \beta_0 + \beta_1 x_1 + \beta_2 x_2)
-\]</span></p>
+<p>We manually enlarged three outcomes by adding values of 10, 15, and
+20 to them, respectively. In the right panel, we can see the three
+modified data points stand out, signaling they are potential
+outliers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -201,18 +194,15 @@ Y \sim \text{Poisson}(\lambda = \beta_0 + \beta_1 x_1 + \beta_2 x_2)
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">lambda1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">poismodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">poismodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="disc_files/figure-html/poisson%202-1.png" width="960" style="display: block; margin: auto;">
-In the case of the negative binomial example, the left panel
-corresponding to the true <code>model1</code> demonstrates the adherence
-of the model to its assumptions. Conversely, intentionally enlarging
-three observations and applying them to the <code>model2</code> results
-in the three points on the right panel deviating from the red diagonal
-line. This departure indicates that outlier detection can be performed
-by examining a QQ-plot.</p>
+<p><img src="disc_files/figure-html/poisson%202-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="binary" role="tabpanel" aria-labelledby="binary-tab">
 
-<p>For the binary example, generate Bernoulli random variable, <span class="math inline">\(Y\)</span>, whose mean depends on covariates <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</p>
+<p>For the binary example, generate Bernoulli random variable, <span class="math inline">\(Y\)</span>, whose mean depends on covariates <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>. The underlying model is a logistic
+regression with the probability of 1 as <span class="math inline">\(\mathrm{logit}^{-1}(\beta_0+\beta_1 X_1+\beta_2
+X_2+\beta_3X_1 X_2)\)</span>, where <span class="math inline">\((\beta_0,\beta_1,\beta_2,\beta_3)=(-5,2,1,3)\)</span>,
+<span class="math inline">\(X_1\sim N(1,1)\)</span>, and <span class="math inline">\(X_2\)</span> is a dummy variable with a
+probability of one equal to 0.7.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Binary example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -228,15 +218,8 @@ by examining a QQ-plot.</p>
 <span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">beta0</span> <span class="op">+</span> <span class="va">beta1</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">beta2</span> <span class="op">*</span> <span class="va">x2</span> <span class="op">+</span> <span class="va">beta3</span> <span class="op">*</span> <span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">q1</span><span class="op">)</span></span></code></pre></div>
-<p>Then, the exact <span class="math inline">\(Y\)</span> follows the
-distribution as follows: <span class="math display">\[
-Y \sim \text{Ber}(p) \quad \text{where } p =
-\frac{1}{1+e^{-\beta_0-\beta_1x_1-\beta_2x_2-\beta_4x_1x_2}}
-\]</span> In contrast to the preceding examples, we introduce the
-interaction term between <span class="math inline">\(x_1\)</span> and
-<span class="math inline">\(x_2.\)</span> Consequently, the omission of
-<span class="math inline">\(x_2\)</span> in the model is anticipated to
-result in a non-diagonal QQ-plot.</p>
+<p>For the misspecified model, the binary covariate and the interaction
+term are omitted.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># True model</span></span>
@@ -251,13 +234,17 @@ The true model, distinguished as <code>model1</code>, is visually
 represented in the left panel, showcasing an alignment with the red
 diagonal line. This alignment serves as an indicator of the model’s
 adherence to the expected pattern. On the other hand,
-<code>model2</code>, made without the inclusion of the variable <span class="math inline">\(x_2\)</span>, presents a deviation from the
-prescribed red diagonal line.</p>
+<code>model2</code>, made without the inclusion of the variable <span class="math inline">\(x_2\)</span> and the interaction, presents a
+deviation from the prescribed red diagonal line.</p>
 </div>
 <div class="tab-pane" id="ordinal" role="tabpanel" aria-labelledby="ordinal-tab">
 
 <p>Our <code><a href="../reference/resid_disc.html">resid_disc()</a></code> function is also applicable to ordinal
-regression fitted by <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>.</p>
+regression fitted by <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>. In this experiment, we
+consider ordinal regression models with three levels 0, 1, and 2. Under
+an ordinal logistic regression model with proportionality assumption,
+<span class="math inline">\(P(Y\leq j)=F(\alpha_j),\)</span> where <span class="math inline">\(F\)</span> is the distribution function of a
+logistic random variable with mean <span class="math inline">\(\beta_1x_1\)</span>. We let <span class="math inline">\(\alpha_0=1\)</span>, <span class="math inline">\(\alpha_1=4\)</span>, <span class="math inline">\(\beta_1=3\)</span>, and <span class="math inline">\(x_1\sim N(2,1)\)</span>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Ordinal example</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -280,9 +267,12 @@ regression fitted by <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" clas
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">multimodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>We simulate the ordinal random variable <span class="math inline">\(Y\)</span> which takes on the values <span class="math inline">\(0,1\)</span> and <span class="math inline">\(2\)</span> with probabilities depending on <span class="math inline">\(x_1\)</span>. Given the simulation setting, an
-appropriate model to use is <code>model1</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<pre><code>We then generate data under the scenario where the assumption of proportionality is not met, which is a common issue for ordinal regression models. </code></pre>
+<p>Specifically, <span class="math inline">\(P(Y\leq
+0)=F(\alpha_0)\)</span> as described above whereas <span class="math inline">\(P(Y\leq 1)=F_1(\alpha_1)\)</span>, where <span class="math inline">\(F_1\)</span> is the distribution function of a
+logistic random variable with mean <span class="math inline">\(\beta_2x_1\)</span> and we set <span class="math inline">\(\beta_2=1\)</span>. The data are incorrectly fit
+with a proportional odds model.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Non-Proportionality</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
@@ -301,12 +291,7 @@ appropriate model to use is <code>model1</code>.</p>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">y1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">test</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">multimodel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">polr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">y1</span><span class="op">)</span> <span class="op">~</span> <span class="va">x1</span>, method <span class="op">=</span> <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>However, we opted for the utilization of <code>beta2</code> instead
-of <code>beta1.</code> This deliberate selection was made with the
-specific aim of creating a non-proportional scenario, introducing
-variability in the influence of variables on the model that deviates
-from the model assumption.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">multimodel2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
