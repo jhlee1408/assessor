@@ -10,13 +10,16 @@ knitr::opts_chunk$set(
 ```
 
 ### Semicontinuous outcome regression models {.tabset .tabset-pills}
-`resid_semiconti()` is used for calculating the DPIT residuals for regression models with semicontinuous outcomes and drawing corresponding QQ-plots. Specifically, a Tobit regression and a Tweedie regression model are suitable models for `resid_semiconti()`. The suitable model objects are as follows: 
+`resid_semiconti()` is used for calculating the DPIT residuals for regression models with semicontinuous outcomes and constructing corresponding QQ-plots. Specifically, a Tobit regression and a Tweedie regression model are suitable models for `resid_semiconti()`. The suitable model objects are as follows: 
 
 * Tweedie, `glm(family= tweedie())`
 * Tobit(VGAM), `VGAM::vglm()` 
 * Tobit(AER), `AER::tobit()` 
 
 #### Tweedie 
+We simulate `y1` to follow Tweedie distribution depending on covariates `x11` and `x12`. 
+
+
 ```{r tweedie1}
 ## Tweedie model
 library(assessor)
@@ -31,7 +34,8 @@ beta2 <- 1
 lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
 y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
 ```
-We simulate `y1` to follow Tweedie distribution depending on covariates `x11` and `x12`. 
+
+In constructing `model2`, the intentional omission of the covariate `x12` was aimed at facilitating a direct comparison with the true model, `model1`. As expected, the QQ plot in the right panel corresponding to `model2` exhibits a substantial deviation from the diagonal line, attributing this deviation to the deliberate omission. Conversely, the left panel shows a closer alignment along the diagonal, implying a better fit when including both covariates, `x11` and `x12`. This outcome strongly suggests that incorporating all covariates results in a more appropriate and improved model.
 
 ```{r tweedie2, fig.align='center', fig.width=10}
 # True model
@@ -49,11 +53,18 @@ par(mfrow=c(1,2))
 resid1 <- resid_semiconti(model1)
 resid2 <- resid_semiconti(model2)
 ```
-In constructing `model2`, the intentional omission of the covariate `x12` was aimed at facilitating a direct comparison with the true model, `model1`. As expected, the QQ plot in the right panel corresponding to `model2` exhibits a substantial deviation from the diagonal line, attributing this deviation to the deliberate omission. Conversely, the left panel shows a closer alignment along the diagonal, implying a better fit when including both covariates, `x11` and `x12`. This outcome strongly suggests that incorporating all covariates results in a more appropriate and improved model.
 
 
 #### Tobit
 `resid_semiconti()` function supports calculating DPIT residuals for a Tobit regression from both `VGAM::vglm` and `AER::tobit` packages.
+
+In this example, 
+we assume that the latent variable  $Y^*$ follows a normal distribution with a mean given by
+$$\mu=\beta_0+\beta_1X_1+\beta_2X_2, $$ where $X_1, X_2 \sim Unif (0, 1)$ independently, and $\beta_0 = 1, \beta_1 = -3,
+ \beta_2 = 3$. 
+We observe $Y=0$ if $Y^*<0$.
+These variables will be employed as inputs for Tobit regression analyses  provided by the `VGAM` and `AER` packages.
+
 
 ```{r tobit vgam1, message=FALSE}
 ## Tobit regression model
@@ -70,7 +81,8 @@ sd0 <- 0.3
 yun <- rnorm(n, mean = lambda1, sd = sd0)
 y <- ifelse(yun >= 0, yun, 0)
 ```
-The variable `y` has been generated to conform to a Tobit model depending on the covariates `x11` and `x12`. These variables will be employed as inputs for Tobit regression analyses  provided by the `VGAM` and `AER` packages.
+The model `fit1miss`, corresponding to the right QQ plot, intentionally omits the covariate x12. This omission leads to a deviation from the diagonal line in the QQ plot, observed in the right panel. Thus, it can be interpreted as the model misspecification.  In contrast, the left panel, corresponding to the model including all covariates, aligns closely along the diagonal line. 
+
 
 ```{r tobit vgam2, fig.align='center', fig.width=10}
 # Using VGAM package
@@ -83,9 +95,8 @@ par(mfrow=c(1,2))
 resid1 <- resid_semiconti(fit1, plot = TRUE)
 resid2 <- resid_semiconti(fit1miss, plot = TRUE)
 ```
-The model `fit1miss`, corresponding to the right QQ plot, intentionally omits the covariate x12. This omission leads to a deviation from the diagonal line in the QQ plot, observed in the right panel. Thus, it can be interpreted as the model misspecification.  In contrast, the left panel, corresponding to the model including all covariates, aligns closely along the diagonal line. 
 
-In the left panel, there is one point that deviates from the diagonal line, indicating the presence of an outlier.
+The interpretation remains the same as the `VGAM` example. Note that the results from the `AER` are exactly the same as those from the `VGAM` example.
 
 ```{r tobit aer, fig.align='center', fig.width=10, message=FALSE}
 # Using AER package
@@ -98,4 +109,3 @@ fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
 reisd1 <- resid_semiconti(fit2, plot = TRUE)
 resid2 <- resid_semiconti(fit2miss, plot = TRUE)
 ```
-The interpretation remains the same as the `VGAM` example. Note that the results from the `AER` are exactly the same as those from the `VGAM` example.
