@@ -25,3 +25,4 @@ resid.bin <- function(model) {
   }
   return(empcdf)
 }
+
