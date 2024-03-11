@@ -157,6 +157,7 @@ and \(\hat{p}_0\) refers to the fitted probability of being zero.</p>
 <span class="r-in"><span><span class="va">resid.tobit1</span> <span class="op">&lt;-</span> <span class="fu">resid_semiconti</span><span class="op">(</span><span class="va">fit1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="resid_semiconti-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">resid.tobit2</span> <span class="op">&lt;-</span> <span class="fu">resid_semiconti</span><span class="op">(</span><span class="va">fit1miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="resid_semiconti-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Using AER package</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AER</span><span class="op">)</span></span></span>
@@ -186,7 +187,6 @@ and \(\hat{p}_0\) refers to the fitted probability of being zero.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:VGAM’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     tobit</span>
-<span class="r-plt img"><img src="resid_semiconti-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># True model</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AER/man/tobit.html" class="external-link">tobit</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x11</span> <span class="op">+</span> <span class="va">x12</span>, left <span class="op">=</span> <span class="fl">0</span>, right <span class="op">=</span> <span class="cn">Inf</span>, dist <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Missing covariate</span></span></span>
