@@ -23,7 +23,8 @@ resid.bin_quasi <- function(model){
   h <- bandwidth01(y = y, q0 = q10)
   curve(margin01(u, y = y, q0 = q10), xname = "u",
         main = "Quasi, Binary", ylab = expression(hat(U) * "(s)"), xlab = "s",
-        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
+        xlim = c(min(pbinom(0, size=1,prob=q10)), max(pbinom(0, size=1,prob=q10))))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -64,7 +65,8 @@ resid.pois_quasi <- function(model){
   h <- bandwidthp(y = y, lambdaf = lambda1f)
 
   curve(marginesti(u, y = y, lambdaf = lambda1f), xname = "u", main = "Quasi, Poisson",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
+        lwd = 2, xlim = c(min(ppois(0, lambda = lambda1f)), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -107,7 +109,8 @@ resid.nb_quasi <- function(model){
   size1f <- summary(model)$theta
   h <- bandwidthnb(y = y, lambdaf = lambda1f, sizef = size1f)
   curve(marginnb(u, y = y, lambdaf = lambda1f, sizef = size1f), xname = "u", main = "Quasi, NB",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
+        lwd = 2, xlim = c(min(pnbinom(0, size=size1f, mu=lambda1f)), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -145,7 +148,7 @@ resid.ordi_quasi <- function(model){
   h <- bandwidthord(y = y, p1=p1)
   curve(marginm(x, y = y, p1=p1),
         main = "Quasi, Ordinal", ylab = expression(hat(U) * "(s)"), xlab = "s",
-        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -170,6 +173,8 @@ marginzerop <- function(u, y, pzero, meanpoisson) {
   l
 }
 
+
+
 marginzerop <- Vectorize(marginzerop, "u")
 
 ### Bandwidth selection
@@ -191,7 +196,8 @@ resid.zpois_quasi <- function(model){
   h <- bandwidth0p(y = y, pzero = pzero, meanpoisson = meanpoisson)
 
   curve(marginzerop(u, y = y, pzero = pzero, meanpoisson = meanpoisson), xname = "u", main = "Quasi, 0-Inflated Poisson",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2,
+        cex.main = 2, lwd = 2, xlim = c(min(pzero + (1 - pzero) * (ppois(0, meanpoisson))), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -240,7 +246,8 @@ resid.znb_quasi <- function(model){
   h <- bandwidth0p.nb(y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f)
 
   curve(marginzerop.nb(u, y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f), xname = "u", main = "Quasi, 0-Inflated NB",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1), ylim = c(0, 1))
+        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
+        xlim = c(min(pzero + (1 - pzero) * (pnbinom(0, size=size1f,mu=mu.hat))), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 

@@ -1,4 +1,3 @@
-
 resid.nb <- function(model){
   # fitted.values
   y <- model$model[, 1]
