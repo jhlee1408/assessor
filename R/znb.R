@@ -1,3 +1,4 @@
+#' @keywords internal
 inv.znb <- function(s, pzero, mu.hat, size1f) {
   qres <- ifelse(s < (pzero + (1 - pzero) * (pnbinom(0, size = size1f, mu = mu.hat))), 0,
     qnbinom(pmax((s - pzero) / (1 - pzero), 0), mu = mu.hat, size = size1f)
@@ -7,7 +8,7 @@ inv.znb <- function(s, pzero, mu.hat, size1f) {
 }
 
 
-
+#' @keywords internal
 resid.znb <- function(model) {
   # fitted.values
   y <- model$model[, 1]

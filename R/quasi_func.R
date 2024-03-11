@@ -1,3 +1,4 @@
+#' @keywords internal
 listvec <- function(x) {
   x[1]:x[2]
 }
@@ -17,6 +18,7 @@ bandwidth01 <- function(y, q0) {
   return(bw$bw)
 }
 
+#' @keywords internal
 resid.bin_quasi <- function(model){
   y <- model$y
   q10 <- 1 - model$fitted.values
@@ -58,7 +60,7 @@ bandwidthp <- function(y, lambdaf){
   bws <- npregbw(ydat = newy[which(newx <= 0.9)], xdat = newx[which(newx <= 0.9)], ckertype = "epanechnikov")
   return(bws$bw)
 }
-
+#' @keywords internal
 resid.pois_quasi <- function(model){
   y <- model$y
   lambda1f <- model$fitted.values
@@ -102,7 +104,7 @@ bandwidthnb <- function(y, lambdaf, sizef) {
   return(bws$bw)
 }
 
-
+#' @keywords internal
 resid.nb_quasi <- function(model){
   y <- model$y
   lambda1f <- model$fitted.values
@@ -141,7 +143,7 @@ bandwidthord <- function(y, p1) {
   return(bw$bw)
 }
 
-
+#' @keywords internal
 resid.ordi_quasi <- function(model){
   y <- as.numeric(model$model[,1])-1
   p1 <- t(apply(model$fitted.values,1 ,cumsum))[,-n]
@@ -188,7 +190,7 @@ bandwidth0p <- function(y, pzero, meanpoisson) {
 
   return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
 }
-
+#' @keywords internal
 resid.zpois_quasi <- function(model){
   y <- model$model[, 1]
   meanpoisson <- predict(model, type = "count")
@@ -236,7 +238,7 @@ bandwidth0p.nb <- function(y, pzero, mu.hat, size1f) {
 
   return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
 }
-
+#' @keywords internal
 resid.znb_quasi <- function(model){
   y <- model$model[, 1]
   mu.hat <- predict(model, type = "count")

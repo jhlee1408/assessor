@@ -1,3 +1,4 @@
+#' @keywords internal
 resid.ordi <- function(model) {
   # fitted.values
   k <- length(model$lev)

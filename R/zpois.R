@@ -1,3 +1,4 @@
+#' @keywords internal
 inv.zpois <- function(s, pzero, meanpoisson) {
   qres <- ifelse(s < (pzero + (1 - pzero) * (ppois(0, lambda = meanpoisson))), 0,
     qpois(pmax((s - pzero)/(1 - pzero), 0), lambda = meanpoisson)
@@ -6,7 +7,7 @@ inv.zpois <- function(s, pzero, meanpoisson) {
   return(pres)
 }
 
-
+#' @keywords internal
 resid.zpois <- function(model) {
   # fitted.values
   y <- model$model[, 1]
