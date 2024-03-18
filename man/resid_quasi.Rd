@@ -24,10 +24,15 @@ zero-inlated Poisson, and zero-inflated negative binomial outcomes can be applic
 \details{
 The quasi-empirical residual distribution function is defined as follows:
 \deqn{\hat{U}(s; \beta) = \sum_{i=1}^{n} W_{n}(s;\mathbf{X}_{i},\beta) 1[F(Y_{i}| X_{i}) < H(s;X_{i})]}
+where
+\deqn{W_n(s; \mathbf{X}_i, \beta) = \frac{K[(H(s; \mathbf{X}_i)-s)/ \epsilon_n]}{\sum_{j=1}^{n} K[(H(s; \mathbf{X}_j)-s)/ \epsilon_n]}}
+and \eqn{K} is a bounded, symmetric, and Lipschitz continuous kernel.
 }
 \examples{
 ## Negative Binomial example
+library(MASS)
 # Covariates
+n <- 500
 x1 <- rnorm(n)
 x2 <- rbinom(n, 1, 0.7)
 ### Parameters

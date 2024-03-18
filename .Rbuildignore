@@ -11,3 +11,4 @@
 vignettes/
 ^README\.md$
 ^NEWS\.md$
+^data-raw$
