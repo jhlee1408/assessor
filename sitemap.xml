@@ -37,10 +37,13 @@
     <loc>https://jhlee1408.github.io/assessor/index.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/index.html</loc>
+    <loc>https://jhlee1408.github.io/assessor/news/index.html</loc>
   </url>
   <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/obdata.html</loc>
+    <loc>https://jhlee1408.github.io/assessor/reference/MEPS.html</loc>
+  </url>
+  <url>
+    <loc>https://jhlee1408.github.io/assessor/reference/index.html</loc>
   </url>
   <url>
     <loc>https://jhlee1408.github.io/assessor/reference/ord_curve.html</loc>
