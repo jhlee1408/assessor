@@ -5,7 +5,7 @@ listvec <- function(x) {
 
 ## Binary
 ## \hat{U}. y is the outcome, and q0 is the fitted probability of zero
-margin01 <- function(u, y, q0) {
+margin01 <- function(u, y, q0, h) {
   wei <- 1 * ((q0 - u)^2 < 5 * h^2) * (1 - ((q0 - u)^2) / h^2 / 5)
   l <- sum(wei * 1 * (y == 0)) / sum(wei)
   l
@@ -23,16 +23,17 @@ resid.bin_quasi <- function(model){
   y <- model$y
   q10 <- 1 - model$fitted.values
   h <- bandwidth01(y = y, q0 = q10)
-  curve(margin01(u, y = y, q0 = q10), xname = "u",
-        main = "Quasi, Binary", ylab = expression(hat(U) * "(s)"), xlab = "s",
-        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
-        xlim = c(min(pbinom(0, size=1,prob=q10)), max(pbinom(0, size=1,prob=q10))))
+  x.input <- seq(0,1, length.out=length(y))
+  plot(x.input, margin01(x.input, y=y, q0=q10, h=h), type='l',
+       main = "Quasi, Binary", ylab = expression(hat(U) * "(s)"), xlab = "s",
+       cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
+       xlim = c(min(pbinom(0, size=1,prob=q10)), max(pbinom(0, size=1,prob=q10))))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
 
 ## Poisson
-marginesti <- function(u, y, lambdaf) {
+marginesti <- function(u, y, lambdaf, h) {
   n <- length(y)
   # F^{-1}(u)
   inv1 <- qpois(u, lambdaf)
@@ -65,17 +66,17 @@ resid.pois_quasi <- function(model){
   y <- model$y
   lambda1f <- model$fitted.values
   h <- bandwidthp(y = y, lambdaf = lambda1f)
-
-  curve(marginesti(u, y = y, lambdaf = lambda1f), xname = "u", main = "Quasi, Poisson",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
-        lwd = 2, xlim = c(min(ppois(0, lambda = lambda1f)), 1))
+  x.input <- seq(0,1, length.out= length(y))
+  plot(x.input, marginesti(u=x.input, y=y, lambdaf= lambda1f, h=h), type='l',
+       main = "Quasi, Poisson", ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
+       lwd = 2, xlim = c(min(ppois(0, lambda = lambda1f)), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
 ############
 ##   NB   ##
 ############
-marginnb <- function(u, y, lambdaf, sizef) {
+marginnb <- function(u, y, lambdaf, sizef,h) {
   n <- length(y)
   inv1 <- qnbinom(u, mu = lambdaf, size = sizef)
   inv1m <- ifelse(inv1 > 0, inv1 - 1, 0)
@@ -110,9 +111,11 @@ resid.nb_quasi <- function(model){
   lambda1f <- model$fitted.values
   size1f <- summary(model)$theta
   h <- bandwidthnb(y = y, lambdaf = lambda1f, sizef = size1f)
-  curve(marginnb(u, y = y, lambdaf = lambda1f, sizef = size1f), xname = "u", main = "Quasi, NB",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
-        lwd = 2, xlim = c(min(pnbinom(0, size=size1f, mu=lambda1f)), 1))
+  x.input <- seq(0,1, length.out=length(y))
+  plot(x.input, marginnb(u=x.input, y=y, lambdaf=lambda1f, sizef=size1f, h=h), type='l',
+       main = "Quasi, NB",
+       ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
+       lwd = 2, xlim = c(min(pnbinom(0, size=size1f, mu=lambda1f)), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -120,7 +123,7 @@ resid.nb_quasi <- function(model){
 ## Ord  ###
 ###########
 ### \hat{U} y is the outcome, q0=P(y<=1), q1=P(y<=2)
-marginm <- function(x, y, p1) { # p1 = t(apply(model$fitted.values,1 ,cumsum))[,-n]
+marginm <- function(x, y, p1, h) { # p1 = t(apply(model$fitted.values,1 ,cumsum))[,-n]
   n <- length(y)
   ind1 <- apply(abs(p1 - x), 1, which.min)
   wei <- 1 * ((p1[cbind(1:n, ind1)] - x)^2 < 5 * h^2) *
@@ -146,18 +149,19 @@ bandwidthord <- function(y, p1) {
 #' @keywords internal
 resid.ordi_quasi <- function(model){
   y <- as.numeric(model$model[,1])-1
-  p1 <- t(apply(model$fitted.values,1 ,cumsum))[,-n]
+  p1 <- t(apply(model$fitted.values,1 ,cumsum))
   h <- bandwidthord(y = y, p1=p1)
-  curve(marginm(x, y = y, p1=p1),
-        main = "Quasi, Ordinal", ylab = expression(hat(U) * "(s)"), xlab = "s",
-        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2, xlim = c(0, 1))
+  x.input <- seq(0,1, length.out=length(y))
+  plot(x.input, marginm(x=x.input, y=y, p1=p1, h=h), type='l',main = "Quasi, Ordinal",
+       ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
+       lwd = 2, xlim = c(0,1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
 ###########
 ## zpois ##
 ###########
-marginzerop <- function(u, y, pzero, meanpoisson) {
+marginzerop <- function(u, y, pzero, meanpoisson,h) {
   n <- length(y)
   inv1 <- ifelse(u < (pzero + (1 - pzero) * (ppois(0, lambda = meanpoisson))), 0,
                  qpois(pmax((u - pzero) / (1 - pzero), 0), lambda = meanpoisson)
@@ -174,9 +178,6 @@ marginzerop <- function(u, y, pzero, meanpoisson) {
   l <- sum(wei * 1 * (y <= n1[cbind(1:n, ind1)])) / sum(wei)
   l
 }
-
-
-
 marginzerop <- Vectorize(marginzerop, "u")
 
 ### Bandwidth selection
@@ -187,9 +188,9 @@ bandwidth0p <- function(y, pzero, meanpoisson) {
   newzero <- rep(pzero, times = qpois(0.9, meanpoisson) - qpois(0.1, meanpoisson) + 1)
   newx <- newzero + (1 - newzero) * ppois(newout, newlambda)
   newy <- 1 * (rep(y, times = qpois(0.9, meanpoisson) - qpois(0.1, meanpoisson) + 1) <= newout)
-
   return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
 }
+
 #' @keywords internal
 resid.zpois_quasi <- function(model){
   y <- model$model[, 1]
@@ -197,9 +198,11 @@ resid.zpois_quasi <- function(model){
   pzero <- predict(model, type = "zero")
   h <- bandwidth0p(y = y, pzero = pzero, meanpoisson = meanpoisson)
 
-  curve(marginzerop(u, y = y, pzero = pzero, meanpoisson = meanpoisson), xname = "u", main = "Quasi, 0-Inflated Poisson",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2,
-        cex.main = 2, lwd = 2, xlim = c(min(pzero + (1 - pzero) * (ppois(0, meanpoisson))), 1))
+  x.input <- seq(0,1, length.out=length(y))
+  plot(x.input, marginzerop(u=x.input, y=y, pzero = pzero, meanpoisson = meanpoisson, h=h), type='l',
+       main = "Quasi, 0-Inflated Poisson",ylab = expression(hat(U) * "(s)"),
+       xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
+       xlim = c(min(pzero + (1 - pzero) * (ppois(0, meanpoisson))), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 
@@ -207,7 +210,7 @@ resid.zpois_quasi <- function(model){
 ###########
 ##  znb  ##
 ###########
-marginzerop.nb <- function(u, y, pzero, size1f, mu.hat) {
+marginzerop.nb <- function(u, y, pzero, size1f, mu.hat, h) {
   n <- length(y)
   inv1 <- ifelse(u < (pzero + (1 - pzero) * (pnbinom(0, size = size1f, mu = mu.hat))), 0,
                  qnbinom(pmax((u - pzero) / (1 - pzero), 0), mu = mu.hat, size = size1f)
@@ -238,6 +241,7 @@ bandwidth0p.nb <- function(y, pzero, mu.hat, size1f) {
 
   return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
 }
+
 #' @keywords internal
 resid.znb_quasi <- function(model){
   y <- model$model[, 1]
@@ -246,10 +250,11 @@ resid.znb_quasi <- function(model){
 
   pzero <- predict(model, type = "zero")
   h <- bandwidth0p.nb(y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f)
-
-  curve(marginzerop.nb(u, y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f), xname = "u", main = "Quasi, 0-Inflated NB",
-        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
-        xlim = c(min(pzero + (1 - pzero) * (pnbinom(0, size=size1f,mu=mu.hat))), 1))
+  x.input <- seq(0,1, length.out=length(y))
+  plot(x.input, marginzerop.nb(u=x.input, y=y, mu.hat =mu.hat,pzero=pzero, size1f = size1f, h=h),
+       type='l', main = "Quasi, 0-Inflated NB",ylab = expression(hat(U) * "(s)"),
+       xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
+       xlim = c(min(pzero + (1 - pzero) * (pnbinom(0, size=size1f,mu=mu.hat))), 1))
   abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
 }
 

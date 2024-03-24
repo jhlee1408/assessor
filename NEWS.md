@@ -1,3 +1,8 @@
-# assessor 1.0.1
+# assessor 1.1.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Add `resid_quasi()` function for QQ-plot by using kernel methods. 
+* `data()`
+
+# assessor 1.0.0
+
+* Initial CRAN release
