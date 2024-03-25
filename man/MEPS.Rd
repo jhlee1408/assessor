@@ -7,7 +7,7 @@
 \format{
 A data frame with 29784 rows and 29 variables:
 \describe{
-\item{\code{MVIS}}{double COLUMN_DESCRIPTION}
+\item{\code{MVIS}}{Semicontinuous outcomes}
 \item{\code{AGE}}{Age}
 \item{\code{GENDER}}{1 if female}
 \item{\code{ASIAN}}{1 if Asian}
@@ -45,6 +45,6 @@ http://www.meps.ahrq.gov/mepsweb/
 MEPS
 }
 \description{
-This is healthcare expenditure data set.
+Healthcare expenditure data set.
 }
 \keyword{datasets}
