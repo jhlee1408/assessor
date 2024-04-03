@@ -23,7 +23,7 @@ resid.bin_quasi <- function(model){
   y <- model$y
   q10 <- 1 - model$fitted.values
   h <- bandwidth01(y = y, q0 = q10)
-  x.input <- seq(0,1, length.out=length(y))
+  x.input <- seq(0,1, length.out=101)
   plot(x.input, margin01(x.input, y=y, q0=q10, h=h), type='l',
        main = "Quasi, Binary", ylab = expression(hat(U) * "(s)"), xlab = "s",
        cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
@@ -66,7 +66,7 @@ resid.pois_quasi <- function(model){
   y <- model$y
   lambda1f <- model$fitted.values
   h <- bandwidthp(y = y, lambdaf = lambda1f)
-  x.input <- seq(0,1, length.out= length(y))
+  x.input <- seq(0,1, length.out= 101)
   plot(x.input, marginesti(u=x.input, y=y, lambdaf= lambda1f, h=h), type='l',
        main = "Quasi, Poisson", ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
        lwd = 2, xlim = c(min(ppois(0, lambda = lambda1f)), 1))
@@ -111,7 +111,7 @@ resid.nb_quasi <- function(model){
   lambda1f <- model$fitted.values
   size1f <- summary(model)$theta
   h <- bandwidthnb(y = y, lambdaf = lambda1f, sizef = size1f)
-  x.input <- seq(0,1, length.out=length(y))
+  x.input <- seq(0,1, length.out=101)
   plot(x.input, marginnb(u=x.input, y=y, lambdaf=lambda1f, sizef=size1f, h=h), type='l',
        main = "Quasi, NB",
        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
@@ -151,7 +151,7 @@ resid.ordi_quasi <- function(model){
   y <- as.numeric(model$model[,1])-1
   p1 <- t(apply(model$fitted.values,1 ,cumsum))
   h <- bandwidthord(y = y, p1=p1)
-  x.input <- seq(0,1, length.out=length(y))
+  x.input <- seq(0,1, length.out=101)
   plot(x.input, marginm(x=x.input, y=y, p1=p1, h=h), type='l',main = "Quasi, Ordinal",
        ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
        lwd = 2, xlim = c(0,1))
@@ -198,7 +198,7 @@ resid.zpois_quasi <- function(model){
   pzero <- predict(model, type = "zero")
   h <- bandwidth0p(y = y, pzero = pzero, meanpoisson = meanpoisson)
 
-  x.input <- seq(0,1, length.out=length(y))
+  x.input <- seq(0,1, length.out=101)
   plot(x.input, marginzerop(u=x.input, y=y, pzero = pzero, meanpoisson = meanpoisson, h=h), type='l',
        main = "Quasi, 0-Inflated Poisson",ylab = expression(hat(U) * "(s)"),
        xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
@@ -250,7 +250,7 @@ resid.znb_quasi <- function(model){
 
   pzero <- predict(model, type = "zero")
   h <- bandwidth0p.nb(y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f)
-  x.input <- seq(0,1, length.out=length(y))
+  x.input <- seq(0,1, length.out=101)
   plot(x.input, marginzerop.nb(u=x.input, y=y, mu.hat =mu.hat,pzero=pzero, size1f = size1f, h=h),
        type='l', main = "Quasi, 0-Inflated NB",ylab = expression(hat(U) * "(s)"),
        xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,

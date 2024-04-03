@@ -70,7 +70,7 @@ set.seed(1234)
 x1 <- rnorm(n)
 x2 <- rbinom(n, 1, 0.7)
 # Coefficients
-beta0 <- -2
+beta0 <- 0.5
 beta1 <- 2
 beta2 <- 1
 beta00 <- -2

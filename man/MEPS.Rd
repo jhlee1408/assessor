@@ -7,7 +7,7 @@
 \format{
 A data frame with 29784 rows and 29 variables:
 \describe{
-\item{\code{MVIS}}{Semicontinuous outcomes}
+\item{\code{EXP}}{the aggregate annual office based expenditure per participants, semicontinuous outcomes}
 \item{\code{AGE}}{Age}
 \item{\code{GENDER}}{1 if female}
 \item{\code{ASIAN}}{1 if Asian}
