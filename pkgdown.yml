@@ -1,16 +1,15 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  2pm: 2pm.html
-  disc: disc.html
-  ord: ord.html
-  quasi: quasi.html
-  semiconti: semiconti.html
-  zeroinfl: zeroinfl.html
+  articles/2pm: 2pm.html
   assessor: assessor.html
-last_built: 2024-03-25T00:58Z
+  articles/disc: disc.html
+  articles/ord: ord.html
+  articles/quasi: quasi.html
+  articles/semiconti: semiconti.html
+  articles/zeroinfl: zeroinfl.html
+last_built: 2025-07-31T22:32Z
 urls:
   reference: https://jhlee1408.github.io/assessor/reference
   article: https://jhlee1408.github.io/assessor/articles
-

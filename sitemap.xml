@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/404.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/2pm.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/assessor.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/disc.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/ord.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/quasi.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/semiconti.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/articles/zeroinfl.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/MEPS.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/ord_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/qqresid.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_2pm.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_disc.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_quasi.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_semiconti.html</loc>
-  </url>
-  <url>
-    <loc>https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jhlee1408.github.io/assessor/404.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/LICENSE-text.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/LICENSE.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/2pm.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/assessor.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/disc.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/index.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/ord.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/quasi.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/semiconti.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/articles/zeroinfl.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/authors.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/index.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/news/index.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/MEPS.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/index.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/ord_curve.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/qqresid.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/resid_2pm.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/resid_disc.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/resid_quasi.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/resid_semiconti.html</loc></url>
+<url><loc>https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.html</loc></url>
 </urlset>
+
