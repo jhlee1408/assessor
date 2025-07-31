@@ -1,5 +1,6 @@
 Package: assessor
-Title: Assessment Tools for Regression Models with Discrete and Semicontinuous Outcomes
+Title: Assessment Tools for Regression Models with Discrete and
+        Semicontinuous Outcomes
 Version: 1.1.1
 Authors@R: c(
     person("Lu", "Yang", email="luyang@umn.edu", role = "aut"),
@@ -12,15 +13,14 @@ RoxygenNote: 7.3.2
 URL: https://jhlee1408.github.io/assessor/
 BugReports: https://github.com/jhlee1408/assessor/issues
 Imports: tweedie, MASS, VGAM, np
-Suggests: 
-    pscl,
-    statmod,
-    rmarkdown,
-    knitr,
-    AER,
-    faraway,
-    testthat (>= 3.0.0)
+Suggests: pscl, statmod, rmarkdown, knitr, AER, faraway, testthat (>=
+        3.0.0)
 Config/testthat/edition: 3
-Depends: 
-    R (>= 3.5)
+Depends: R (>= 3.5)
 LazyData: true
+NeedsCompilation: no
+Packaged: 2025-02-16 21:33:32 UTC; jeonghwanlee
+Author: Lu Yang [aut],
+  Jeonghwan Lee [cre, aut]
+Maintainer: Jeonghwan Lee <lee03938@umn.edu>
+Built: R 4.4.2; ; 2025-02-16 21:33:38 UTC; unix
