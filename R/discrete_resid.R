@@ -202,5 +202,6 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "normal") empcdf <- qnorm(empcdf)
     if (scale == "uniform") empcdf <- empcdf
   }
-  return(empcdf)
+  return(list("DPIT" = empcdf,
+              "CRPS" = crps_dpit(empcdf)))
 }
