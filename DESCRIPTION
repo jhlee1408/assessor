@@ -1,6 +1,6 @@
 Package: assessor
 Title: Assessment Tools for Regression Models with Discrete and Semicontinuous Outcomes
-Version: 1.1.1
+Version: 1.2.0
 Authors@R: c(
     person("Lu", "Yang", email="luyang@umn.edu", role = "aut"),
     person("Jeonghwan", "Lee", email="lee03938@umn.edu", role=c("cre", "aut")))
@@ -11,15 +11,20 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 URL: https://jhlee1408.github.io/assessor/
 BugReports: https://github.com/jhlee1408/assessor/issues
-Imports: tweedie, MASS, VGAM, np
+Imports: 
+    tweedie,
+    MASS,
+    VGAM,
+    np,
+    pscl
 Suggests: 
-    pscl,
     statmod,
     rmarkdown,
     knitr,
     AER,
     faraway,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    mgcv
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
