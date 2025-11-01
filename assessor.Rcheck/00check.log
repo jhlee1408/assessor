@@ -4,10 +4,10 @@
 * R was compiled by
     Apple clang version 14.0.0 (clang-1400.0.29.202)
     GNU Fortran (GCC) 12.2.0
-* running under: macOS Sequoia 15.2
+* running under: macOS Sequoia 15.6.1
 * using session charset: UTF-8
 * checking for file ‘assessor/DESCRIPTION’ ... OK
-* this is package ‘assessor’ version ‘1.1.1’
+* this is package ‘assessor’ version ‘1.2.0’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... OK
@@ -51,9 +51,6 @@
 * checking LazyData ... OK
 * checking data for ASCII and uncompressed saves ... OK
 * checking examples ... OK
-* checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... OK
-  Running ‘testthat.R’
 * checking PDF version of manual ... OK
 * DONE
 Status: OK

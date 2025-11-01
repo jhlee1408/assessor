@@ -1,6 +1,12 @@
 MEPS                    Healthcare expenditure data
 bballHR                 MLB Players' Home Run and Batted Ball
                         Statistics with Red Zone Metrics (2017-2019)
+dpit_nb                 Residuals for regression models with negative
+                        binomial outcomes
+dpit_pois               Residuals for regression models with Poisson
+                        outcomes
+gof_disc                Goodness-of-fit test for discrete outcome
+                        regression models
 ord_curve               Ordered curve for assessing mean structures
 qqresid                 QQ-plots of DPIT residuals
 resid_2pm               Residuals for regression models with two-part

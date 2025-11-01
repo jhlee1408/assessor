@@ -17,7 +17,7 @@ resid_zeroinfl(model, plot=TRUE, scale='normal')
 DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.
 }
 \description{
-Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
+Calculates the DPIT residuals for a regression model with zero-inflated discrete outcome.
 A zero-inflated model from \code{pscl} is used in this function.
 }
 \examples{

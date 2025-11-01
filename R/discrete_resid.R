@@ -12,7 +12,7 @@
 #' The sample quantiles of the residuals are plotted against
 #' the theoretical quantiles of a standard normal distribution under the normal scale,
 #' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The defalut scale is `normal`.
+#'  The default scale is `normal`.
 #'
 #' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #'
@@ -179,12 +179,12 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
   if (model.family == "multi" && polr.test) {
     empcdf <- resid.ordi(model)
   }
-
-  if (plot == T) {
+  res <- empcdf
+  if (plot == TRUE) {
     if (scale == "normal") {
       empcdf <- qnorm(empcdf)
       n <- length(empcdf)
-      qqplot(qnorm(ppoints(n)), (empcdf),
+      qqplot(qnorm(ppoints(n)), (empcdf[is.finite(empcdf)]),
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -192,7 +192,7 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
     }
     if (scale == "uniform") {
       n <- length(empcdf)
-      qqplot(ppoints(n), empcdf,
+      qqplot(ppoints(n), empcdf[is.finite(empcdf)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -202,6 +202,5 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "normal") empcdf <- qnorm(empcdf)
     if (scale == "uniform") empcdf <- empcdf
   }
-  return(list("DPIT" = empcdf,
-              "CRPS" = crps_dpit(empcdf)))
+  return(empcdf)
 }

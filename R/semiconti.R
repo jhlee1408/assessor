@@ -133,7 +133,7 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)), (newp),
+      qqplot(qnorm(ppoints(n)), (newp[is.finite(newp)]),
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -142,7 +142,7 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "uniform") {
       newp <- newp
       n <- length(newp)
-      qqplot(ppoints(n), newp,
+      qqplot(ppoints(n), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )

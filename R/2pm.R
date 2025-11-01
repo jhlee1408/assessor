@@ -29,9 +29,7 @@
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #'
 #'
-#'
-#'
-#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns residuals. If plot=TRUE, also produces a QQ plot.
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
@@ -140,7 +138,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)), (newp),
+      qqplot(qnorm(ppoints(n)), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -148,7 +146,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     }
     if (scale == "uniform") {
       n <- length(newp)
-      qqplot(ppoints(n), newp,
+      qqplot(ppoints(n), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -158,6 +156,5 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp
   }
-
   return(newp)
 }

@@ -1,6 +1,6 @@
 #' Residuals for regression models with zero-inflated outcomes
 #'
-#' Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
+#' Calculates the DPIT residuals for a regression model with zero-inflated discrete outcome.
 #' A zero-inflated model from `pscl` is used in this function.
 #'
 #' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
@@ -63,7 +63,7 @@ resid_zeroinfl <- function(model, plot = TRUE, scale = "normal") {
   if (plot == T) {
     empcdf2 <- empcdf[empcdf != 1]
     n <- length(empcdf2)
-    qqplot(qnorm(ppoints(n)), qnorm(empcdf),
+    qqplot(qnorm(ppoints(n)), qnorm(empcdf)[is.finite(empcdf)],
       main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
       cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
     )

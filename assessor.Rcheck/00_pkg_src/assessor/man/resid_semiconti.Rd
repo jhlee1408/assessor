@@ -14,7 +14,7 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 \item{scale}{You can choose the scale of the residuals between \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-Residuals. If plot=TRUE, also produces a QQ plot.
+Residuals and their mean CRPS. If plot=TRUE, also produces a QQ plot.
 }
 \description{
 Calculates the DPIT residuals for regression models with semi-continuous outcomes.

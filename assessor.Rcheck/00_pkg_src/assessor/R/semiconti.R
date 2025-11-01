@@ -12,7 +12,7 @@
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals between `normal` and `uniform` scales. The default scale is `normal`.
 #'
-#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns Residuals and their mean CRPS. If plot=TRUE, also produces a QQ plot.
 #'
 #' @details
 #' The DPIT residual for the \eqn{i}th semicontinuous observation is defined as follows:
@@ -28,6 +28,7 @@
 #' @import tweedie
 #' @importFrom tweedie dtweedie
 #' @importFrom tweedie ptweedie
+#' @importFrom scoringRules crps_unif
 #' @importFrom VGAM fitted
 #' @export
 #'
@@ -133,7 +134,7 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)), (newp),
+      qqplot(qnorm(ppoints(n)), (newp[is.finite(newp)]),
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -142,7 +143,7 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "uniform") {
       newp <- newp
       n <- length(newp)
-      qqplot(ppoints(n), newp,
+      qqplot(ppoints(n), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -152,5 +153,6 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp
   }
-  return(newp)
+  return(list("residuals" = newp,
+              "CRPS" = mean(crps_unif(newp))))
 }

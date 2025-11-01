@@ -15,6 +15,7 @@
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
 #'
+#' @importFrom scoringRules crps_unif
 #'
 #' @details
 #' The DPIT residuals for regression models with semi-continuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
@@ -29,9 +30,7 @@
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #'
 #'
-#'
-#'
-#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns residuals and their mean CRPS. If plot=TRUE, also produces a QQ plot.
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
@@ -140,7 +139,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     if (scale == "normal") {
       newp <- qnorm(newp)
       n <- length(newp)
-      qqplot(qnorm(ppoints(n)), (newp),
+      qqplot(qnorm(ppoints(n)), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -148,7 +147,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     }
     if (scale == "uniform") {
       n <- length(newp)
-      qqplot(ppoints(n), newp,
+      qqplot(ppoints(n), newp[is.finite(newp)],
         main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
         cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
       )
@@ -158,6 +157,6 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp
   }
-
-  return(newp)
+  return(list("residuals" = newp,
+               "CRPS"= crps_unif(newp)))
 }

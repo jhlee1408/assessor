@@ -22,7 +22,7 @@ resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-Residuals. If plot=TRUE, also produces a QQ plot.
+residuals and their mean CRPS. If plot=TRUE, also produces a QQ plot.
 }
 \description{
 Calculates DPIT proposed residuals for model for semi-continuous outcomes.

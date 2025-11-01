@@ -14,10 +14,10 @@ resid_zeroinfl(model, plot=TRUE, scale='normal')
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
 }
 \value{
-DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.
+DPIT residuals and their mean CRPS. If \code{plot=TRUE}, also produces a QQ plot.
 }
 \description{
-Caluates the DPIT residuals for a regression model with zero-inflated discrete outcome.
+Calculates the DPIT residuals for a regression model with zero-inflated discrete outcome.
 A zero-inflated model from \code{pscl} is used in this function.
 }
 \examples{

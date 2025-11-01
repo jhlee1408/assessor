@@ -15,7 +15,7 @@ resid_disc(model, plot=TRUE, scale="normal")
 The sample quantiles of the residuals are plotted against
 the theoretical quantiles of a standard normal distribution under the normal scale,
 and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-The defalut scale is \code{normal}.}
+The default scale is \code{normal}.}
 }
 \value{
 DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.

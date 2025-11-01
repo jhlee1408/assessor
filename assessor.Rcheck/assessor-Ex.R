@@ -26,6 +26,114 @@ head(bballHR)
 
 
 cleanEx()
+nameEx("dpit_nb")
+### * dpit_nb
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_nb
+### Title: Residuals for regression models with negative binomial outcomes
+### Aliases: dpit_nb
+
+### ** Examples
+
+library(assessor)
+library(mgcv)
+set.seed(1234)
+n  <- 500
+x1 <- runif(n, 0, 1)
+x2 <- runif(n, 0, 1)
+f1 <- function(x)  2 * sin(2*pi*x)
+f2 <- function(x) -1.5 * (x - .5)^2
+eta <- -0.5 + f1(x1) + f2(x2)
+mu  <- exp(eta)
+theta_true <- 1.3
+y <- rnbinom(n, size = theta_true, mu = mu)
+dat <- data.frame(y, x1, x2)
+gam_nb <- gam(y ~ s(x1) + s(x2),
+              family = nb(),
+              data   = dat,
+              method = "REML")
+gam_pois <- gam(y ~ s(x1) + s(x2),
+                family = poisson(),
+                data = dat,
+                method = "REML")
+dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
+dpit_pois(gam_pois$fitted.values, y=y)
+
+
+
+cleanEx()
+nameEx("dpit_pois")
+### * dpit_pois
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_pois
+### Title: Residuals for regression models with Poisson outcomes
+### Aliases: dpit_pois
+
+### ** Examples
+
+library(assessor)
+library(mgcv)
+set.seed(1234)
+n  <- 500
+x1 <- runif(n, 0, 1)
+x2 <- runif(n, 0, 1)
+f1 <- function(x)  2 * sin(2*pi*x)
+f2 <- function(x) -1.5 * (x - .5)^2
+eta <- -0.5 + f1(x1) + f2(x2)
+mu  <- exp(eta)
+theta_true <- 1.3
+y <- rnbinom(n, size = theta_true, mu = mu)
+dat <- data.frame(y, x1, x2)
+gam_nb <- gam(y ~ s(x1) + s(x2),
+              family = nb(),
+              data   = dat,
+              method = "REML")
+gam_pois <- gam(y ~ s(x1) + s(x2),
+                family = poisson(),
+                data = dat,
+                method = "REML")
+dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
+dpit_pois(gam_pois$fitted.values, y=y)
+
+
+
+cleanEx()
+nameEx("gof_disc")
+### * gof_disc
+
+flush(stderr()); flush(stdout())
+
+### Name: gof_disc
+### Title: Goodness-of-fit test for discrete outcome regression models
+### Aliases: gof_disc
+
+### ** Examples
+
+library(MASS)
+library(pscl)
+n <- 500
+B <- 1000
+beta1 <- 1;  beta2 <- 1
+beta0 <- -2; beta00 <- -2; beta10 <- 2
+size1<- 2
+set.seed(1)
+x1 <- rnorm(n)
+x2 <- rbinom(n,1,0.7)
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
+y0 <- rbinom(n, size = 1, prob = 1 - p0)
+y1 <- rnegbin(n, mu=lambda1, theta=size1)
+y <- ifelse(y0 == 0, 0, y1)
+model1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
+gof_disc(model1)
+
+
+
+cleanEx()
 nameEx("ord_curve")
 ### * ord_curve
 

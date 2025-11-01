@@ -1,5 +1,5 @@
 Hmm ... looks like a package
-Converting parsed Rd's to LaTeX 
+Converting parsed Rd's to LaTeX .
 Creating pdf output from LaTeX ...
 
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex)
@@ -85,25 +85,28 @@ Overfull \hbox (10.36354pt too wide) in paragraph at lines 83--84
 []\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 launch_angle_xx []\T1/ptm/m/n/10 and []\T
 1/zi4/m/n/10 exit_velo_xx []\T1/ptm/m/n/10 columns de-note the up-per $\OML/cmm
 /m/it/10 x$\T1/ptm/m/n/10 -percentiles
-[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 187--189
+[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd)
+Overfull \hbox (25.75856pt too wide) in paragraph at lines 131--132
+[]\T1/ptm/m/n/10 fit-ted with a negative-binomial fam-ily, you can ex-tract it 
+with []\T1/zi4/m/n/10 summary(model)$theta[]\T1/ptm/m/n/10 . 
+[3] [4] [5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 381--383
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--196
+Underfull \hbox (badness 10000) in paragraph at lines 387--390
 
-[5] [6] [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 447--449
+[8] [9] [10] [11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 641--643
 
-[9] [10]
-Underfull \vbox (badness 10000) has occurred while \output is active [11]
-[12] [13] [14]
-(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [15{/usr/l
+[13]
+Underfull \vbox (badness 10000) has occurred while \output is active [14]
+[15] [16] [17] [18]
+(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [19{/usr/l
 ocal/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}]
 No file Rd2.ind.
-[16]
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.aux)
+[20]
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -124,12 +127,12 @@ dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts
 /type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on Rd2.pdf (16 pages, 193741 bytes).
+Output written on Rd2.pdf (20 pages, 204415 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.17 [TeX Live 2023] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (22 entries accepted, 0 rejected).
-Sorting entries....done (104 comparisons).
-Generating output file Rd2.ind....done (35 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (25 entries accepted, 0 rejected).
+Sorting entries....done (114 comparisons).
+Generating output file Rd2.ind....done (45 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex)
@@ -200,46 +203,49 @@ ty (/usr/local/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
 Writing index file Rd2.idx
 (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.aux)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.aux)
 (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 )
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.out)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.out)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/jknapltx/ursfs.fd)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.toc) [1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.toc [1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/
 pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}{/us
-r/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
+r/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}])
 Overfull \hbox (10.36354pt too wide) in paragraph at lines 83--84
 []\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 launch_angle_xx []\T1/ptm/m/n/10 and []\T
 1/zi4/m/n/10 exit_velo_xx []\T1/ptm/m/n/10 columns de-note the up-per $\OML/cmm
 /m/it/10 x$\T1/ptm/m/n/10 -percentiles
-[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 187--189
+[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd)
+Overfull \hbox (25.75856pt too wide) in paragraph at lines 131--132
+[]\T1/ptm/m/n/10 fit-ted with a negative-binomial fam-ily, you can ex-tract it 
+with []\T1/zi4/m/n/10 summary(model)$theta[]\T1/ptm/m/n/10 . 
+[3] [4] [5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 381--383
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--196
+Underfull \hbox (badness 10000) in paragraph at lines 387--390
 
-[5] [6] [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 447--449
+[8] [9] [10] [11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 641--643
 
-[9] [10]
-Underfull \vbox (badness 10000) has occurred while \output is active [11]
-[12] [13] [14]
-(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [15{/usr/l
+[13]
+Underfull \vbox (badness 10000) has occurred while \output is active [14]
+[15] [16] [17] [18]
+(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [19{/usr/l
 ocal/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}]
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.ind [16] [17])
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.aux)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.ind [20] [21])
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.aux)
 
 Package rerunfilecheck Warning: File `Rd2.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -260,12 +266,12 @@ dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts
 /type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on Rd2.pdf (17 pages, 196960 bytes).
+Output written on Rd2.pdf (21 pages, 207711 bytes).
 Transcript written on Rd2.log.
 This is makeindex, version 2.17 [TeX Live 2023] (kpathsea + Thai support).
-Scanning input file Rd2.idx....done (22 entries accepted, 0 rejected).
-Sorting entries....done (104 comparisons).
-Generating output file Rd2.ind....done (35 lines written, 0 warnings).
+Scanning input file Rd2.idx....done (25 entries accepted, 0 rejected).
+Sorting entries....done (114 comparisons).
+Generating output file Rd2.ind....done (45 lines written, 0 warnings).
 Output written in Rd2.ind.
 Transcript written in Rd2.ilg.
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex)
@@ -336,46 +342,49 @@ ty (/usr/local/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
 Writing index file Rd2.idx
 (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/t1ptm.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.aux)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.aux)
 (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 )
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.out)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.out)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/t1zi4.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd)
 (/usr/local/texlive/2023/texmf-dist/tex/latex/jknapltx/ursfs.fd)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.toc [1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/p
-dftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr
-/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}])
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.toc [1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/
+pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc}{/us
+r/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}])
 Overfull \hbox (10.36354pt too wide) in paragraph at lines 83--84
 []\T1/ptm/m/n/10 The []\T1/zi4/m/n/10 launch_angle_xx []\T1/ptm/m/n/10 and []\T
 1/zi4/m/n/10 exit_velo_xx []\T1/ptm/m/n/10 columns de-note the up-per $\OML/cmm
 /m/it/10 x$\T1/ptm/m/n/10 -percentiles
-[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd) [3]
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 187--189
+[2] (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd)
+Overfull \hbox (25.75856pt too wide) in paragraph at lines 131--132
+[]\T1/ptm/m/n/10 fit-ted with a negative-binomial fam-ily, you can ex-tract it 
+with []\T1/zi4/m/n/10 summary(model)$theta[]\T1/ptm/m/n/10 . 
+[3] [4] [5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 381--383
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--196
+Underfull \hbox (badness 10000) in paragraph at lines 387--390
 
-[5] [6] [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 447--449
+[8] [9] [10] [11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 641--643
 
-[9] [10]
-Underfull \vbox (badness 10000) has occurred while \output is active [11]
-[12] [13] [14]
-(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [15{/usr/l
+[13]
+Underfull \vbox (badness 10000) has occurred while \output is active [14]
+[15] [16] [17] [18]
+(/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/ts1zi4.fd) [19{/usr/l
 ocal/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc}]
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.ind [16] [17])
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/RtmpElfmDE/Rd2pdfd2b3
-5201199d/Rd2.aux) )
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.ind [20] [21])
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmpdo3b4v/Rd2pdf1776
+a3c34b302/Rd2.aux) )
 (see the transcript file for additional information)</usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texliv
 e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive
@@ -390,8 +399,8 @@ dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts
 /type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on Rd2.pdf (17 pages, 197162 bytes).
+Output written on Rd2.pdf (21 pages, 208037 bytes).
 Transcript written on Rd2.log.
 Saving output to ‘assessor-manual.pdf’ ...
 Done
-You may want to clean up by 'rm -Rf /var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T//RtmpElfmDE/Rd2pdfd2b35201199d'
+You may want to clean up by 'rm -Rf /var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T//Rtmpdo3b4v/Rd2pdf1776a3c34b302'
