@@ -7,6 +7,12 @@
 #' @param model Model object, which is the output of `pscl::zeroinfl`.
 #' @param plot  A logical value indicating whether or not to return QQ-plot.
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #' @importFrom stats family
@@ -44,8 +50,7 @@
 #' ## Zero inflation
 #' modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 #' resid.zero2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
-resid_zeroinfl <- function(model, plot = TRUE, scale = "normal") {
-  # Model checking
+resid_zeroinfl <- function(model, plot = TRUE, scale = "normal", line_args= list(), ...) {
   zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))
   if (zero.test) {
     model.family <- model$dist
@@ -61,13 +66,7 @@ resid_zeroinfl <- function(model, plot = TRUE, scale = "normal") {
     empcdf <- resid.znb(model)
   }
   if (plot == T) {
-    empcdf2 <- empcdf[empcdf != 1]
-    n <- length(empcdf2)
-    qqplot(qnorm(ppoints(n)), qnorm(empcdf)[is.finite(empcdf)],
-      main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-      cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-    )
-    abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
+    qqplot.resid(empcdf, scale, line_args, ...)
   }
   if (scale == "normal") empcdf <- qnorm(empcdf)
   return(empcdf)

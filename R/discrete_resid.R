@@ -5,7 +5,7 @@
 #' and negative binomial outcomes
 #' can be assessed using `resid_disc()`.
 #'
-#' @usage resid_disc(model, plot=TRUE, scale="normal")
+#' @usage resid_disc(model, plot=TRUE, scale="normal", line_args=list(), ...)
 #' @param model Model object (e.g., `glm`, `glm.nb`, `polr`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales.
@@ -13,6 +13,13 @@
 #' the theoretical quantiles of a standard normal distribution under the normal scale,
 #' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
 #'  The default scale is `normal`.
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
+#'
 #'
 #' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #'
@@ -150,7 +157,7 @@
 #' y1[which(test[3, ] == 1)] <- 2
 #' multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
 #' resid.ord2 <- resid_disc(multimodel, plot = TRUE)
-resid_disc <- function(model, plot = TRUE, scale = "normal") {
+resid_disc <- function(model, plot = TRUE, scale = "normal", line_args=list(), ...) {
   if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   # Model checking
   glm.test <- (paste(model$call)[[1]] %in% c("glm", "glm.nb"))
@@ -181,23 +188,7 @@ resid_disc <- function(model, plot = TRUE, scale = "normal") {
   }
   res <- empcdf
   if (plot == TRUE) {
-    if (scale == "normal") {
-      empcdf <- qnorm(empcdf)
-      n <- length(empcdf)
-      qqplot(qnorm(ppoints(n)), (empcdf[is.finite(empcdf)]),
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
-    if (scale == "uniform") {
-      n <- length(empcdf)
-      qqplot(ppoints(n), empcdf[is.finite(empcdf)],
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
+    qqplot.resid(empcdf, scale, line_args, ...)
   } else {
     if (scale == "normal") empcdf <- qnorm(empcdf)
     if (scale == "uniform") empcdf <- empcdf

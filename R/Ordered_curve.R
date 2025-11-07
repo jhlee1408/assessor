@@ -29,10 +29,16 @@
 #'
 #' @references Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
 #'
-#' @usage ord_curve(model, thr)
+#' @usage ord_curve(model, thr, line_args=list(), ...)
 #'
 #' @param model Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`, `lm`)
 #' @param thr Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #' @returns
 #' \itemize{
@@ -86,9 +92,7 @@
 #' ord_curve(poismodel2, thr = x2)
 #'
 #' @export
-
-ord_curve <- function(model, thr) {
-
+ord_curve <- function(model, thr, line_args=list(), ...) {
   glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
   polr.test <- (paste(model$call)[1] %in% c("polr"))
   lm.test <- (paste(model$call)[1] %in% c("lm"))
@@ -96,17 +100,31 @@ ord_curve <- function(model, thr) {
   if(glm.test | polr.test) y1 <- model$y
   if(lm.test) y1 <- model$model[,1]
 
-
   if (length(thr) != length(y1)) stop("Length of thr and model fitted value has to match")
-
+  ord <- order(thr)
   q10 <- model$fitted.values
-
-  plot(cumsum((q10[sort(thr, index.return = TRUE)$ix])) / sum(q10),
-    cumsum(y1[sort(thr, index.return = TRUE)$ix]) / sum(y1),
+  plot_defaults <- list(
     main = paste("Z:", deparse(substitute(thr))),
-    xlab = expression(L[2](t)), ylab = expression(L[1](t)),
-    cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 2, type = "l", ylim = c(0, 1), xlim = c(0, 1)
+    xlab = expression(L[2](t)),
+    ylab = expression(L[1](t)),
+    cex.lab = 1,
+    cex.axis = 1,
+    cex.main = 1.5,
+    lwd = 2,
+    type = "l",
+    ylim = c(0, 1),
+    xlim = c(0, 1)
   )
 
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+  plot_args <- utils::modifyList(plot_defaults, list(...))
+  do.call(graphics::plot, c(
+    list(
+      x = cumsum(q10[ord]) / sum(q10),
+      y = cumsum(y1[ord]) / sum(y1)
+    ),
+    plot_args
+  ))
+  line_defaults <- list(a = 0, b = 1, col = "red", lty = 5, lwd = 2)
+  ab_args <- utils::modifyList(line_defaults, line_args)
+  do.call(graphics::abline, ab_args)
 }

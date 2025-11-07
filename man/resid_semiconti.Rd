@@ -4,7 +4,7 @@
 \alias{resid_semiconti}
 \title{Residuals for regression models with semicontinuous outcomes}
 \usage{
-resid_semiconti(model, plot=TRUE, scale = "normal")
+resid_semiconti(model, plot=TRUE, scale = "normal", line_args=list(), ...)
 }
 \arguments{
 \item{model}{Model object (e.g., \code{tweedie}, \code{vglm}, and \code{tobit})}
@@ -12,6 +12,14 @@ resid_semiconti(model, plot=TRUE, scale = "normal")
 \item{plot}{A logical value indicating whether or not to return QQ-plot}
 
 \item{scale}{You can choose the scale of the residuals between \code{normal} and \code{uniform} scales. The default scale is \code{normal}.}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
 Residuals. If plot=TRUE, also produces a QQ plot.

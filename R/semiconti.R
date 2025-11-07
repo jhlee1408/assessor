@@ -5,12 +5,19 @@
 #' a Tweedie regression model from `tweedie` package or a Tobit regression model
 #' from `VGAM`, `AER` packages is used in this function.
 #'
-#' @usage resid_semiconti(model, plot=TRUE, scale = "normal")
+#' @usage resid_semiconti(model, plot=TRUE, scale = "normal", line_args=list(), ...)
 #' @seealso [resid_2pm()]
 #'
 #' @param model Model object (e.g., `tweedie`, `vglm`, and `tobit`)
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals between `normal` and `uniform` scales. The default scale is `normal`.
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
+
 #'
 #' @returns Residuals. If plot=TRUE, also produces a QQ plot.
 #'
@@ -82,9 +89,7 @@
 #' fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
 #' resid.aer1 <- resid_semiconti(fit2, plot = TRUE)
 #' resid.aer2 <- resid_semiconti(fit2miss, plot = TRUE)
-
-
-resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
+resid_semiconti <- function(model, plot = TRUE, scale = "normal", line_args=list(), ...) {
   if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   is.vglm <- isS4(model)
   if (is.vglm) {
@@ -128,26 +133,8 @@ resid_semiconti <- function(model, plot = TRUE, scale = "normal") {
     newp <- as.vector(newp)
   }
 
-
   if (plot == T) {
-    if (scale == "normal") {
-      newp <- qnorm(newp)
-      n <- length(newp)
-      qqplot(qnorm(ppoints(n)), (newp[is.finite(newp)]),
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
-    if (scale == "uniform") {
-      newp <- newp
-      n <- length(newp)
-      qqplot(ppoints(n), newp[is.finite(newp)],
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
+    qqplot.resid(newp, scale, line_args, ...)
   } else {
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp

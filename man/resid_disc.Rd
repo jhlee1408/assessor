@@ -4,7 +4,7 @@
 \alias{resid_disc}
 \title{Residuals for regression models with discrete outcomes}
 \usage{
-resid_disc(model, plot=TRUE, scale="normal")
+resid_disc(model, plot=TRUE, scale="normal", line_args=list(), ...)
 }
 \arguments{
 \item{model}{Model object (e.g., \code{glm}, \code{glm.nb}, \code{polr})}
@@ -16,6 +16,14 @@ The sample quantiles of the residuals are plotted against
 the theoretical quantiles of a standard normal distribution under the normal scale,
 and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
 The default scale is \code{normal}.}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
 DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.

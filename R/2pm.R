@@ -3,7 +3,7 @@
 #' Calculates DPIT proposed residuals for model for semi-continuous outcomes.
 #' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
-#' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal")
+#' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal", line_args= list(), ...)
 #'
 #' @seealso [resid_semiconti()]
 #'
@@ -14,6 +14,12 @@
 #' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #'
 #' @details
@@ -135,23 +141,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
   }
 
   if (plot == T) {
-    if (scale == "normal") {
-      newp <- qnorm(newp)
-      n <- length(newp)
-      qqplot(qnorm(ppoints(n)), newp[is.finite(newp)],
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
-    if (scale == "uniform") {
-      n <- length(newp)
-      qqplot(ppoints(n), newp[is.finite(newp)],
-        main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-        cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
+    qqplot.resid(newp, scale, line_args,...)
   } else {
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp

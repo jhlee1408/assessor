@@ -4,12 +4,20 @@
 \alias{ord_curve}
 \title{Ordered curve for assessing mean structures}
 \usage{
-ord_curve(model, thr)
+ord_curve(model, thr, line_args=list(), ...)
 }
 \arguments{
 \item{model}{Regression model object (e.g.,\code{lm}, \code{glm}, \code{glm.nb}, \code{polr}, \code{lm})}
 
 \item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
 \itemize{
