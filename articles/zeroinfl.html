@@ -136,7 +136,7 @@ is a dummy variable with a probability of 1 equal to 0.7, and
 <span><span class="co">## Zero inflation</span></span>
 <span><span class="va">modelzero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modelzero2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="zeroinfl_files/figure-html/2-1.png" width="960" style="display: block; margin: auto;">
+<p><img src="zeroinfl_files/figure-html/2-1.png" class="r-plt" width="960" style="display: block; margin: auto;">
 The figure above illustrates QQ plots corresponding to
 <code>modelzero1</code> and <code>modelzero2</code>. Given that the true
 underlying distribution of <code>y</code> follows a zero-inflated
@@ -195,7 +195,7 @@ zero-inflated negative binomial distribution.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid.zero1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_zeroinfl.html">resid_zeroinfl</a></span><span class="op">(</span><span class="va">model.negbin1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
 <span><span class="va">resid.zero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model.negbin2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="zeroinfl_files/figure-html/zero2%20nb-1.png" width="700"></p>
+<p><img src="zeroinfl_files/figure-html/zero2%20nb-1.png" class="r-plt" width="700"></p>
 <p>The figure also presents QQ plots corresponding to
 <code>model.negbin1</code> and <code>model.negbin2</code>. In contrast
 to our simulation setting, <code>model.negbin2</code> assumes a negative
@@ -218,7 +218,7 @@ regression.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

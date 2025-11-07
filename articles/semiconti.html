@@ -136,7 +136,7 @@ and improved model.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tweedie2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="semiconti_files/figure-html/tweedie2-1.png" class="r-plt" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="tobit" role="tabpanel" aria-labelledby="tobit-tab">
 
@@ -187,7 +187,7 @@ covariates, aligns closely along the diagonal line.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit1miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tobit%20vgam2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="semiconti_files/figure-html/tobit%20vgam2-1.png" class="r-plt" width="960" style="display: block; margin: auto;"></p>
 <p>The interpretation remains the same as the <code>VGAM</code> example.
 Note that the results from the <code>AER</code> are exactly the same as
 those from the <code>VGAM</code> example.</p>
@@ -201,7 +201,7 @@ those from the <code>VGAM</code> example.</p>
 <span><span class="va">fit2miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AER/man/tobit.html" class="external-link">tobit</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x11</span>, left <span class="op">=</span> <span class="fl">0</span>, right <span class="op">=</span> <span class="cn">Inf</span>, dist <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span>
 <span><span class="va">reisd1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_semiconti.html">resid_semiconti</a></span><span class="op">(</span><span class="va">fit2miss</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semiconti_files/figure-html/tobit%20aer-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="semiconti_files/figure-html/tobit%20aer-1.png" class="r-plt" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>
@@ -215,7 +215,7 @@ those from the <code>VGAM</code> example.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
