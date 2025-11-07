@@ -4,7 +4,8 @@
 \alias{resid_2pm}
 \title{Residuals for regression models with two-part outcomes}
 \usage{
-resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal", line_args= list(), ...)
+resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
+ line_args= list(), ...)
 }
 \arguments{
 \item{model0}{Model object for 0 outcomes (e.g., logistic regression)}

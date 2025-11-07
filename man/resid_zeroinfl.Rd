@@ -4,7 +4,7 @@
 \alias{resid_zeroinfl}
 \title{Residuals for regression models with zero-inflated outcomes}
 \usage{
-resid_zeroinfl(model, plot=TRUE, scale='normal')
+resid_zeroinfl(model, plot=TRUE, scale='normal', line_args=list(), ...)
 }
 \arguments{
 \item{model}{Model object, which is the output of \code{pscl::zeroinfl}.}

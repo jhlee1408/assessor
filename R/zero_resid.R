@@ -3,7 +3,7 @@
 #' Calculates the DPIT residuals for a regression model with zero-inflated discrete outcome.
 #' A zero-inflated model from `pscl` is used in this function.
 #'
-#' @usage resid_zeroinfl(model, plot=TRUE, scale='normal')
+#' @usage resid_zeroinfl(model, plot=TRUE, scale='normal', line_args=list(), ...)
 #' @param model Model object, which is the output of `pscl::zeroinfl`.
 #' @param plot  A logical value indicating whether or not to return QQ-plot.
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.

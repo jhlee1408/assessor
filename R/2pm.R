@@ -3,7 +3,8 @@
 #' Calculates DPIT proposed residuals for model for semi-continuous outcomes.
 #' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
-#' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal", line_args= list(), ...)
+#' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
+#'  line_args= list(), ...)
 #'
 #' @seealso [resid_semiconti()]
 #'
@@ -73,7 +74,7 @@
 #' )
 #' p1f <- m10$fitted.values
 #' resid.pit <- resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
-resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal") {
+resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...) {
   if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   if (missing(y)) stop("argument y is missing, with no default")
   if (sum(!(y >= 0)) != 0) stop("y has to be nonnegative")
@@ -141,7 +142,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
   }
 
   if (plot == T) {
-    qqplot.resid(newp, scale, line_args,...)
+    qqplot.resid(newp, scale, line_args)
   } else {
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp
