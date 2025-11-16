@@ -5,9 +5,15 @@
 #' zero-inlated Poisson, and zero-inflated negative binomial outcomes can be applicable to `resid_quasi()`.
 #'
 #'
-#' @usage resid_quasi(model)
+#' @usage resid_quasi(model, line_args=list(), ...)
 #'
 #' @param model Model object (e.g., `glm`, `glm.nb`, `polr`, `zeroinfl`)
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{lty},
+#'   \code{col}, \code{lwd}, \code{xlab}, \code{ylab}).
 #'
 #' @import np
 #'
@@ -76,7 +82,7 @@
 #' ## True model
 #' modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
 #' resid.zero1 <- resid_quasi(modelzero1)
-resid_quasi <- function(model){
+resid_quasi <- function(model, line_args=list(), ...){
   glm.test <- (paste(model$call)[[1]] %in% c("glm", "glm.nb"))
   polr.test <- (paste(model$call)[[1]] %in% c("polr"))
   zero.test <- (paste(model$call)[1] %in% c("zeroinfl"))
@@ -92,21 +98,21 @@ resid_quasi <- function(model){
   }
 
   if (model.family == "nb" && glm.test) {
-    empcdf <- resid.nb_quasi(model)
+    empcdf <- resid.nb_quasi(model, line_args= line_args,...)
   }
   if (model.family == "poisson" && glm.test) {
-    empcdf <- resid.pois_quasi(model)
+    empcdf <- resid.pois_quasi(model, line_args= line_args,...)
   }
   if (model.family == "binomial" && glm.test) {
-    empcdf <- resid.bin_quasi(model)
+    empcdf <- resid.bin_quasi(model, line_args= line_args,...)
   }
   if (model.family == "multi" && polr.test) {
-    empcdf <- resid.ordi_quasi(model)
+    empcdf <- resid.ordi_quasi(model, line_args= line_args,...)
   }
   if (model.family == "poisson" && zero.test) {
-    empcdf <- resid.zpois_quasi(model)
+    empcdf <- resid.zpois_quasi(model, line_args= line_args,...)
   }
   if (model.family == "negbin" && zero.test) {
-    empcdf <- resid.znb_quasi(model)
+    empcdf <- resid.znb_quasi(model, line_args= line_args,...)
   }
 }

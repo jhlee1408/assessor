@@ -141,7 +141,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
     newp <- cdf1 * ecdf(part0)(cdf1)
   }
 
-  if (plot == T) {
+  if (plot == TRUE) {
     qqplot.resid(newp, scale, line_args)
   } else {
     if (scale == "normal") newp <- qnorm(newp)

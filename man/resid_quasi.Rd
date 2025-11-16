@@ -4,10 +4,18 @@
 \alias{resid_quasi}
 \title{Quasi Emprical residuals functions}
 \usage{
-resid_quasi(model)
+resid_quasi(model, line_args=list(), ...)
 }
 \arguments{
 \item{model}{Model object (e.g., \code{glm}, \code{glm.nb}, \code{polr}, \code{zeroinfl})}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{lty},
+\code{col}, \code{lwd}, \code{xlab}, \code{ylab}).}
 }
 \value{
 A QQ plot.
