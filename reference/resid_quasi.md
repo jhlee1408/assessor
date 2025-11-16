@@ -9,7 +9,7 @@ be applicable to `resid_quasi()`.
 ## Usage
 
 ``` r
-resid_quasi(model)
+resid_quasi(model, line_args=list(), ...)
 ```
 
 ## Arguments
@@ -17,6 +17,19 @@ resid_quasi(model)
 - model:
 
   Model object (e.g., `glm`, `glm.nb`, `polr`, `zeroinfl`)
+
+- line_args:
+
+  A named list of graphical parameters passed to
+  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
+  modify the reference (red) 45° line in the QQ plot. If left empty, a
+  default red dashed line is drawn.
+
+- ...:
+
+  Additional graphical arguments passed to
+  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
+  customizing the QQ plot (e.g., `lty`, `col`, `lwd`, `xlab`, `ylab`).
 
 ## Value
 
