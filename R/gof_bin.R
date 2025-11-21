@@ -1,3 +1,4 @@
+#' @keywords internal
 gof_bin <- function(B, bimodel = NULL, seed=NULL) {
   if (!is.null(seed)) set.seed(seed)
   if( is.null(bimodel)) stop("model object is not given.")
