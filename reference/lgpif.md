@@ -1,4 +1,4 @@
-# Data
+# LGPIF Data
 
 Data from the Wisconsin Local Government Property Insurance Fund
 (LGPIF). The LGPIF was established to provide property insurance for
@@ -11,7 +11,7 @@ buildings, vehicles, and equipment.
 ## Usage
 
 ``` r
-lgpif
+LGPIF
 ```
 
 ## Format

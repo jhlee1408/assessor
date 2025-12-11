@@ -40,8 +40,8 @@ devtools::install_github("jhlee1408/assessor")
   : Residuals for regression models with Poisson outcomes
 - [`gof_disc()`](https://jhlee1408.github.io/assessor/reference/gof_disc.md)
   : Goodness-of-fit test for discrete outcome regression models
-- [`lgpif`](https://jhlee1408.github.io/assessor/reference/lgpif.md) :
-  Data
+- [`LGPIF`](https://jhlee1408.github.io/assessor/reference/lgpif.md) :
+  LGPIF Data
 - [`ord_curve()`](https://jhlee1408.github.io/assessor/reference/ord_curve.md)
   : Ordered curve for assessing mean structures
 - [`qqresid()`](https://jhlee1408.github.io/assessor/reference/qqresid.md)

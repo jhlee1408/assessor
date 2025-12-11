@@ -121,11 +121,6 @@ resid.tobit2 <- resid_semiconti(fit1miss, plot = TRUE)
 library(AER)
 #> Loading required package: car
 #> Loading required package: carData
-#> 
-#> Attaching package: ‘car’
-#> The following object is masked from ‘package:VGAM’:
-#> 
-#>     logit
 #> Loading required package: lmtest
 #> Loading required package: zoo
 #> 

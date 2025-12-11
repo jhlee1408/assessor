@@ -10,7 +10,7 @@ custom estimators—as long as fitted values are available.
 ## Usage
 
 ``` r
-dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform")
+dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform", line_args=list(), ...)
 ```
 
 ## Arguments
@@ -40,6 +40,19 @@ dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform")
   theoretical quantiles of a standard normal distribution under the
   normal scale, and against the theoretical quantiles of a uniform (0,1)
   distribution under the uniform scale. The default scale is normal
+
+- line_args:
+
+  A named list of graphical parameters passed to
+  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
+  modify the reference (red) 45° line in the QQ plot. If left empty, a
+  default red dashed line is drawn.
+
+- ...:
+
+  Additional graphical arguments passed to
+  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
+  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
 
 ## Value
 
