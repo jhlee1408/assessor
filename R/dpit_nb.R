@@ -6,13 +6,19 @@
 #' `dpit_nb` requires only the vector of fitted means and a dispersion parameter, so it can be applied
 #' to GLMs, GAMs, or other custom estimators—as long as fitted values are available.
 #'
-#' @usage dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform")
+#' @usage dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform", line_args=list(), ...)
 #'
 #' @param fitted Numeric vector of fitted means.
 #' @param y Outcome variable.
 #' @param size Dispersion (size) parameter for the negative binomial distribution; e.g., a `glm.nb` fitted with a negative‐binomial family, you can extract it with `summary(model)$theta`.
 #' @param plot Logical; if `TRUE` (default) a QQ-plot of the residuals is displayed.
 #' @param scale You can choose the scale of the residuals among normal and uniform scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is normal
+#' @param line_args A named list of graphical parameters passed to
+#'   \code{graphics::abline()} to modify the reference (red) 45° line
+#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#' @param ... Additional graphical arguments passed to
+#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
 #'
@@ -45,7 +51,7 @@
 #'                 method = "REML")
 #' dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
 #' dpit_pois(gam_pois$fitted.values, y=y)
-dpit_nb <- function(fitted, y = NULL, size = NULL, plot=TRUE, scale="uniform") {
+dpit_nb <- function(fitted, y = NULL, size = NULL, plot=TRUE, scale="uniform", line_args=list(), ...) {
   if(is.null(size)) stop("size has to be specified")
   if(is.null(y)) stop("y is not given.")
   lambda1f <- fitted
@@ -60,25 +66,8 @@ dpit_nb <- function(fitted, y = NULL, size = NULL, plot=TRUE, scale="uniform") {
     pres[i] <- 0
     empcdf[i] <-sum(pres)/(n-1)
   }
-  res <- empcdf
   if (plot == TRUE) {
-    if (scale == "normal") {
-      empcdf <- qnorm(empcdf)
-      n <- length(empcdf)
-      qqplot(qnorm(ppoints(n)), (empcdf),
-             main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
-    if (scale == "uniform") {
-      n <- length(empcdf)
-      qqplot(ppoints(n), empcdf,
-             main = "QQ plot", xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-             cex.lab = 1, cex.axis = 1, cex.main = 1.5, lwd = 1.5
-      )
-      abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 1.5)
-    }
+    qqplot.resid(empcdf, scale, line_args, ...)
   } else {
     if (scale == "normal") empcdf <- qnorm(empcdf)
     if (scale == "uniform") empcdf <- empcdf

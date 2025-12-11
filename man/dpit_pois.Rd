@@ -4,7 +4,7 @@
 \alias{dpit_pois}
 \title{Residuals for regression models with Poisson outcomes}
 \usage{
-dpit_pois(fitted, y =NULL, plot = TRUE, scale="uniform")
+dpit_pois(fitted, y =NULL, plot = TRUE, scale="uniform", line_args=list(), ...)
 }
 \arguments{
 \item{fitted}{Numeric vector of fitted means.}
@@ -14,6 +14,14 @@ dpit_pois(fitted, y =NULL, plot = TRUE, scale="uniform")
 \item{plot}{Logical; if \code{TRUE} (default) a QQ-plot of the residuals is displayed.}
 
 \item{scale}{You can choose the scale of the residuals among normal and uniform scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is normal.}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
 DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.

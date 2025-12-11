@@ -142,7 +142,7 @@ resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "nor
   }
 
   if (plot == TRUE) {
-    qqplot.resid(newp, scale, line_args)
+    qqplot.resid(newp, scale, line_args,...)
   } else {
     if (scale == "normal") newp <- qnorm(newp)
     if (scale == "uniform") newp <- newp
