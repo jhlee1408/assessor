@@ -57,7 +57,7 @@ resid1 <- dpit(modelzero1, plot = TRUE, scale = "uniform")
 
 ## Zero inflation
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
+resid2 <- dpit(modelzero2, plot = TRUE, scale = "normal")
 ```
 The figure above illustrates QQ plots corresponding to `modelzero1` and `modelzero2`. Given that the true underlying distribution of `y` follows a zero-inflated Poisson distribution, 
 we anticipate observing deviations from the diagonal line in the QQ plot of `modelzero2`. 
@@ -102,7 +102,7 @@ model.negbin2 <- glm.nb(y ~ x1 + x2)
 
 par(mfrow=c(1,2))
 resid.zero1 <- dpit(model.negbin1, plot = TRUE, scale = "uniform")
-resid.zero2 <- resid_disc(model.negbin2, plot = TRUE, scale = "normal")
+resid.zero2 <- dpit(model.negbin2, plot = TRUE, scale = "normal")
 ```
 
 The figure also presents QQ plots corresponding to `model.negbin1` and `model.negbin2`. In contrast to our simulation setting, `model.negbin2` assumes a negative binomial distribution rather than a zero-inflated negative binomial distribution. Consequently, the right panel of the figure displays deviations at both the left and right tails. While these deviations may not be substantial, a comparison with the left panel suggests that the QQ plots lean towards supporting the zero-inflated negative binomial regression.
