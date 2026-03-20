@@ -2,7 +2,7 @@
 title: "Introduction to assessor"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{assessor}
+  %\VignetteIndexEntry{Introduction to assessor}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,7 @@ structures.
 
 
 ## General function arguments
-In `assessor`, there are functions for calculating DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. `resid_disc()`, `resid_zeroinfl()`, `resid_semiconti()`, and `resid_2pm()` are functions evaluating DPIT residuals for discrete, zero-inflated discrete, semicontinuous, and two-part outcomes, respectively. 
+In `assessor`, there are functions for calculating DPIT residuals for the various type of models: discrete, zero-inflated, and semi-continuous outcome regression models. `dpit()` and `dpit_2pm()` are functions evaluating DPIT residuals for discrete, zero-inflated discrete, semicontinuous, and two-part outcomes (the former functions `resid_disc()`, `resid_semiconti()`, and `resid_zeroinfl()` have been unified under `dpit()`, and `resid_2pm()` has been renamed to `dpit_2pm()`).
 They share the same arguments:
 
 * `model`: Each function supports certain types of model objects. Check below on which model objects are applicable.
@@ -48,9 +48,9 @@ modp <- glm(skips~.,famil=poisson(link="log"),data=solder)
 
 ## QQ-plot
 par(mfrow=c(1,3))
-poi.resid <- resid_disc(modp,plot = TRUE)
-norm.resid <- resid_disc(modpnb,plot = TRUE, scale = "normal")
-unif.resid <- resid_disc(modpnb,plot = TRUE, scale = "uniform")
+poi.resid <- dpit(modp,plot = TRUE)
+norm.resid <- dpit(modpnb,plot = TRUE, scale = "normal")
+unif.resid <- dpit(modpnb,plot = TRUE, scale = "uniform")
 ```
 
 The left panel of the figure above presents the QQ plot of the DPIT residuals when we use a Poisson GLM (`modp`). The residuals display a pronounced S-shaped pattern, hinting at potential overdispersion. 
