@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 
 ### Discrete outcome regression models {.tabset .tabset-pills}
-`resid_disc()` is used for calculating the DPIT residuals for regression models with discrete outcomes and constructing their QQ-plots. The suitable model objects are as follows: 
+`dpit()` is used for calculating the DPIT residuals for regression models with discrete outcomes and constructing their QQ-plots. The suitable model objects are as follows: 
 
 * Negative binomial, `MASS::glm.nb()` 
 * Poisson, `glm(formula, family=poisson(link="log"))` 
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 
 #### Negative binomial
-An example of the usage of the `resid_disc()` function for a negative binomial regression is included below. 
+An example of the usage of the `dpit()` function for a negative binomial regression is included below. 
 The data are generated using a negative binomial distribution with  mean   $\mu =  \exp\left(\beta_0 +X_1\beta_1+X_2\beta_2\right)$, where $X_1 \sim N(0,1)$, and $X_2$ is binary with a probability of success as 0.7. 
 The coefficients  are set as $\beta_0 = -2, \beta_1 = 2$, and  $\beta_2=1$. The underlying size parameter is 2. 
 To assess model assumptions, one can employ a QQ-plot generated through either `reisd_disc()` or `qqresid()`.
@@ -52,11 +52,11 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 par(mfrow=c(1,2))
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resd1 <- resid_disc(model1, plot = TRUE, scale = "normal")
+resd1 <- dpit(model1, plot = TRUE, scale = "normal")
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
+resd2 <- dpit(model2, plot = TRUE, scale = "normal")
 ```
 The `model1` is correctly specified as a GLM with a negative binomial distribution, whereas `model2` incorrectly assumes the Poisson family, and thus overdispersion is present.
 The left panel displays a diagonal QQ-plot along the straight red line, indicative of the model assumption holding. 
@@ -96,12 +96,12 @@ We manually enlarged three outcomes by adding values of 10, 15, and 20 to them, 
 par(mfrow=c(1,2))
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid1 <- resid_disc(poismodel1, plot = TRUE)
+resid1 <- dpit(poismodel1, plot = TRUE)
 
 # Enlarge three outcomes
 y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- resid_disc(poismodel2, plot = TRUE)
+resid2 <- dpit(poismodel2, plot = TRUE)
 ```
 
 
@@ -133,11 +133,11 @@ For the misspecified model, the binary covariate and the interaction term are om
 par(mfrow=c(1,2))
 # True model
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid1 <- resid_disc(model01, plot = TRUE)
+resid1 <- dpit(model01, plot = TRUE)
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid2 <- resid_disc(model02, plot = TRUE)
+resid2 <- dpit(model02, plot = TRUE)
 ```
 The true model, distinguished as `model1`, is visually represented in the left panel, showcasing an alignment with the red diagonal line. This alignment serves as an indicator of the model's adherence to the expected pattern. 
 On the other hand, `model2`, made without the inclusion of the variable $x_2$ and the interaction, presents a deviation 
@@ -145,7 +145,7 @@ from the prescribed red diagonal line.
 
 
 #### Ordinal
-Our `resid_disc()` function is also applicable to ordinal regression fitted by `MASS::polr()`. 
+Our `dpit()` function is also applicable to ordinal regression fitted by `MASS::polr()`. 
 	In this experiment, we consider ordinal regression models with three levels 0, 1, and 2. Under an ordinal logistic regression model with proportionality assumption, $P(Y\leq j)=F(\alpha_j),$  where $F$ is the distribution function of a  logistic random variable with mean $\beta_1x_1$. We let $\alpha_0=1$, $\alpha_1=4$, $\beta_1=3$, and $x_1\sim N(2,1)$.
 
 
@@ -200,7 +200,7 @@ multimodel2 <- polr(as.factor(y1) ~ x1, method = "logistic")
 
 ```{r ordinal 3, fig.align='center', fig.width=10}
 par(mfrow=c(1,2))
-resid1 <- resid_disc(multimodel, plot = TRUE)
-resid2 <- resid_disc(multimodel2, plot = TRUE)
+resid1 <- dpit(multimodel, plot = TRUE)
+resid2 <- dpit(multimodel2, plot = TRUE)
 ```
 As a result, when considering the diagnostic assessment through QQ-plots, `model1` exhibits a diagonal QQ-plot, indicating a favorable alignment with the underlying assumptions. In contrast, the QQ-plot associated with `model2` deviates from the expected diagonal line, suggesting a departure from the idealized model assumptions. This discrepancy underscores the importance of careful consideration and inclusion of relevant variables in model specification to ensure the robustness and validity of statistical models.
