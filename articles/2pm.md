@@ -3,7 +3,7 @@
 ### Two part models
 
 The input arguments for the
-[`resid_2pm()`](https://jhlee1408.github.io/assessor/reference/resid_2pm.md)
+[`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md)
 function differ from those of other functions in `assessor` package.
 Specifically, users can utilize this function with either models or
 Probability Integral Transform (PIT) as input.
@@ -65,7 +65,7 @@ y[ind1] <- y2[ind1]
 mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log")) # Gamma regression
 m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit")) # logistic regression
 
-resid.models <- resid_2pm(model0 = m10, model1 = mgamma, y = y)
+resid.models <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
 ```
 
 ![](2pm_files/figure-html/2pm%202-1.png)
@@ -101,7 +101,7 @@ cdfgamma <- pgamma(y[ind1],
 )
 p1f <- m10$fitted.values
 
-resid.pit <- resid_2pm(part0= p1f, part1 = cdfgamma, y = y)
+resid.pit <- dpit_2pm(part0= p1f, part1 = cdfgamma, y = y)
 ```
 
 ![](2pm_files/figure-html/pit%20as%20input-1.png)

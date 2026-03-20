@@ -2,8 +2,8 @@
 
 ### Zero-Inflation regression models
 
-[`resid_zeroinfl()`](https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.md)
-is used for calculating the DPIT residuals for regression models with
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) is
+used for calculating the DPIT residuals for regression models with
 zero-inflation outcomes and drawing corresponding QQ-plots. The suitable
 model objects are as follows:
 
@@ -54,14 +54,19 @@ y <- ifelse(y0 == 0, 0, y1)
 par(mfrow=c(1,2))
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid1 <- resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
+resid1 <- dpit(modelzero1, plot = TRUE, scale = "uniform")
+```
+
+![](zeroinfl_files/figure-html/2-1.png)
+
+``` r
 
 ## Zero inflation
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
+resid2 <- dpit(modelzero2, plot = TRUE, scale = "normal")
 ```
 
-![](zeroinfl_files/figure-html/2-1.png) The figure above illustrates QQ
+![](zeroinfl_files/figure-html/2-2.png) The figure above illustrates QQ
 plots corresponding to `modelzero1` and `modelzero2`. Given that the
 true underlying distribution of `y` follows a zero-inflated Poisson
 distribution, we anticipate observing deviations from the diagonal line
@@ -116,11 +121,16 @@ model.negbin1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin")
 model.negbin2 <- glm.nb(y ~ x1 + x2)
 
 par(mfrow=c(1,2))
-resid.zero1 <- resid_zeroinfl(model.negbin1, plot = TRUE, scale = "uniform")
-resid.zero2 <- resid_disc(model.negbin2, plot = TRUE, scale = "normal")
+resid.zero1 <- dpit(model.negbin1, plot = TRUE, scale = "uniform")
 ```
 
 ![](zeroinfl_files/figure-html/zero2%20nb-1.png)
+
+``` r
+resid.zero2 <- dpit(model.negbin2, plot = TRUE, scale = "normal")
+```
+
+![](zeroinfl_files/figure-html/zero2%20nb-2.png)
 
 The figure also presents QQ plots corresponding to `model.negbin1` and
 `model.negbin2`. In contrast to our simulation setting, `model.negbin2`

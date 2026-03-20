@@ -2,8 +2,8 @@
 
 ### Discrete outcome regression models
 
-[`resid_disc()`](https://jhlee1408.github.io/assessor/reference/resid_disc.md)
-is used for calculating the DPIT residuals for regression models with
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) is
+used for calculating the DPIT residuals for regression models with
 discrete outcomes and constructing their QQ-plots. The suitable model
 objects are as follows:
 
@@ -21,7 +21,7 @@ objects are as follows:
 - Ordinal
 
 An example of the usage of the
-[`resid_disc()`](https://jhlee1408.github.io/assessor/reference/resid_disc.md)
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md)
 function for a negative binomial regression is included below. The data
 are generated using a negative binomial distribution with mean
 $\mu = \exp\left( \beta_{0} + X_{1}\beta_{1} + X_{2}\beta_{2} \right)$,
@@ -29,8 +29,7 @@ where $X_{1} \sim N(0,1)$, and $X_{2}$ is binary with a probability of
 success as 0.7. The coefficients are set as
 $\beta_{0} = - 2,\beta_{1} = 2$, and $\beta_{2} = 1$. The underlying
 size parameter is 2. To assess model assumptions, one can employ a
-QQ-plot generated through either `reisd_disc()` or
-[`qqresid()`](https://jhlee1408.github.io/assessor/reference/qqresid.md).
+QQ-plot generated through either `reisd_disc()` or `qqresid()`.
 
 ``` r
 library(assessor)
@@ -57,11 +56,11 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 par(mfrow=c(1,2))
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resd1 <- resid_disc(model1, plot = TRUE, scale = "normal")
+resd1 <- dpit(model1, plot = TRUE, scale = "normal")
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resd2 <- resid_disc(model2, plot = TRUE, scale = "normal")
+resd2 <- dpit(model2, plot = TRUE, scale = "normal")
 ```
 
 ![](disc_files/figure-html/nb%20res-1.png) The `model1` is correctly
@@ -104,12 +103,12 @@ data points stand out, signaling they are potential outliers.
 par(mfrow=c(1,2))
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid1 <- resid_disc(poismodel1, plot = TRUE)
+resid1 <- dpit(poismodel1, plot = TRUE)
 
 # Enlarge three outcomes
 y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- resid_disc(poismodel2, plot = TRUE)
+resid2 <- dpit(poismodel2, plot = TRUE)
 ```
 
 ![](disc_files/figure-html/poisson%202-1.png)
@@ -147,11 +146,11 @@ term are omitted.
 par(mfrow=c(1,2))
 # True model
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid1 <- resid_disc(model01, plot = TRUE)
+resid1 <- dpit(model01, plot = TRUE)
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid2 <- resid_disc(model02, plot = TRUE)
+resid2 <- dpit(model02, plot = TRUE)
 ```
 
 ![](disc_files/figure-html/bin2-1.png) The true model, distinguished as
@@ -162,8 +161,7 @@ hand, `model2`, made without the inclusion of the variable $x_{2}$ and
 the interaction, presents a deviation from the prescribed red diagonal
 line.
 
-Our
-[`resid_disc()`](https://jhlee1408.github.io/assessor/reference/resid_disc.md)
+Our [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md)
 function is also applicable to ordinal regression fitted by
 [`MASS::polr()`](https://rdrr.io/pkg/MASS/man/polr.html). In this
 experiment, we consider ordinal regression models with three levels 0,
@@ -228,8 +226,8 @@ multimodel2 <- polr(as.factor(y1) ~ x1, method = "logistic")
 
 ``` r
 par(mfrow=c(1,2))
-resid1 <- resid_disc(multimodel, plot = TRUE)
-resid2 <- resid_disc(multimodel2, plot = TRUE)
+resid1 <- dpit(multimodel, plot = TRUE)
+resid2 <- dpit(multimodel2, plot = TRUE)
 ```
 
 ![](disc_files/figure-html/ordinal%203-1.png) As a result, when

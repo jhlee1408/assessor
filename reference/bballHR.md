@@ -115,7 +115,7 @@ A data frame with the following columns:
 
 - Quantile Metrics:
 
-  The `launch_angle_xx` and `exit_velo_xx` columns denote the upper
+  The `launch_angle_x` and `exit_velo_x` columns denote the upper
   \\x\\-percentiles (e.g., 75th percentile) of the player's launch angle
   and exit velocity distributions for that year.
 

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">assessor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,9 +74,9 @@
 <div class="section level3 tabset tabset-pills">
 <h3 class="tabset tabset-pills" id="zero-inflation-regression-models">Zero-Inflation regression models<a class="anchor" aria-label="anchor" href="#zero-inflation-regression-models"></a>
 </h3>
-<p><code><a href="../reference/resid_zeroinfl.html">resid_zeroinfl()</a></code> is used for calculating the DPIT
-residuals for regression models with zero-inflation outcomes and drawing
-corresponding QQ-plots. The suitable model objects are as follows:</p>
+<p><code><a href="../reference/dpit.html">dpit()</a></code> is used for calculating the DPIT residuals for
+regression models with zero-inflation outcomes and drawing corresponding
+QQ-plots. The suitable model objects are as follows:</p>
 <ul>
 <li>Zero-Inflated Poisson,
 <code>pscl::zeroinfl(dist = "poisson")</code>
@@ -131,12 +131,14 @@ is a dummy variable with a probability of 1 equal to 0.7, and
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## True model</span></span>
 <span><span class="va">modelzero1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pscl/man/zeroinfl.html" class="external-link">zeroinfl</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">|</span> <span class="va">x1</span>, dist <span class="op">=</span> <span class="st">"poisson"</span>, link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span></span>
-<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_zeroinfl.html">resid_zeroinfl</a></span><span class="op">(</span><span class="va">modelzero1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">resid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modelzero1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="zeroinfl_files/figure-html/2-1.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">## Zero inflation</span></span>
 <span><span class="va">modelzero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">modelzero2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="zeroinfl_files/figure-html/2-1.png" class="r-plt" width="960" style="display: block; margin: auto;">
+<span><span class="va">resid2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modelzero2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="zeroinfl_files/figure-html/2-2.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;">
 The figure above illustrates QQ plots corresponding to
 <code>modelzero1</code> and <code>modelzero2</code>. Given that the true
 underlying distribution of <code>y</code> follows a zero-inflated
@@ -156,7 +158,7 @@ simulated data.</p>
 </div>
 <div class="tab-pane" id="zero-inflation-negative-binomial" role="tabpanel" aria-labelledby="zero-inflation-negative-binomial-tab">
 
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Zero-inflated Negative Binomial</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jhlee1408.github.io/assessor/">assessor</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atahk/pscl" class="external-link">pscl</a></span><span class="op">)</span></span>
@@ -188,14 +190,16 @@ variable denoted as <code>y</code>, which is dependent on the variables
 <code>x1</code> and <code>x2</code>. The simulation involves modeling
 the occurrence of zeros in the variable <code>y</code> through a
 zero-inflated negative binomial distribution.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model.negbin1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pscl/man/zeroinfl.html" class="external-link">zeroinfl</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span> <span class="op">|</span> <span class="va">x1</span>, dist <span class="op">=</span> <span class="st">"negbin"</span><span class="op">)</span></span>
 <span><span class="va">model.negbin2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">resid.zero1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_zeroinfl.html">resid_zeroinfl</a></span><span class="op">(</span><span class="va">model.negbin1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
-<span><span class="va">resid.zero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_disc.html">resid_disc</a></span><span class="op">(</span><span class="va">model.negbin2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="zeroinfl_files/figure-html/zero2%20nb-1.png" class="r-plt" width="700"></p>
+<span><span class="va">resid.zero1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">model.negbin1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="zeroinfl_files/figure-html/zero2%20nb-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">resid.zero2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">model.negbin2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="zeroinfl_files/figure-html/zero2%20nb-2.png" class="r-plt" alt="" width="700"></p>
 <p>The figure also presents QQ plots corresponding to
 <code>model.negbin1</code> and <code>model.negbin2</code>. In contrast
 to our simulation setting, <code>model.negbin2</code> assumes a negative

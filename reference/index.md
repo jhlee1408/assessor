@@ -7,25 +7,33 @@
 - [`bballHR`](https://jhlee1408.github.io/assessor/reference/bballHR.md)
   : MLB Players' Home Run and Batted Ball Statistics with Red Zone
   Metrics (2017-2019)
+- [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) :
+  DPIT residuals for regression models with various non-continuous
+  outcomes
+- [`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md)
+  : Residuals for regression models with two-part outcomes
+- [`dpit_bin()`](https://jhlee1408.github.io/assessor/reference/dpit_bin.md)
+  : Residuals for regression models with binary outcomes
 - [`dpit_nb()`](https://jhlee1408.github.io/assessor/reference/dpit_nb.md)
   : Residuals for regression models with negative binomial outcomes
+- [`dpit_ordi()`](https://jhlee1408.github.io/assessor/reference/dpit_ordi.md)
+  : Residuals for regression models with ordinal outcomes
 - [`dpit_pois()`](https://jhlee1408.github.io/assessor/reference/dpit_pois.md)
-  : Residuals for regression models with Poisson outcomes
+  : Residuals for regression models with poisson outcomes
+- [`dpit_tobit()`](https://jhlee1408.github.io/assessor/reference/dpit_tobit.md)
+  : Residuals for a tobit model
+- [`dpit_tweedie()`](https://jhlee1408.github.io/assessor/reference/dpit_tweedie.md)
+  : Residuals for regression models with tweedie outcomes
+- [`dpit_znb()`](https://jhlee1408.github.io/assessor/reference/dpit_znb.md)
+  : Residuals for regression models with zero-inflated negative binomial
+  outcomes
+- [`dpit_zpois()`](https://jhlee1408.github.io/assessor/reference/dpit_zpois.md)
+  : Residuals for regression models with zero-inflated Poisson outcomes
 - [`gof_disc()`](https://jhlee1408.github.io/assessor/reference/gof_disc.md)
   : Goodness-of-fit test for discrete outcome regression models
 - [`LGPIF`](https://jhlee1408.github.io/assessor/reference/lgpif.md) :
   LGPIF Data
 - [`ord_curve()`](https://jhlee1408.github.io/assessor/reference/ord_curve.md)
   : Ordered curve for assessing mean structures
-- [`qqresid()`](https://jhlee1408.github.io/assessor/reference/qqresid.md)
-  : QQ-plots of DPIT residuals
-- [`resid_2pm()`](https://jhlee1408.github.io/assessor/reference/resid_2pm.md)
-  : Residuals for regression models with two-part outcomes
-- [`resid_disc()`](https://jhlee1408.github.io/assessor/reference/resid_disc.md)
-  : Residuals for regression models with discrete outcomes
-- [`resid_quasi()`](https://jhlee1408.github.io/assessor/reference/resid_quasi.md)
-  : Quasi Emprical residuals functions
-- [`resid_semiconti()`](https://jhlee1408.github.io/assessor/reference/resid_semiconti.md)
-  : Residuals for regression models with semicontinuous outcomes
-- [`resid_zeroinfl()`](https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.md)
-  : Residuals for regression models with zero-inflated outcomes
+- [`quasi_plot()`](https://jhlee1408.github.io/assessor/reference/quasi_plot.md)
+  : Quasi emprical residuals functions

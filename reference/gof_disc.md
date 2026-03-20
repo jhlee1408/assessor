@@ -1,11 +1,10 @@
 # Goodness-of-fit test for discrete outcome regression models
 
-Goodness-of-fit diagnostics for discrete-outcome regression models.
-Works with GLMs (Poisson, binomial/logistic, negative binomial), ordinal
-outcome regression
-([`MASS::polr`](https://rdrr.io/pkg/MASS/man/polr.html)), and
-zero-inflated regressions (Poisson and negative binomial via
-[`pscl::zeroinfl()`](https://rdrr.io/pkg/pscl/man/zeroinfl.html)).
+Goodness-of-fit test for discrete-outcome regression models. Works with
+GLMs (Poisson, binomial/logistic, negative binomial), ordinal outcome
+regression ([`MASS::polr`](https://rdrr.io/pkg/MASS/man/polr.html)), and
+zero-inflated regressions (zero-inflated Poisson and negative binomial
+via [`pscl::zeroinfl()`](https://rdrr.io/pkg/pscl/man/zeroinfl.html)).
 
 ## Usage
 
@@ -18,7 +17,8 @@ gof_disc(model, B=1e2, seed=NULL)
 - model:
 
   A fitted model object (e.g., from
-  [`glm()`](https://rdrr.io/r/stats/glm.html),[`polr()`](https://rdrr.io/pkg/MASS/man/polr.html),
+  [`glm()`](https://rdrr.io/r/stats/glm.html),
+  [`polr()`](https://rdrr.io/pkg/MASS/man/polr.html),
   [`glm.nb()`](https://rdrr.io/pkg/MASS/man/glm.nb.html) or
   [`zeroinfl()`](https://rdrr.io/pkg/pscl/man/zeroinfl.html)).
 
@@ -32,7 +32,7 @@ gof_disc(model, B=1e2, seed=NULL)
 
 ## Value
 
-test statistics and p-values
+Test statistics and p-values
 
 ## Details
 
@@ -46,10 +46,10 @@ function, where \$\$\hat{h}(u, y, \mathbf{x}) = \frac{u - \hat{F}\_M
 \mid \mathbf{x})} \\\mathbf{1}\\ \hat{F}\_M (y-1 \mid \mathbf{x}) \< u
 \< \hat{F}\_M (y \mid \mathbf{x}) \\ + \mathbf{1}\\ u \ge \hat{F}\_M (y
 \mid \mathbf{x}) \\.\$\$ The test statistic \$\$S_n = \int_0^1 \\
-\hat{H}(u) - u \\^2 du\$\$ measures deviation from the identity
-function, with p-values obtained by bootstrap. This method complements
-residual-based diagnostics by providing an inferential check of model
-adequacy.
+\hat{H}(u) - u \\^2 du\$\$ measures the deviation of
+\\\hat{h}(u,y,\mathbf{x})\\ from the identity function, with p-values
+obtained by bootstrap. This method complements residual-based
+diagnostics by providing a formal check of model adequacy.
 
 ## References
 
@@ -62,12 +62,6 @@ Statistics
 ``` r
 library(MASS)
 library(pscl)
-#> Classes and Methods for R originally developed in the
-#> Political Science Computational Laboratory
-#> Department of Political Science
-#> Stanford University (2002-2015),
-#> by and under the direction of Simon Jackman.
-#> hurdle and zeroinfl functions by Achim Zeileis.
 n <- 500
 B <- 1000
 beta1 <- 1;  beta2 <- 1

@@ -2,13 +2,13 @@
 
 ### Semicontinuous outcome regression models
 
-[`resid_semiconti()`](https://jhlee1408.github.io/assessor/reference/resid_semiconti.md)
-is used for calculating the DPIT residuals for regression models with
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) is
+used for calculating the DPIT residuals for regression models with
 semicontinuous outcomes and constructing corresponding QQ-plots.
 Specifically, a Tobit regression and a Tweedie regression model are
 suitable models for
-[`resid_semiconti()`](https://jhlee1408.github.io/assessor/reference/resid_semiconti.md).
-The suitable model objects are as follows:
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md). The
+suitable model objects are as follows:
 
 - Tweedie, `glm(family= tweedie())`
 - Tobit(VGAM), [`VGAM::vglm()`](https://rdrr.io/pkg/VGAM/man/vglm.html)
@@ -60,13 +60,13 @@ model2 <-  glm(y1 ~ x11 ,
   )
 
 par(mfrow=c(1,2))
-resid1 <- resid_semiconti(model1)
-resid2 <- resid_semiconti(model2)
+resid1 <- dpit(model1)
+resid2 <- dpit(model2)
 ```
 
 ![](semiconti_files/figure-html/tweedie2-1.png)
 
-[`resid_semiconti()`](https://jhlee1408.github.io/assessor/reference/resid_semiconti.md)
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md)
 function supports calculating DPIT residuals for a Tobit regression from
 both [`VGAM::vglm`](https://rdrr.io/pkg/VGAM/man/vglm.html) and
 [`AER::tobit`](https://rdrr.io/pkg/AER/man/tobit.html) packages.
@@ -110,8 +110,8 @@ fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "ident
 fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 
 par(mfrow=c(1,2))
-resid1 <- resid_semiconti(fit1, plot = TRUE)
-resid2 <- resid_semiconti(fit1miss, plot = TRUE)
+resid1 <- dpit(fit1, plot = TRUE)
+resid2 <- dpit(fit1miss, plot = TRUE)
 ```
 
 ![](semiconti_files/figure-html/tobit%20vgam2-1.png)
@@ -128,8 +128,8 @@ fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
 # Missing covariate
 par(mfrow=c(1,2))
 fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
-reisd1 <- resid_semiconti(fit2, plot = TRUE)
-resid2 <- resid_semiconti(fit2miss, plot = TRUE)
+reisd1 <- dpit(fit2, plot = TRUE)
+resid2 <- dpit(fit2miss, plot = TRUE)
 ```
 
 ![](semiconti_files/figure-html/tobit%20aer-1.png)

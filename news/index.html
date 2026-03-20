@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">assessor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,37 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="assessor-130">assessor 1.3.0<a class="anchor" aria-label="anchor" href="#assessor-130"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-3-0"></a></h3>
+<ul><li>Renamed all functions with prefix <code>resid_*</code> to <code>dpit_*</code>.</li>
+<li>Unified <code>resid_disc()</code>, <code>resid_zeroinfl()</code>, and <code>resid_semiconti()</code> into a single S3 generic function <code><a href="../reference/dpit.html">dpit()</a></code>.</li>
+<li>Renamed <code>resid_quasi()</code> to <code><a href="../reference/quasi_plot.html">quasi_plot()</a></code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-1-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-3-0"></a></h3>
+<ul><li>Added <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code> (formerly <code>resid_2pm()</code>).</li>
+<li>Introduced direct DPIT computation functions:
+<ul><li><code><a href="../reference/dpit_bin.html">dpit_bin()</a></code></li>
+<li><code><a href="../reference/dpit_pois.html">dpit_pois()</a></code></li>
+<li><code><a href="../reference/dpit_nb.html">dpit_nb()</a></code></li>
+<li><code><a href="../reference/dpit_ordi.html">dpit_ordi()</a></code></li>
+<li><code><a href="../reference/dpit_znb.html">dpit_znb()</a></code></li>
+<li><code><a href="../reference/dpit_zpois.html">dpit_zpois()</a></code></li>
+<li><code><a href="../reference/dpit_tobit.html">dpit_tobit()</a></code></li>
+<li><code><a href="../reference/dpit_tweedie.html">dpit_tweedie()</a></code></li>
+</ul></li>
+<li>Added <code><a href="../reference/gof_disc.html">gof_disc()</a></code>, an S3-based goodness-of-fit testing function for discrete outcome regression models.</li>
+<li>Updated <code><a href="../reference/quasi_plot.html">quasi_plot()</a></code> to an S3-based interface.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="assessor-120">assessor 1.2.0<a class="anchor" aria-label="anchor" href="#assessor-120"></a></h2>
+<ul><li>Add <code>bballHR</code> data set which is used as an example for assessing a discrete outcome regression.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="assessor-110">assessor 1.1.0<a class="anchor" aria-label="anchor" href="#assessor-110"></a></h2><p class="text-muted">CRAN release: 2024-04-03</p>
-<ul><li>Add <code><a href="../reference/resid_quasi.html">resid_quasi()</a></code> function for QQ-plot by using kernel methods.</li>
+<ul><li>Add <code>resid_quasi()</code> function for QQ-plot by using kernel methods.</li>
 <li>Add <code>MEPS</code> data set which is used as an example for assessing a semicontinuous outcome regression.</li>
 </ul></div>
     <div class="section level2">

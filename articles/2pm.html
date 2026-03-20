@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">assessor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@
 <div class="section level3 tabset tabset-pills">
 <h3 class="tabset tabset-pills" id="two-part-models">Two part models<a class="anchor" aria-label="anchor" href="#two-part-models"></a>
 </h3>
-<p>The input arguments for the <code><a href="../reference/resid_2pm.html">resid_2pm()</a></code> function differ
+<p>The input arguments for the <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code> function differ
 from those of other functions in <code>assessor</code> package.
 Specifically, users can utilize this function with either models or
 Probability Integral Transform (PIT) as input.</p>
@@ -141,8 +141,8 @@ The dispersion parameter is set to be 0.5.</p>
 <span><span class="va">mgamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span> <span class="op">~</span> <span class="va">x11</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span> <span class="op">+</span> <span class="va">x12</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">Gamma</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Gamma regression</span></span>
 <span><span class="va">m10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="va">x12</span> <span class="op">+</span> <span class="va">x11</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span> <span class="co"># logistic regression</span></span>
 <span></span>
-<span><span class="va">resid.models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_2pm.html">resid_2pm</a></span><span class="op">(</span>model0 <span class="op">=</span> <span class="va">m10</span>, model1 <span class="op">=</span> <span class="va">mgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
-<p><img src="2pm_files/figure-html/2pm%202-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<span><span class="va">resid.models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>model0 <span class="op">=</span> <span class="va">m10</span>, model1 <span class="op">=</span> <span class="va">mgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="2pm_files/figure-html/2pm%202-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="pit-as-input" role="tabpanel" aria-labelledby="pit-as-input-tab">
 
@@ -177,8 +177,8 @@ The dispersion parameter is set to be 0.5.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">p1f</span> <span class="op">&lt;-</span> <span class="va">m10</span><span class="op">$</span><span class="va">fitted.values</span></span>
 <span></span>
-<span><span class="va">resid.pit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_2pm.html">resid_2pm</a></span><span class="op">(</span>part0<span class="op">=</span> <span class="va">p1f</span>, part1 <span class="op">=</span> <span class="va">cdfgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
-<p><img src="2pm_files/figure-html/pit%20as%20input-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<span><span class="va">resid.pit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>part0<span class="op">=</span> <span class="va">p1f</span>, part1 <span class="op">=</span> <span class="va">cdfgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="2pm_files/figure-html/pit%20as%20input-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>

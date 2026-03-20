@@ -15,22 +15,24 @@ curve for assessing mean structures.
 In `assessor`, there are functions for calculating DPIT residuals for
 the various type of models: discrete, zero-inflated, and semi-continuous
 outcome regression models.
-[`resid_disc()`](https://jhlee1408.github.io/assessor/reference/resid_disc.md),
-[`resid_zeroinfl()`](https://jhlee1408.github.io/assessor/reference/resid_zeroinfl.md),
-[`resid_semiconti()`](https://jhlee1408.github.io/assessor/reference/resid_semiconti.md),
-and
-[`resid_2pm()`](https://jhlee1408.github.io/assessor/reference/resid_2pm.md)
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) and
+[`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md)
 are functions evaluating DPIT residuals for discrete, zero-inflated
-discrete, semicontinuous, and two-part outcomes, respectively. They
-share the same arguments:
+discrete, semicontinuous, and two-part outcomes (the former functions
+`resid_disc()`, `resid_semiconti()`, and `resid_zeroinfl()` have been
+unified under
+[`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md), and
+`resid_2pm()` has been renamed to
+[`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md)).
+They share the same arguments:
 
 - `model`: Each function supports certain types of model objects. Check
   below on which model objects are applicable.
 
 - `plot`: If you set `plot=TRUE`, the function will return a QQ-plot of
   DPIT residuals. Some users may only need the QQ-plot. In that case,
-  [`qqresid()`](https://jhlee1408.github.io/assessor/reference/qqresid.md)
-  only returns the QQ-plot without returning the DPIT residuals.
+  `qqresid()` only returns the QQ-plot without returning the DPIT
+  residuals.
 
 - `scale`: You can choose the scale of the residuals among `normal` and
   `uniform` scales. The sample quantiles of the residuals are plotted
@@ -61,9 +63,9 @@ modp <- glm(skips~.,famil=poisson(link="log"),data=solder)
 
 ## QQ-plot
 par(mfrow=c(1,3))
-poi.resid <- resid_disc(modp,plot = TRUE)
-norm.resid <- resid_disc(modpnb,plot = TRUE, scale = "normal")
-unif.resid <- resid_disc(modpnb,plot = TRUE, scale = "uniform")
+poi.resid <- dpit(modp,plot = TRUE)
+norm.resid <- dpit(modpnb,plot = TRUE, scale = "normal")
+unif.resid <- dpit(modpnb,plot = TRUE, scale = "uniform")
 ```
 
 ![](assessor_files/figure-html/example-1.png)
