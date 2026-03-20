@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.2",
+    "Version": "4.4.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -11,7 +11,7 @@
   "Packages": {
     "MASS": {
       "Package": "MASS",
-      "Version": "7.3-60.0.1",
+      "Version": "7.3-65",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -22,11 +22,11 @@
         "stats",
         "utils"
       ],
-      "Hash": "b765b28387acc8ec9e9c1530713cb19c"
+      "Hash": "a41d0fc833ea756a1136b60a437efe26"
     },
     "Matrix": {
       "Package": "Matrix",
-      "Version": "1.6-5",
+      "Version": "1.7-2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -39,7 +39,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "8c7115cd3a0e048bda2a7cd110549f7a"
+      "Hash": "f6a81550f166acbe2cd5229e9ca079b9"
     },
     "MatrixModels": {
       "Package": "MatrixModels",
@@ -56,18 +56,18 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.12",
+      "Version": "1.0.14",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "methods",
         "utils"
       ],
-      "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
+      "Hash": "e7bdd9ee90e96921ca8a0f1972d66682"
     },
     "SparseM": {
       "Package": "SparseM",
-      "Version": "1.81",
+      "Version": "1.84-2",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -77,11 +77,11 @@
         "stats",
         "utils"
       ],
-      "Hash": "2042cd9759cc89a453c4aefef0ce9aae"
+      "Hash": "e78499cbcbbca98200254bd171379165"
     },
     "VGAM": {
       "Package": "VGAM",
-      "Version": "1.1-10",
+      "Version": "1.1-14",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -91,11 +91,11 @@
         "stats",
         "stats4"
       ],
-      "Hash": "6754eb5b34d10c9b403d1840b58b5064"
+      "Hash": "d0c561977ba6b718d3261aa60b417c2d"
     },
     "boot": {
       "Package": "boot",
-      "Version": "1.3-30",
+      "Version": "1.3-31",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -103,21 +103,21 @@
         "graphics",
         "stats"
       ],
-      "Hash": "96abeed416a286d4a0f52e550b612343"
+      "Hash": "de2a4646c18661d6a0a08ec67f40b7ed"
     },
     "cubature": {
       "Package": "cubature",
-      "Version": "2.1.0",
+      "Version": "2.1.1",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "Rcpp"
       ],
-      "Hash": "2aa17112c073602a08b1f4a7db282cac"
+      "Hash": "ebb09f71a8b5e20c3edeed932c85504a"
     },
     "lattice": {
       "Package": "lattice",
-      "Version": "0.22-5",
+      "Version": "0.22-6",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -128,11 +128,11 @@
         "stats",
         "utils"
       ],
-      "Hash": "7c5e89f04e72d6611c77451f6331a091"
+      "Hash": "cc5ac1ba4c238c7ca9fa6a87ca11a7e2"
     },
     "np": {
       "Package": "np",
-      "Version": "0.60-17",
+      "Version": "0.60-18",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -143,7 +143,22 @@
         "quantreg",
         "stats"
       ],
-      "Hash": "d27db38609b7816b2cb7a18ded6fc887"
+      "Hash": "78f677738d7b9085418bbd2312091487"
+    },
+    "pscl": {
+      "Package": "pscl",
+      "Version": "1.5.9",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "MASS",
+        "datasets",
+        "grDevices",
+        "graphics",
+        "stats",
+        "utils"
+      ],
+      "Hash": "23c877cb455d19c0e771df8b4831edbd"
     },
     "quadprog": {
       "Package": "quadprog",
@@ -157,7 +172,7 @@
     },
     "quantreg": {
       "Package": "quantreg",
-      "Version": "5.97",
+      "Version": "6.00",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -171,7 +186,7 @@
         "stats",
         "survival"
       ],
-      "Hash": "1bbc97f7d637ab3917c514a69047b2c1"
+      "Hash": "2a91b35971a5eb01e2d0c01664755495"
     },
     "renv": {
       "Package": "renv",
@@ -185,7 +200,7 @@
     },
     "survival": {
       "Package": "survival",
-      "Version": "3.5-8",
+      "Version": "3.7-0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -197,7 +212,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "184d7799bca4ba8c3be72ea396f4b9a3"
+      "Hash": "5aaa9cbaf4aba20f8e06fdea1850a398"
     },
     "tweedie": {
       "Package": "tweedie",
