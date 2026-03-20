@@ -1,11 +1,13 @@
 #' @keywords internal
-resid.ordi <- function(model) {
+resid.ordi <- function(out, fitted_matrix) {
+  # what would be arguments?
+
   # fitted.values
   k <- length(model$lev)
   out <- as.numeric(factor(model$model[, 1], ordered = TRUE))
   n <- length(out)
 
-  fitprob <- fitted(model)
+  fitprob <- fitted(model) # matrix
   q <- t(apply(fitprob, 1, cumsum))
   inde <- cbind(1:n, out)
   res <- q[inde]

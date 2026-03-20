@@ -1,10 +1,10 @@
 Package: assessor
 Title: Assessment Tools for Regression Models with Discrete and Semicontinuous Outcomes
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(
     person("Lu", "Yang", email="luyang@umn.edu", role = "aut"),
     person("Jeonghwan", "Lee", email="lee03938@umn.edu", role=c("cre", "aut")))
-Description: Provides assessment tools for regression models with discrete and semicontinuous outcomes proposed in Yang (2023) <doi:10.48550/arXiv.2308.15596>. It calculates the double probability integral transform (DPIT) residuals, constructs QQ plots of residuals and the ordered curve for assessing mean structures.
+Description: Provides assessment tools for regression models with discrete and semicontinuous outcomes proposed in Yang (2021) <https://doi.org/10.1080/10618600.2021.1910042>, Yang (2024) <https://doi.org/10.1080/10618600.2024.2303336>, Yang (2024) <https://doi.org/10.1093/biomtc/ujae007>, and Yang (2026) <https://doi.org/10.1002/cjs.70046>. It calculates the double probability integral transform (DPIT) residuals. It also constructsQQ plots of residuals the ordered curve for assessing mean structures, quasi-empirical distribution function for overall assessment, and a formal goodness-of-fit test.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

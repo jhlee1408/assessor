@@ -12,7 +12,7 @@
 #' @param y Outcome variable.
 #' @param size Dispersion (size) parameter for the negative binomial distribution; e.g., a `glm.nb` fitted with a negative‐binomial family, you can extract it with `summary(model)$theta`.
 #' @param plot Logical; if `TRUE` (default) a QQ-plot of the residuals is displayed.
-#' @param scale You can choose the scale of the residuals among normal and uniform scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is normal
+#' @param scale You can choose the scale of the residuals among `normal` and `uniform`. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is normal
 #'
 #' @returns DPIT residuals and their mean CRPS. If `plot=TRUE`, also produces a QQ plot.
 #'

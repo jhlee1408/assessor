@@ -92,17 +92,51 @@
 #' ord_curve(poismodel2, thr = x2)
 #'
 #' @export
-ord_curve <- function(model, thr, line_args=list(), ...) {
-  glm.test <- (paste(model$call)[1] %in% c("glm", "glm.nb"))
-  polr.test <- (paste(model$call)[1] %in% c("polr"))
-  lm.test <- (paste(model$call)[1] %in% c("lm"))
+ord_curve <- function(model, thr, line_args = list(), ...) {
+  UseMethod("ord_curve")
+}
 
-  if(glm.test | polr.test) y1 <- model$y
-  if(lm.test) y1 <- model$model[,1]
+#' @rawNamespace S3method(ord_curve,glm)
+ord_curve.glm <- function(model, thr, line_args = list(), ...) {
+  y1 <- model$y
+  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+}
 
-  if (length(thr) != length(y1)) stop("Length of thr and model fitted value has to match")
+#' @rawNamespace S3method(ord_curve,negbin)
+ord_curve.negbin <- function(model, thr, line_args = list(), ...) {
+  y1 <- model$y
+  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+}
+
+#' @rawNamespace S3method(ord_curve,polr)
+ord_curve.polr <- function(model, thr, line_args = list(), ...) {
+  y1 <- model$y
+  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+}
+
+#' @rawNamespace S3method(ord_curve,lm)
+ord_curve.lm <- function(model, thr, line_args = list(), ...) {
+  y1 <- model$model[, 1]
+  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+}
+
+#' @rawNamespace S3method(ord_curve,default)
+ord_curve.default <- function(model, thr, line_args = list(), ...) {
+  cls <- paste(class(model), collapse = ", ")
+  stop(
+    sprintf("Unsupported model class for ord_curve(): %s. Supported: glm, negbin, polr, lm.", cls),
+    call. = FALSE
+  )
+}
+
+
+.ord_curve_core <- function(y1, q10, thr, line_args = list(), ...) {
+  if (length(thr) != length(y1)) {
+    stop("Length of thr and response has to match.", call. = FALSE)
+  }
+
   ord <- order(thr)
-  q10 <- model$fitted.values
+
   plot_defaults <- list(
     main = paste("Z:", deparse(substitute(thr))),
     xlab = expression(L[2](t)),
@@ -117,6 +151,7 @@ ord_curve <- function(model, thr, line_args=list(), ...) {
   )
 
   plot_args <- utils::modifyList(plot_defaults, list(...))
+
   do.call(graphics::plot, c(
     list(
       x = cumsum(q10[ord]) / sum(q10),
@@ -124,7 +159,9 @@ ord_curve <- function(model, thr, line_args=list(), ...) {
     ),
     plot_args
   ))
+
   line_defaults <- list(a = 0, b = 1, col = "red", lty = 5, lwd = 2)
   ab_args <- utils::modifyList(line_defaults, line_args)
   do.call(graphics::abline, ab_args)
+  invisible(NULL)
 }

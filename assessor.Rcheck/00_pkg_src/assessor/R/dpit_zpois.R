@@ -7,15 +7,13 @@ inv.zpois <- function(s, pzero, meanpoisson) {
   return(pres)
 }
 
-#' @keywords internal
-resid.zpois <- function(model) {
-  # fitted.values
-  y <- model$model[, 1]
-  meanpoisson <- predict(model, type = "count")
-  pzero <- predict(model, type = "zero")
+#' @export
+resid.zpois <- function(y, meanpois, pzero) {
+  # y <- model$model[, 1]
+  # meanpoisson <- predict(model, type = "count")
+  # pzero <- predict(model, type = "zero")
   n <- length(y)
   res <- (pzero + (1 - pzero) * (ppois(y, meanpoisson)))
-
   # resid
   empcdf <- rep(NA,n)
   for(i in 1:n){

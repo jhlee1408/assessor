@@ -1,20 +1,19 @@
 #' Residuals for regression models with two-part outcomes
 #'
-#' Calculates DPIT proposed residuals for model for semi-continuous outcomes.
-#' `resid_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
+#' Calculates DPIT residuals with model for semi-continuous outcomes.
+#' `dpit_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
-#' @usage resid_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
+#' @usage dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
 #'  line_args= list(), ...)
 #'
-#' @seealso [resid_semiconti()]
 #'
 #' @param model0 Model object for 0 outcomes (e.g., logistic regression)
 #' @param model1 Model object for the continuous part (gamma regression)
-#' @param y Semicontinuous outcome variables
+#' @param y Semicontinuous outcomes.
 #' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.
 #' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform` scales. The default scale is `normal`.
+#' @param scale You can choose the scale of the residuals among `normal` and `uniform`. The default scale is `normal`.
 #' @param line_args A named list of graphical parameters passed to
 #'   \code{graphics::abline()} to modify the reference (red) 45° line
 #'   in the QQ plot. If left empty, a default red dashed line is drawn.
@@ -24,19 +23,17 @@
 #'
 #'
 #' @details
-#' The DPIT residuals for regression models with semi-continuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
-#' where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
-#' where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
+#' For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.
 #'
 #' In two-part models, the probability of zero can be modeled using a logistic regression, `model0`,
 #' while the positive observations can be modeled using a gamma regression, `model1.`
-#' Users can choose to use different models and supply the resulting probability transforms.
+#' Users can choose to use different models and supply the resulting probabilities of zero and probability integral transforms.
 #'  `part0` should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 #'  `part1` should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #'
 #'
-#' @returns residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
@@ -65,7 +62,7 @@
 #' # models as input
 #' mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 #' m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-#' resid.model <- resid_2pm(model0 = m10, model1 = mgamma, y = y)
+#' resid.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
 #'
 #' # PIT as input
 #' cdfgamma <- pgamma(y[ind1],
@@ -73,8 +70,13 @@
 #'   shape = 1 / gamma.dispersion(mgamma)
 #' )
 #' p1f <- m10$fitted.values
-#' resid.pit <- resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
-resid_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...) {
+#' resid.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+
+# dpit_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...){
+#   UseMethod("dpit_2pm")
+# }
+
+dpit_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...) {
   if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
   if (missing(y)) stop("argument y is missing, with no default")
   if (sum(!(y >= 0)) != 0) stop("y has to be nonnegative")
