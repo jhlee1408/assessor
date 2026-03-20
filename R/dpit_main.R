@@ -54,7 +54,7 @@
 #'
 #' \item \strong{Semicontinuous outcomes}
 #'   \itemize{
-#'   \item Tobit regression via \code{\link[AER]{AER::tobit}} or \code{\link[VGAM]{VGAM::vglm}}
+#'   \item Tobit regression via \code{\link[AER]{tobit}} from `AER` or \code{\link[VGAM]{vglm}} from `VGAM`
 #'         (see \code{\link{dpit_tobit}}).
 #'   \item Tweedie regression via \code{\link[stats]{glm}} with a Tweedie family
 #'         (see \code{\link{dpit_tweedie}}).

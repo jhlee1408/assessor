@@ -68,7 +68,7 @@ the model is fit using \code{glm} function, or to use \code{dpit_pois} upon supp
 
 \item \strong{Semicontinuous outcomes}
 \itemize{
-\item Tobit regression via \code{\link[AER]{AER::tobit}} or \code{\link[VGAM]{VGAM::vglm}}
+\item Tobit regression via \code{\link[AER]{tobit}} from \code{AER} or \code{\link[VGAM]{vglm}} from \code{VGAM}
 (see \code{\link{dpit_tobit}}).
 \item Tweedie regression via \code{\link[stats]{glm}} with a Tweedie family
 (see \code{\link{dpit_tweedie}}).
