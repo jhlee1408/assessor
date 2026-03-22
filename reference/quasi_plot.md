@@ -45,7 +45,7 @@ W\_{n}(s;\mathbf{X}\_{i},\beta) 1\[F(Y\_{i}\| X\_{i}) \<
 H(s;X\_{i})\]\$\$ where \$\$W_n(s; \mathbf{X}\_i, \beta) =
 \frac{K\[(H(s; \mathbf{X}\_i)-s)/ \epsilon_n\]}{\sum\_{j=1}^{n} K\[(H(s;
 \mathbf{X}\_j)-s)/ \epsilon_n\]},\$\$ \\\epsilon_n\\ is the bandwidth;
-\\H(s,\mathbf{X}\_i)=\argmin\_{F(k\|\mathbf{X}\_i)}F(k\|\mathbf{X}\_i-s)\\
+\\H(s, X_i) = \mathrm{argmin}\_{F(k \mid X_i)} \|F(k \mid X_i) - s\|\\
 and \\K\\ is a bounded, symmetric, and Lipschitz continuous kernel.
 
 ## References
