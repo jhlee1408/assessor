@@ -1,20 +1,27 @@
+LGPIF                   LGPIF Data
 MEPS                    Healthcare expenditure data
 bballHR                 MLB Players' Home Run and Batted Ball
                         Statistics with Red Zone Metrics (2017-2019)
+dpit                    DPIT residuals for regression models with
+                        various non-continuous outcomes
+dpit_2pm                Residuals for regression models with two-part
+                        outcomes
+dpit_bin                Residuals for regression models with binary
+                        outcomes
 dpit_nb                 Residuals for regression models with negative
                         binomial outcomes
-dpit_pois               Residuals for regression models with Poisson
+dpit_ordi               Residuals for regression models with ordinal
                         outcomes
+dpit_pois               Residuals for regression models with poisson
+                        outcomes
+dpit_tobit              Residuals for a tobit model
+dpit_tweedie            Residuals for regression models with tweedie
+                        outcomes
+dpit_znb                Residuals for regression models with
+                        zero-inflated negative binomial outcomes
+dpit_zpois              Residuals for regression models with
+                        zero-inflated Poisson outcomes
 gof_disc                Goodness-of-fit test for discrete outcome
                         regression models
 ord_curve               Ordered curve for assessing mean structures
-qqresid                 QQ-plots of DPIT residuals
-resid_2pm               Residuals for regression models with two-part
-                        outcomes
-resid_disc              Residuals for regression models with discrete
-                        outcomes
-resid_quasi             Quasi Emprical residuals functions
-resid_semiconti         Residuals for regression models with
-                        semicontinuous outcomes
-resid_zeroinfl          Residuals for regression models with
-                        zero-inflated outcomes
+quasi_plot              Quasi emprical residuals functions

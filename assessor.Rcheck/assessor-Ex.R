@@ -26,6 +26,218 @@ head(bballHR)
 
 
 cleanEx()
+nameEx("dpit")
+### * dpit
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit
+### Title: DPIT residuals for regression models with various non-continuous
+###   outcomes
+### Aliases: dpit
+
+### ** Examples
+
+library(MASS)
+n <- 500
+set.seed(1234)
+## Negative Binomial example
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+### Parameters
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+size1 <- 2
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# generate outcomes
+y <- rnbinom(n, mu = lambda1, size = size1)
+
+# True model
+model1 <- glm.nb(y ~ x1 + x2)
+resid.nb1 <- dpit(model1, plot = TRUE, scale = "uniform")
+
+# Overdispersion
+model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid.nb2 <- dpit(model2, plot = TRUE, scale = "normal")
+
+## Binary example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n, 1, 1)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -5
+beta1 <- 2
+beta2 <- 1
+beta3 <- 3
+q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
+y1 <- rbinom(n, size = 1, prob = 1 - q1)
+
+# True model
+model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
+resid.bin1 <- dpit(model01, plot = TRUE)
+
+# Missing covariates
+model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
+resid.bin2 <- dpit(model02, plot = TRUE)
+
+## Poisson example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+y <- rpois(n, lambda1)
+
+# True model
+poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid.poi1 <- dpit(poismodel1, plot = TRUE)
+
+# Enlarge three outcomes
+y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
+poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+resid.poi2 <- dpit(poismodel2, plot = TRUE)
+
+## Ordinal example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n, mean = 2)
+# Coefficient
+beta1 <- 3
+
+# True model
+p0 <- plogis(1, location = beta1 * x1)
+p1 <- plogis(4, location = beta1 * x1) - p0
+p2 <- 1 - p0 - p1
+genemult <- function(p) {
+  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
+}
+test <- apply(cbind(p0, p1, p2), 1, genemult)
+y1 <- rep(0, n)
+y1[which(test[1, ] == 1)] <- 0
+y1[which(test[2, ] == 1)] <- 1
+y1[which(test[3, ] == 1)] <- 2
+multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
+resid.ord1 <- dpit(multimodel, plot = TRUE)
+
+## Non-Proportionality
+n <- 500
+set.seed(1234)
+x1 <- rnorm(n, mean = 2)
+beta1 <- 3
+beta2 <- 1
+p0 <- plogis(1, location = beta1 * x1)
+p1 <- plogis(4, location = beta2 * x1) - p0
+p2 <- 1 - p0 - p1
+genemult <- function(p) {
+  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
+}
+test <- apply(cbind(p0, p1, p2), 1, genemult)
+y1 <- rep(0, n)
+y1[which(test[1, ] == 1)] <- 0
+y1[which(test[2, ] == 1)] <- 1
+y1[which(test[3, ] == 1)] <- 2
+multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
+resid.ord2 <- dpit(multimodel, plot = TRUE)
+
+
+
+cleanEx()
+nameEx("dpit_2pm")
+### * dpit_2pm
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_2pm
+### Title: Residuals for regression models with two-part outcomes
+### Aliases: dpit_2pm
+
+### ** Examples
+
+library(MASS)
+n <- 500
+beta10 <- 1
+beta11 <- -2
+beta12 <- -1
+beta13 <- -1
+beta14 <- -1
+beta15 <- -2
+x11 <- rnorm(n)
+x12 <- rbinom(n, size = 1, prob = 0.4)
+
+p1 <- 1 / (1 + exp(-(beta10 + x11 * beta11 + x12 * beta12)))
+lambda1 <- exp(beta13 + beta14 * x11 + beta15 * x12)
+y2 <- rgamma(n, scale = lambda1 / 2, shape = 2)
+y <- rep(0, n)
+u <- runif(n, 0, 1)
+ind1 <- which(u >= p1)
+y[ind1] <- y2[ind1]
+
+# models as input
+mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
+m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
+resid.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+
+# PIT as input
+cdfgamma <- pgamma(y[ind1],
+  scale = mgamma$fitted.values * gamma.dispersion(mgamma),
+  shape = 1 / gamma.dispersion(mgamma)
+)
+p1f <- m10$fitted.values
+resid.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+
+
+
+cleanEx()
+nameEx("dpit_bin")
+### * dpit_bin
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_bin
+### Title: Residuals for regression models with binary outcomes
+### Aliases: dpit_bin
+
+### ** Examples
+
+## Binary example
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n, 1, 1)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -5
+beta1 <- 2
+beta2 <- 1
+beta3 <- 3
+q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
+y1 <- rbinom(n, size = 1, prob = 1 - q1)
+
+# True model
+model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
+fitted1 <- fitted(model01)
+y1 <- model01$y
+resid.bin1 <- dpit_bin(y=y1, prob=fitted1)
+
+# Missing covariates
+model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
+y2 <- model02$y
+fitted2 <- fitted(model02)
+resid.bin2 <- dpit_bin(y=y2, prob=fitted2)
+
+
+
+cleanEx()
 nameEx("dpit_nb")
 ### * dpit_nb
 
@@ -37,29 +249,71 @@ flush(stderr()); flush(stdout())
 
 ### ** Examples
 
-library(assessor)
-library(mgcv)
-set.seed(1234)
-n  <- 500
-x1 <- runif(n, 0, 1)
-x2 <- runif(n, 0, 1)
-f1 <- function(x)  2 * sin(2*pi*x)
-f2 <- function(x) -1.5 * (x - .5)^2
-eta <- -0.5 + f1(x1) + f2(x2)
-mu  <- exp(eta)
-theta_true <- 1.3
-y <- rnbinom(n, size = theta_true, mu = mu)
-dat <- data.frame(y, x1, x2)
-gam_nb <- gam(y ~ s(x1) + s(x2),
-              family = nb(),
-              data   = dat,
-              method = "REML")
-gam_pois <- gam(y ~ s(x1) + s(x2),
-                family = poisson(),
-                data = dat,
-                method = "REML")
-dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
-dpit_pois(gam_pois$fitted.values, y=y)
+## Negative Binomial example
+library(MASS)
+n <- 500
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+### Parameters
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+size1 <- 2
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# generate outcomes
+y <- rnbinom(n, mu = lambda1, size = size1)
+
+# True model
+model1 <- glm.nb(y ~ x1 + x2)
+y1 <- model1$y
+fitted1 <- fitted(model1)
+size1 <- model1$theta
+resid.nb1 <- dpit_nb(y=y1, mu=fitted1, size=size1)
+
+# Overdispersion
+model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+y2 <- model2$y
+fitted2 <- fitted(model2)
+resid.nb2 <- dpit_pois(y=y2, mu=fitted2)
+
+
+
+cleanEx()
+nameEx("dpit_ordi")
+### * dpit_ordi
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_ordi
+### Title: Residuals for regression models with ordinal outcomes
+### Aliases: dpit_ordi
+
+### ** Examples
+
+## Ordinal example
+library(MASS)
+n <- 500
+x1 <- rnorm(n, mean = 2)
+beta1 <- 3
+# True model
+p0 <- plogis(1, location = beta1 * x1)
+p1 <- plogis(4, location = beta1 * x1) - p0
+p2 <- 1 - p0 - p1
+genemult <- function(p) {
+ rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
+}
+test <- apply(cbind(p0, p1, p2), 1, genemult)
+y1 <- rep(0, n)
+y1[which(test[1, ] == 1)] <- 0
+y1[which(test[2, ] == 1)] <- 1
+y1[which(test[3, ] == 1)] <- 2
+multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
+
+y1 <- multimodel$model[,1]
+lev1 <- multimodel$lev
+fitprob1 <- fitted(multimodel)
+
+resid.ord <- dpit_ordi(y=y1, level=lev1, fitprob=fitprob1)
 
 
 
@@ -70,34 +324,229 @@ nameEx("dpit_pois")
 flush(stderr()); flush(stdout())
 
 ### Name: dpit_pois
-### Title: Residuals for regression models with Poisson outcomes
+### Title: Residuals for regression models with poisson outcomes
 ### Aliases: dpit_pois
 
 ### ** Examples
 
-library(assessor)
-library(mgcv)
+## Poisson example
+n <- 500
 set.seed(1234)
-n  <- 500
-x1 <- runif(n, 0, 1)
-x2 <- runif(n, 0, 1)
-f1 <- function(x)  2 * sin(2*pi*x)
-f2 <- function(x) -1.5 * (x - .5)^2
-eta <- -0.5 + f1(x1) + f2(x2)
-mu  <- exp(eta)
-theta_true <- 1.3
-y <- rnbinom(n, size = theta_true, mu = mu)
-dat <- data.frame(y, x1, x2)
-gam_nb <- gam(y ~ s(x1) + s(x2),
-              family = nb(),
-              data   = dat,
-              method = "REML")
-gam_pois <- gam(y ~ s(x1) + s(x2),
-                family = poisson(),
-                data = dat,
-                method = "REML")
-dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
-dpit_pois(gam_pois$fitted.values, y=y)
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+y <- rpois(n, lambda1)
+
+# True model
+poismodel <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+y1 <- poismodel$y
+p1f <- fitted(poismodel)
+resid.poi <- dpit_pois(y=y1, mu=p1f)
+
+
+
+
+cleanEx()
+nameEx("dpit_tobit")
+### * dpit_tobit
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_tobit
+### Title: Residuals for a tobit model
+### Aliases: dpit_tobit
+
+### ** Examples
+
+## Tobit regression model
+library(VGAM)
+n <- 500
+beta13 <- 1
+beta14 <- -3
+beta15 <- 3
+
+set.seed(1234)
+x11 <- runif(n)
+x12 <- runif(n)
+lambda1 <- beta13 + beta14 * x11 + beta15 * x12
+sd0 <- 0.3
+yun <- rnorm(n, mean = lambda1, sd = sd0)
+y <- ifelse(yun >= 0, yun, 0)
+
+# Using VGAM package
+# True model
+fit1 <- vglm(formula = y ~ x11 + x12,
+             tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
+# Missing covariate
+fit1miss <- vglm(formula = y ~ x11,
+                 tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
+
+resid.tobit1 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1), sd = sd0)
+resid.tobit2 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1miss), sd = sd0)
+
+# Using AER package
+library(AER)
+# True model
+fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
+# Missing covariate
+fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
+
+resid.aer1 <- dpit_tobit(y = y, mu = fitted(fit2), sd = sd0)
+resid.aer2 <- dpit_tobit(y = y, mu = fitted(fit2miss), sd = sd0)
+
+
+
+cleanEx()
+nameEx("dpit_tweedie")
+### * dpit_tweedie
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_tweedie
+### Title: Residuals for regression models with tweedie outcomes
+### Aliases: dpit_tweedie
+
+### ** Examples
+
+## Tweedie model
+library(tweedie)
+library(statmod)
+n <- 500
+x11 <- rnorm(n)
+x12 <- rnorm(n)
+beta0 <- 5
+beta1 <- 1
+beta2 <- 1
+lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
+y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
+# Choose parameter p
+# True model
+model1 <-
+  glm(y1 ~ x11 + x12,
+    family = tweedie(var.power = 1.6, link.power = 0)
+  )
+y1 <- model1$y
+p.max <- get("p", envir = environment(model1$family$variance))
+lambda1f <- model1$fitted.values
+phi1f <- summary(model1)$dis
+resid.tweedie <- dpit_tweedie(y= y1, mu=lambda1f, xi=p.max, phi=phi1f)
+
+
+
+cleanEx()
+nameEx("dpit_znb")
+### * dpit_znb
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_znb
+### Title: Residuals for regression models with zero-inflated negative
+###   binomial outcomes
+### Aliases: dpit_znb
+
+### ** Examples
+
+## Zero-Inflated Negative Binomial
+library(pscl)
+n <- 500
+set.seed(1234)
+
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+
+# Coefficients
+beta0 <- -2
+beta1 <-  2
+beta2 <-  1
+beta00 <- -2
+beta10 <-  2
+
+# NB dispersion (size = theta; larger => closer to Poisson)
+theta_true <- 1.2
+
+# Mean of NB count part
+mu_true <- exp(beta0 + beta1 * x1 + beta2 * x2)
+
+# Excess zero probability (logit)
+p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
+
+## simulate outcomes
+z  <- rbinom(n, size = 1, prob = 1 - p0)              # 1 => from NB, 0 => structural zero
+y1 <- rnbinom(n, size = theta_true, mu = mu_true)     # NB count draw
+y  <- ifelse(z == 0, 0, y1)
+
+## True model
+modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
+y1 <- modelzero1$y
+mu1    <- stats::predict(modelzero1, type = "count")
+pzero1 <- stats::predict(modelzero1, type = "zero")
+theta1 <- modelzero1$theta
+resid.zero1 <- dpit_znb(y = y1, pzero = pzero1, mu = mu1, size = theta1)
+
+## Ignoring zero-inflation: NB only
+modelzero2 <- MASS::glm.nb(y ~ x1 + x2)
+y2 <- modelzero2$y
+mu2    <- fitted(modelzero2)
+theta2 <- modelzero2$theta
+resid.zero2 <- dpit_nb(y = y2, mu = mu2, size = theta2)
+
+
+
+cleanEx()
+nameEx("dpit_zpois")
+### * dpit_zpois
+
+flush(stderr()); flush(stdout())
+
+### Name: dpit_zpois
+### Title: Residuals for regression models with zero-inflated Poisson
+###   outcomes
+### Aliases: dpit_zpois
+
+### ** Examples
+
+## Zero-Inflated Poisson
+library(pscl)
+n <- 500
+set.seed(1234)
+# Covariates
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+# Coefficients
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+beta00 <- -2
+beta10 <- 2
+
+# Mean of Poisson part
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# Excess zero probability
+p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
+## simulate outcomes
+y0 <- rbinom(n, size = 1, prob = 1 - p0)
+y1 <- rpois(n, lambda1)
+y <- ifelse(y0 == 0, 0, y1)
+## True model
+modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
+y1 <- modelzero1$y
+mu1    <- stats::predict(modelzero1, type = "count")
+pzero1 <- stats::predict(modelzero1, type = "zero")
+resid.zero1 <- dpit_zpois(y= y1, pzero=pzero1, mu=mu1)
+
+## Zero inflation
+modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+y2 <- modelzero2$y
+mu2    <- fitted(modelzero2)
+resid.zero2 <- dpit_pois(y= y2, mu=mu2)
+
+
 
 
 
@@ -119,7 +568,7 @@ n <- 500
 B <- 1000
 beta1 <- 1;  beta2 <- 1
 beta0 <- -2; beta00 <- -2; beta10 <- 2
-size1<- 2
+size1 <- 2
 set.seed(1)
 x1 <- rnorm(n)
 x2 <- rbinom(n,1,0.7)
@@ -190,209 +639,14 @@ ord_curve(poismodel2, thr = x2)
 
 
 cleanEx()
-nameEx("qqresid")
-### * qqresid
+nameEx("quasi_plot")
+### * quasi_plot
 
 flush(stderr()); flush(stdout())
 
-### Name: qqresid
-### Title: QQ-plots of DPIT residuals
-### Aliases: qqresid
-
-### ** Examples
-
-n <- 100
-b <- c(2, 1, -2)
-x1 <- rnorm(n)
-x2 <- rbinom(n, 1, 0.7)
-y <- rpois(n, exp(b[1] + b[2] * x1 + b[3] * x2))
-
-m1 <- glm(y ~ x1 + x2, family = poisson)
-qqresid(m1, scale = "normal")
-qqresid(m1, scale = "uniform")
-
-
-
-cleanEx()
-nameEx("resid_2pm")
-### * resid_2pm
-
-flush(stderr()); flush(stdout())
-
-### Name: resid_2pm
-### Title: Residuals for regression models with two-part outcomes
-### Aliases: resid_2pm
-
-### ** Examples
-
-library(MASS)
-n <- 500
-beta10 <- 1
-beta11 <- -2
-beta12 <- -1
-beta13 <- -1
-beta14 <- -1
-beta15 <- -2
-x11 <- rnorm(n)
-x12 <- rbinom(n, size = 1, prob = 0.4)
-
-p1 <- 1 / (1 + exp(-(beta10 + x11 * beta11 + x12 * beta12)))
-lambda1 <- exp(beta13 + beta14 * x11 + beta15 * x12)
-y2 <- rgamma(n, scale = lambda1 / 2, shape = 2)
-y <- rep(0, n)
-u <- runif(n, 0, 1)
-ind1 <- which(u >= p1)
-y[ind1] <- y2[ind1]
-
-# models as input
-mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
-m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-resid.model <- resid_2pm(model0 = m10, model1 = mgamma, y = y)
-
-# PIT as input
-cdfgamma <- pgamma(y[ind1],
-  scale = mgamma$fitted.values * gamma.dispersion(mgamma),
-  shape = 1 / gamma.dispersion(mgamma)
-)
-p1f <- m10$fitted.values
-resid.pit <- resid_2pm(y = y, part0 = p1f, part1 = cdfgamma)
-
-
-
-cleanEx()
-nameEx("resid_disc")
-### * resid_disc
-
-flush(stderr()); flush(stdout())
-
-### Name: resid_disc
-### Title: Residuals for regression models with discrete outcomes
-### Aliases: resid_disc
-
-### ** Examples
-
-library(MASS)
-n <- 500
-set.seed(1234)
-## Negative Binomial example
-# Covariates
-x1 <- rnorm(n)
-x2 <- rbinom(n, 1, 0.7)
-### Parameters
-beta0 <- -2
-beta1 <- 2
-beta2 <- 1
-size1 <- 2
-lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
-# generate outcomes
-y <- rnbinom(n, mu = lambda1, size = size1)
-
-# True model
-model1 <- glm.nb(y ~ x1 + x2)
-resid.nb1 <- resid_disc(model1, plot = TRUE, scale = "uniform")
-
-# Overdispersion
-model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.nb2 <- resid_disc(model2, plot = TRUE, scale = "normal")
-
-## Binary example
-n <- 500
-set.seed(1234)
-# Covariates
-x1 <- rnorm(n, 1, 1)
-x2 <- rbinom(n, 1, 0.7)
-# Coefficients
-beta0 <- -5
-beta1 <- 2
-beta2 <- 1
-beta3 <- 3
-q1 <- 1 / (1 + exp(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x1 * x2))
-y1 <- rbinom(n, size = 1, prob = 1 - q1)
-
-# True model
-model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid.bin1 <- resid_disc(model01, plot = TRUE)
-
-# Missing covariates
-model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid.bin2 <- resid_disc(model02, plot = TRUE)
-
-## Poisson example
-n <- 500
-set.seed(1234)
-# Covariates
-x1 <- rnorm(n)
-x2 <- rbinom(n, 1, 0.7)
-# Coefficients
-beta0 <- -2
-beta1 <- 2
-beta2 <- 1
-lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
-y <- rpois(n, lambda1)
-
-# True model
-poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi1 <- resid_disc(poismodel1, plot = TRUE)
-
-# Enlarge three outcomes
-y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
-poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi2 <- resid_disc(poismodel2, plot = TRUE)
-
-## Ordinal example
-n <- 500
-set.seed(1234)
-# Covariates
-x1 <- rnorm(n, mean = 2)
-# Coefficient
-beta1 <- 3
-
-# True model
-p0 <- plogis(1, location = beta1 * x1)
-p1 <- plogis(4, location = beta1 * x1) - p0
-p2 <- 1 - p0 - p1
-genemult <- function(p) {
-  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
-}
-test <- apply(cbind(p0, p1, p2), 1, genemult)
-y1 <- rep(0, n)
-y1[which(test[1, ] == 1)] <- 0
-y1[which(test[2, ] == 1)] <- 1
-y1[which(test[3, ] == 1)] <- 2
-multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord1 <- resid_disc(multimodel, plot = TRUE)
-
-## Non-Proportionality
-n <- 500
-set.seed(1234)
-x1 <- rnorm(n, mean = 2)
-beta1 <- 3
-beta2 <- 1
-p0 <- plogis(1, location = beta1 * x1)
-p1 <- plogis(4, location = beta2 * x1) - p0
-p2 <- 1 - p0 - p1
-genemult <- function(p) {
-  rmultinom(1, size = 1, prob = c(p[1], p[2], p[3]))
-}
-test <- apply(cbind(p0, p1, p2), 1, genemult)
-y1 <- rep(0, n)
-y1[which(test[1, ] == 1)] <- 0
-y1[which(test[2, ] == 1)] <- 1
-y1[which(test[3, ] == 1)] <- 2
-multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord2 <- resid_disc(multimodel, plot = TRUE)
-
-
-
-cleanEx()
-nameEx("resid_quasi")
-### * resid_quasi
-
-flush(stderr()); flush(stdout())
-
-### Name: resid_quasi
-### Title: Quasi Emprical residuals functions
-### Aliases: resid_quasi
+### Name: quasi_plot
+### Title: Quasi emprical residuals functions
+### Aliases: quasi_plot
 
 ### ** Examples
 
@@ -413,11 +667,11 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resid.nb1 <- resid_quasi(model1)
+resid.nb1 <- quasi_plot(model1)
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.nb2 <- resid_quasi(model2)
+resid.nb2 <- quasi_plot(model2)
 
 ## Zero inflated Poisson example
 library(pscl)
@@ -443,116 +697,7 @@ y1 <- rpois(n, lambda1)
 y <- ifelse(y0 == 0, 0, y1)
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid.zero1 <- resid_quasi(modelzero1)
-
-
-
-cleanEx()
-nameEx("resid_semiconti")
-### * resid_semiconti
-
-flush(stderr()); flush(stdout())
-
-### Name: resid_semiconti
-### Title: Residuals for regression models with semicontinuous outcomes
-### Aliases: resid_semiconti
-
-### ** Examples
-
-## Tweedie model
-library(tweedie)
-library(statmod)
-n <- 500
-x11 <- rnorm(n)
-x12 <- rnorm(n)
-beta0 <- 5
-beta1 <- 1
-beta2 <- 1
-lambda1 <- exp(beta0 + beta1 * x11 + beta2 * x12)
-y1 <- rtweedie(n, mu = lambda1, xi = 1.6, phi = 10)
-# Choose parameter p
-# True model
-model1 <-
-  glm(y1 ~ x11 + x12,
-    family = tweedie(var.power = 1.6, link.power = 0)
-  )
-resid.tweedie <- resid_semiconti(model1)
-
-## Tobit regression model
-library(VGAM)
-beta13 <- 1
-beta14 <- -3
-beta15 <- 3
-
-set.seed(1234)
-x11 <- runif(n)
-x12 <- runif(n)
-lambda1 <- beta13 + beta14 * x11 + beta15 * x12
-sd0 <- 0.3
-yun <- rnorm(n, mean = lambda1, sd = sd0)
-y <- ifelse(yun >= 0, yun, 0)
-
-# Using VGAM package
-# True model
-fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
-# Missing covariate
-fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
-
-resid.tobit1 <- resid_semiconti(fit1, plot = TRUE)
-resid.tobit2 <- resid_semiconti(fit1miss, plot = TRUE)
-
-# Using AER package
-library(AER)
-# True model
-fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
-# Missing covariate
-fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
-resid.aer1 <- resid_semiconti(fit2, plot = TRUE)
-resid.aer2 <- resid_semiconti(fit2miss, plot = TRUE)
-
-
-
-cleanEx()
-nameEx("resid_zeroinfl")
-### * resid_zeroinfl
-
-flush(stderr()); flush(stdout())
-
-### Name: resid_zeroinfl
-### Title: Residuals for regression models with zero-inflated outcomes
-### Aliases: resid_zeroinfl
-
-### ** Examples
-
-## Zero-Inflated Poisson
-library(pscl)
-n <- 500
-set.seed(1234)
-# Covariates
-x1 <- rnorm(n)
-x2 <- rbinom(n, 1, 0.7)
-# Coefficients
-beta0 <- -2
-beta1 <- 2
-beta2 <- 1
-beta00 <- -2
-beta10 <- 2
-
-# Mean of Poisson part
-lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
-# Excess zero probability
-p0 <- 1 / (1 + exp(-(beta00 + beta10 * x1)))
-## simulate outcomes
-y0 <- rbinom(n, size = 1, prob = 1 - p0)
-y1 <- rpois(n, lambda1)
-y <- ifelse(y0 == 0, 0, y1)
-## True model
-modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid.zero1 <- resid_zeroinfl(modelzero1, plot = TRUE, scale = "uniform")
-
-## Zero inflation
-modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.zero2 <- resid_disc(modelzero2, plot = TRUE, scale = "normal")
+resid.zero1 <- quasi_plot(modelzero1)
 
 
 

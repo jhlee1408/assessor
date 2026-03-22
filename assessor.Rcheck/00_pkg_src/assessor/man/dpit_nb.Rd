@@ -4,54 +4,67 @@
 \alias{dpit_nb}
 \title{Residuals for regression models with negative binomial outcomes}
 \usage{
-dpit_nb(fitted, y=NULL, size=NULL, plot = TRUE, scale="uniform")
+dpit_nb(y, mu, size, plot=TRUE, scale="normal", line_args=list(), ...)
 }
 \arguments{
-\item{fitted}{Numeric vector of fitted means.}
+\item{y}{An observed outcome vector.}
 
-\item{y}{Outcome variable.}
+\item{mu}{A vector of fitted mean values.}
 
-\item{size}{Dispersion (size) parameter for the negative binomial distribution; e.g., a \code{glm.nb} fitted with a negative‐binomial family, you can extract it with \code{summary(model)$theta}.}
+\item{size}{A dispersion parameter of the negative binomial distribution.}
 
-\item{plot}{Logical; if \code{TRUE} (default) a QQ-plot of the residuals is displayed.}
+\item{plot}{A logical value indicating whether or not to return QQ-plot}
 
-\item{scale}{You can choose the scale of the residuals among normal and uniform scales. The sample quantiles of the residuals are plotted against the theoretical quantiles of a standard normal distribution under the normal scale, and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale. The default scale is normal}
+\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
+The sample quantiles of the residuals are plotted against
+the theoretical quantiles of a standard normal distribution under the normal scale,
+and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
+The default scale is \code{normal}.}
+
+\item{line_args}{A named list of graphical parameters passed to
+\code{graphics::abline()} to modify the reference (red) 45° line
+in the QQ plot. If left empty, a default red dashed line is drawn.}
+
+\item{...}{Additional graphical arguments passed to
+\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-DPIT residuals and their mean CRPS. If \code{plot=TRUE}, also produces a QQ plot.
+DPIT residuals.
 }
 \description{
-Calculates Double Probability Integral Transform (DPIT) residuals for
-regression model whose response follows a negative binomial distribution.
-Unlike \code{resid_disc}, which infers the fitted CDF from a model object,
-\code{dpit_nb} requires only the vector of fitted means and a dispersion parameter, so it can be applied
-to GLMs, GAMs, or other custom estimators—as long as fitted values are available.
+Computes DPIT residuals for regression models with negative binomial
+outcomes using the observed counts (\code{y}) and their fitted distributional
+parameters (\code{mu}, \code{size}).
+}
+\details{
+For formulation details on discrete outcomes, see \code{\link{dpit}}.
 }
 \examples{
-library(assessor)
-library(mgcv)
-set.seed(1234)
-n  <- 500
-x1 <- runif(n, 0, 1)
-x2 <- runif(n, 0, 1)
-f1 <- function(x)  2 * sin(2*pi*x)
-f2 <- function(x) -1.5 * (x - .5)^2
-eta <- -0.5 + f1(x1) + f2(x2)
-mu  <- exp(eta)
-theta_true <- 1.3
-y <- rnbinom(n, size = theta_true, mu = mu)
-dat <- data.frame(y, x1, x2)
-gam_nb <- gam(y ~ s(x1) + s(x2),
-              family = nb(),
-              data   = dat,
-              method = "REML")
-gam_pois <- gam(y ~ s(x1) + s(x2),
-                family = poisson(),
-                data = dat,
-                method = "REML")
-dpit_nb(gam_nb$fitted.values, y=y, size=gam_nb$family$getTheta(TRUE))
-dpit_pois(gam_pois$fitted.values, y=y)
-}
-\references{
-Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
+## Negative Binomial example
+library(MASS)
+n <- 500
+x1 <- rnorm(n)
+x2 <- rbinom(n, 1, 0.7)
+### Parameters
+beta0 <- -2
+beta1 <- 2
+beta2 <- 1
+size1 <- 2
+lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
+# generate outcomes
+y <- rnbinom(n, mu = lambda1, size = size1)
+
+# True model
+model1 <- glm.nb(y ~ x1 + x2)
+y1 <- model1$y
+fitted1 <- fitted(model1)
+size1 <- model1$theta
+resid.nb1 <- dpit_nb(y=y1, mu=fitted1, size=size1)
+
+# Overdispersion
+model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+y2 <- model2$y
+fitted2 <- fitted(model2)
+resid.nb2 <- dpit_pois(y=y2, mu=fitted2)
 }

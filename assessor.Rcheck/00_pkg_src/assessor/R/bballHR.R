@@ -7,6 +7,7 @@
 #'   \item{name}{Player's full name (character).}
 #'   \item{playerID}{Player's unique identifier in the Lahman database (character).}
 #'   \item{teamID}{Team abbreviation (character).}
+#'
 #'   \item{year}{Season year (numeric).}
 #'   \item{HR}{Home runs hit during the season (integer).}
 #'   \item{AB}{At-bats during the season (integer).}
@@ -26,7 +27,7 @@
 #' @details
 #' \describe{
 #'   \item{Mean Metrics}{\code{mean_exit_velo} and \code{mean_launch_angle} represent the player's average exit velocities and launch angles, respectively, over the course of a season.}
-#'   \item{Quantile Metrics}{The \code{launch_angle_xx} and \code{exit_velo_xx} columns denote the upper \eqn{x}-percentiles (e.g., 75th percentile) of the player's launch angle and exit velocity distributions for that year.}
+#'   \item{Quantile Metrics}{The \code{launch_angle_x} and \code{exit_velo_x} columns denote the upper \eqn{x}-percentiles (e.g., 75th percentile) of the player's launch angle and exit velocity distributions for that year.}
 #'   \item{Red Zone Metrics}{\code{count_red_zone} gives the number of balls in play that fall into the red zone, while \code{prop_red_zone} represents the proportion of balls in play in this category.}
 #'   \item{BPF}{The Ballpark Factor (BPF) quantifies the influence of the player's home ballpark on offensive performance, with values above 100 indicating a hitter-friendly environment.}
 #' }

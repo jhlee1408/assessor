@@ -1,10 +1,49 @@
 #' @keywords internal
+.resid_quasi_finalize <- function(x,
+                                  y,
+                                  main,
+                                  xlab = "s",
+                                  ylab = expression(hat(U) * "(s)"),
+                                  xlim = range(x, na.rm = TRUE),
+                                  line_args = list(),
+                                  ...) {
+
+  defaults <- list(
+    type     = "l",
+    main     = main,
+    ylab     = ylab,
+    xlab     = xlab,
+    cex.lab  = 2,
+    cex.axis = 2,
+    cex.main = 2,
+    lwd      = 2,
+    xlim     = xlim
+  )
+
+  qq_args <- modifyList(defaults, list(...))
+
+  do.call(plot, c(list(x = x, y = y), qq_args))
+
+  default_abline <- list(
+    a   = 0,
+    b   = 1,
+    col = "red",
+    lty = 5,
+    lwd = 2
+  )
+  ab_args <- modifyList(default_abline, line_args)
+  do.call(abline, ab_args)
+
+  invisible(NULL)
+}
+
+
+#' @keywords internal
 listvec <- function(x) {
   x[1]:x[2]
 }
 
 ## Binary
-## \hat{U}. y is the outcome, and q0 is the fitted probability of zero
 margin01 <- function(u, y, q0, h) {
   wei <- 1 * ((q0 - u)^2 < 5 * h^2) * (1 - ((q0 - u)^2) / h^2 / 5)
   l <- sum(wei * 1 * (y == 0)) / sum(wei)
@@ -19,16 +58,28 @@ bandwidth01 <- function(y, q0) {
 }
 
 #' @keywords internal
-resid.bin_quasi <- function(model){
-  y <- model$y
+#' @importFrom utils modifyList
+resid.bin_quasi <- function(model, line_args, ...){
+  y   <- model$y
   q10 <- 1 - model$fitted.values
-  h <- bandwidth01(y = y, q0 = q10)
-  x.input <- seq(0,1, length.out=101)
-  plot(x.input, margin01(x.input, y=y, q0=q10, h=h), type='l',
-       main = "Quasi, Binary", ylab = expression(hat(U) * "(s)"), xlab = "s",
-       cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
-       xlim = c(min(pbinom(0, size=1,prob=q10)), max(pbinom(0, size=1,prob=q10))))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+
+  h       <- bandwidth01(y = y, q0 = q10)
+  x.input <- seq(0, 1, length.out = 101)
+  y_curve <- margin01(x.input, y = y, q0 = q10, h = h)
+
+  xlim_vec <- c(
+    min(pbinom(0, size = 1, prob = q10)),
+    max(pbinom(0, size = 1, prob = q10))
+  )
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, Binary",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 
@@ -61,16 +112,26 @@ bandwidthp <- function(y, lambdaf){
   bws <- npregbw(ydat = newy[which(newx <= 0.9)], xdat = newx[which(newx <= 0.9)], ckertype = "epanechnikov")
   return(bws$bw)
 }
+
 #' @keywords internal
-resid.pois_quasi <- function(model){
-  y <- model$y
+resid.pois_quasi <- function(model, line_args, ...){
+  y        <- model$y
   lambda1f <- model$fitted.values
-  h <- bandwidthp(y = y, lambdaf = lambda1f)
-  x.input <- seq(0,1, length.out= 101)
-  plot(x.input, marginesti(u=x.input, y=y, lambdaf= lambda1f, h=h), type='l',
-       main = "Quasi, Poisson", ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
-       lwd = 2, xlim = c(min(ppois(0, lambda = lambda1f)), 1))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+
+  h       <- bandwidthp(y = y, lambdaf = lambda1f)
+  x.input <- seq(0, 1, length.out = 101)
+  y_curve <- marginesti(u = x.input, y = y, lambdaf = lambda1f, h = h)
+
+  xlim_vec <- c(min(ppois(0, lambda = lambda1f)), 1)
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, Poisson",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 ############
@@ -106,17 +167,26 @@ bandwidthnb <- function(y, lambdaf, sizef) {
 }
 
 #' @keywords internal
-resid.nb_quasi <- function(model){
-  y <- model$y
+resid.nb_quasi <- function(model, line_args, ...){
+  y        <- model$y
   lambda1f <- model$fitted.values
-  size1f <- summary(model)$theta
-  h <- bandwidthnb(y = y, lambdaf = lambda1f, sizef = size1f)
-  x.input <- seq(0,1, length.out=101)
-  plot(x.input, marginnb(u=x.input, y=y, lambdaf=lambda1f, sizef=size1f, h=h), type='l',
-       main = "Quasi, NB",
-       ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
-       lwd = 2, xlim = c(min(pnbinom(0, size=size1f, mu=lambda1f)), 1))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+  size1f   <- summary(model)$theta
+
+  h       <- bandwidthnb(y = y, lambdaf = lambda1f, sizef = size1f)
+  x.input <- seq(0, 1, length.out = 101)
+  y_curve <- marginnb(u = x.input, y = y,
+                      lambdaf = lambda1f, sizef = size1f, h = h)
+
+  xlim_vec <- c(min(pnbinom(0, size = size1f, mu = lambda1f)), 1)
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, NB",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 ###########
@@ -147,15 +217,24 @@ bandwidthord <- function(y, p1) {
 }
 
 #' @keywords internal
-resid.ordi_quasi <- function(model){
-  y <- as.numeric(model$model[,1])-1
-  p1 <- t(apply(model$fitted.values,1 ,cumsum))
-  h <- bandwidthord(y = y, p1=p1)
-  x.input <- seq(0,1, length.out=101)
-  plot(x.input, marginm(x=x.input, y=y, p1=p1, h=h), type='l',main = "Quasi, Ordinal",
-       ylab = expression(hat(U) * "(s)"), xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2,
-       lwd = 2, xlim = c(0,1))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+resid.ordi_quasi <- function(model, line_args, ...){
+  y  <- as.numeric(model$model[,1]) - 1
+  p1 <- t(apply(model$fitted.values, 1, cumsum))
+
+  h       <- bandwidthord(y = y, p1 = p1)
+  x.input <- seq(0, 1, length.out = 101)
+  y_curve <- marginm(x = x.input, y = y, p1 = p1, h = h)
+
+  xlim_vec <- c(0, 1)
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, Ordinal",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 ###########
@@ -192,18 +271,35 @@ bandwidth0p <- function(y, pzero, meanpoisson) {
 }
 
 #' @keywords internal
-resid.zpois_quasi <- function(model){
-  y <- model$model[, 1]
+resid.zpois_quasi <- function(model, line_args, ...){
+  y           <- model$model[,1]
   meanpoisson <- predict(model, type = "count")
-  pzero <- predict(model, type = "zero")
-  h <- bandwidth0p(y = y, pzero = pzero, meanpoisson = meanpoisson)
+  pzero       <- predict(model, type = "zero")
 
-  x.input <- seq(0,1, length.out=101)
-  plot(x.input, marginzerop(u=x.input, y=y, pzero = pzero, meanpoisson = meanpoisson, h=h), type='l',
-       main = "Quasi, 0-Inflated Poisson",ylab = expression(hat(U) * "(s)"),
-       xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
-       xlim = c(min(pzero + (1 - pzero) * (ppois(0, meanpoisson))), 1))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+  h       <- bandwidth0p(y = y, pzero = pzero, meanpoisson = meanpoisson)
+  x.input <- seq(0, 1, length.out = 101)
+
+  y_curve <- marginzerop(
+    u           = x.input,
+    y           = y,
+    pzero       = pzero,
+    meanpoisson = meanpoisson,
+    h           = h
+  )
+
+  xlim_vec <- c(
+    min(pzero + (1 - pzero) * ppois(0, meanpoisson)),
+    1
+  )
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, 0-Inflated Poisson",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 
@@ -243,19 +339,37 @@ bandwidth0p.nb <- function(y, pzero, mu.hat, size1f) {
 }
 
 #' @keywords internal
-resid.znb_quasi <- function(model){
-  y <- model$model[, 1]
+resid.znb_quasi <- function(model, line_args, ...){
+  y      <- model$model[,1]
   mu.hat <- predict(model, type = "count")
   size1f <- model$theta
+  pzero  <- predict(model, type = "zero")
 
-  pzero <- predict(model, type = "zero")
-  h <- bandwidth0p.nb(y = y, pzero = pzero, mu.hat = mu.hat, size1f= size1f)
+  h       <- bandwidth0p.nb(y = y, pzero = pzero, mu.hat = mu.hat, size1f = size1f)
   x.input <- seq(0,1, length.out=101)
-  plot(x.input, marginzerop.nb(u=x.input, y=y, mu.hat =mu.hat,pzero=pzero, size1f = size1f, h=h),
-       type='l', main = "Quasi, 0-Inflated NB",ylab = expression(hat(U) * "(s)"),
-       xlab = "s", cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2,
-       xlim = c(min(pzero + (1 - pzero) * (pnbinom(0, size=size1f,mu=mu.hat))), 1))
-  abline(0, 1, col = "red", lty = 5, cex.lab = 2, cex.axis = 2, cex.main = 2, lwd = 2)
+
+  y_curve <- marginzerop.nb(
+    u      = x.input,
+    y      = y,
+    pzero  = pzero,
+    size1f = size1f,
+    mu.hat = mu.hat,
+    h      = h
+  )
+
+  xlim_vec <- c(
+    min(pzero + (1 - pzero) * pnbinom(0, size = size1f, mu = mu.hat)),
+    1
+  )
+
+  .resid_quasi_finalize(
+    x         = x.input,
+    y         = y_curve,
+    main      = "Quasi, 0-Inflated NB",
+    xlim      = xlim_vec,
+    line_args = line_args,
+    ...
+  )
 }
 
 

@@ -1,13 +1,11 @@
-#' Residuals for regression models with negative binomial outcomes
+#' Residuals for regression models with poisson outcomes
 #'
-#' Computes DPIT residuals for regression models with negative binomial
-#' outcomes using the observed counts (`y`) and their fitted distributional
-#' parameters (`mu`, `size`).
+#' Computes DPIT residuals for Poisson outcomes regression using the observed counts (`y`) and their
+#' corresponding fitted mean values (`mu`).
 #'
-#' @usage dpit_nb(y, mu, size, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit_pois(y, mu, plot=TRUE, scale="normal", line_args=list(), ...)
 #' @param y An observed outcome vector.
 #' @param mu A vector of fitted mean values.
-#' @param size A dispersion parameter of the negative binomial distribution.
 #' @param plot A logical value indicating whether or not to return QQ-plot
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
 #' The sample quantiles of the residuals are plotted against
@@ -26,46 +24,37 @@
 #' For formulation details on discrete outcomes, see \code{\link{dpit}}.
 #'
 #' @examples
-#' ## Negative Binomial example
-#' library(MASS)
+#' ## Poisson example
 #' n <- 500
+#' set.seed(1234)
+#' # Covariates
 #' x1 <- rnorm(n)
 #' x2 <- rbinom(n, 1, 0.7)
-#' ### Parameters
+#' # Coefficients
 #' beta0 <- -2
 #' beta1 <- 2
 #' beta2 <- 1
-#' size1 <- 2
 #' lambda1 <- exp(beta0 + beta1 * x1 + beta2 * x2)
-#' # generate outcomes
-#' y <- rnbinom(n, mu = lambda1, size = size1)
+#' y <- rpois(n, lambda1)
 #'
 #' # True model
-#' model1 <- glm.nb(y ~ x1 + x2)
-#' y1 <- model1$y
-#' fitted1 <- fitted(model1)
-#' size1 <- model1$theta
-#' resid.nb1 <- dpit_nb(y=y1, mu=fitted1, size=size1)
+#' poismodel <- glm(y ~ x1 + x2, family = poisson(link = "log"))
+#' y1 <- poismodel$y
+#' p1f <- fitted(poismodel)
+#' resid.poi <- dpit_pois(y=y1, mu=p1f)
 #'
-#' # Overdispersion
-#' model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-#' y2 <- model2$y
-#' fitted2 <- fitted(model2)
-#' resid.nb2 <- dpit_pois(y=y2, mu=fitted2)
 #' @export
-dpit_nb <- function(y, mu, size,
-                    plot=TRUE, scale="normal", line_args=list(), ...){
-  lambda1f <- mu
-  size1f <- size
+dpit_pois <- function(y, mu, plot=TRUE, scale="normal", line_args=list(), ...) {
   n <- length(y)
-  res <- pnbinom(y, mu = lambda1f, size = size1f)
-
+  lambda1f <- mu
+  res <- ppois(y, lambda = lambda1f)
   empcdf <- rep(NA,n)
+
   for(i in 1:n){
-    qres <- qnbinom(res[i], mu=lambda1f, size=size1f)-1
-    pres <- pnbinom(qres,mu=lambda1f,size=size1f)
+    qres <- qpois(res[i], lambda=lambda1f)-1
+    pres <- ppois(qres,lambda = lambda1f)
     pres[i] <- 0
     empcdf[i] <-sum(pres)/(n-1)
   }
-  .dpit_finalize(empcdf, plot=plot, scale=scale, line_args=line_args, ...)
+  .dpit_finalize(empcdf, plot=plot, scale=scale, line_args = line_args, ...)
 }
