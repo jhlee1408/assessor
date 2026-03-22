@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  20 MAR 2026 00:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  22 MAR 2026 16:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -349,8 +349,8 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count290
 \l__pdf_internal_box=\box58
 )
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.aux)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.aux)
 \openout1 = `Rd2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -388,10 +388,10 @@ LaTeX Font Info:    ... okay on input line 8.
 )
 Package hyperref Info: Link coloring ON on input line 8.
 
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.out)
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.out)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.out)
 \@outlinefile=\write4
 \openout4 = `Rd2.out'.
 
@@ -421,8 +421,8 @@ LaTeX Font Info:    Trying to load font information for U+rsfs on input line 21
 (/usr/local/texlive/2023/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.toc [1
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.toc [1
 
 
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
@@ -478,13 +478,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1313--1316
  []
 
 [24] [25] [26]
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.ind [27] [28
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.ind [27] [28
 
 
 ])
-(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp8Y0gt9/Rd2pdfae3a
-52003d92/Rd2.aux)
+(/private/var/folders/dm/2hwcy7wj57b0782n_xj1g0qm0000gn/T/Rtmp9jUERY/Rd2pdfcc95
+18330cf5/Rd2.aux)
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: 340FDD24F670960F7CF6A9EE0400F207;1566.
  ) 

@@ -1,8 +1,8 @@
-#' Quasi emprical residuals functions
+#' Quasi empirical residuals functions
 #'
 #' Draw the quasi-empirical residual distribution functions for regression models with discrete outcomes.
 #' Specifically, the model assumption of GLMs with binary, ordinal, Poisson, negative binomial,
-#' zero-inlated Poisson, and zero-inflated negative binomial outcomes can be assessed using `quasi_plot()`.
+#' zero-inflated Poisson, and zero-inflated negative binomial outcomes can be assessed using `quasi_plot()`.
 #' A plot far apart from the diagonal indicates lack of fit.
 #'
 #'
