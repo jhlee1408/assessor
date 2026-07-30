@@ -7,6 +7,12 @@
 - [`bballHR`](https://jhlee1408.github.io/assessor/reference/bballHR.md)
   : MLB Players' Home Run and Batted Ball Statistics with Red Zone
   Metrics (2017-2019)
+- [`print(`*`<dpit>`*`)`](https://jhlee1408.github.io/assessor/reference/dpit-methods.md)
+  [`residuals(`*`<dpit>`*`)`](https://jhlee1408.github.io/assessor/reference/dpit-methods.md)
+  [`summary(`*`<dpit>`*`)`](https://jhlee1408.github.io/assessor/reference/dpit-methods.md)
+  [`print(`*`<summary.dpit>`*`)`](https://jhlee1408.github.io/assessor/reference/dpit-methods.md)
+  [`plot(`*`<dpit>`*`)`](https://jhlee1408.github.io/assessor/reference/dpit-methods.md)
+  : Methods for DPIT residual objects
 - [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) :
   DPIT residuals for regression models with various non-continuous
   outcomes
@@ -36,4 +42,4 @@
 - [`ord_curve()`](https://jhlee1408.github.io/assessor/reference/ord_curve.md)
   : Ordered curve for assessing mean structures
 - [`quasi_plot()`](https://jhlee1408.github.io/assessor/reference/quasi_plot.md)
-  : Quasi emprical residuals functions
+  : Quasi empirical residuals functions

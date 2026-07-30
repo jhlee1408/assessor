@@ -32,7 +32,9 @@ gof_disc(model, B=1e2, seed=NULL)
 
 ## Value
 
-Test statistics and p-values
+An object of class `"htest"` containing the test statistic, the number
+of bootstrap samples, the p-value, the method description, and the model
+call.
 
 ## Details
 
@@ -62,8 +64,7 @@ Statistics
 ``` r
 library(MASS)
 library(pscl)
-n <- 500
-B <- 1000
+n <- 100
 beta1 <- 1;  beta2 <- 1
 beta0 <- -2; beta00 <- -2; beta10 <- 2
 size1 <- 2
@@ -76,11 +77,14 @@ y0 <- rbinom(n, size = 1, prob = 1 - p0)
 y1 <- rnegbin(n, mu=lambda1, theta=size1)
 y <- ifelse(y0 == 0, 0, y1)
 model1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
-gof_disc(model1)
-#> $test_stat
-#> [1] 1.556352
+gof_disc(model1, B=50)
+#> Warning: NaNs produced
+#> Warning: NaNs produced
 #> 
-#> $p_value
-#> [1] 0.37
+#>  Goodness-of-fit test for regression models with discrete outcomes
+#>  (zero-inflated negative binomial)
+#> 
+#> data:  zeroinfl(formula = y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
+#> S = 0.033878, B = 50, p-value = 0.88
 #> 
 ```

@@ -12,13 +12,13 @@ Source:
 [`DESCRIPTION`](https://github.com/jhlee1408/assessor/blob/master/DESCRIPTION)
 
 Yang L, Lee J (2026). *assessor: Assessment Tools for Regression Models
-with Discrete and Semicontinuous Outcomes*. R package version 1.3.0,
+with Discrete and Semicontinuous Outcomes*. R package version 1.3.1,
 <https://jhlee1408.github.io/assessor/>.
 
     @Manual{,
       title = {assessor: Assessment Tools for Regression Models with Discrete and Semicontinuous Outcomes},
       author = {Lu Yang and Jeonghwan Lee},
       year = {2026},
-      note = {R package version 1.3.0},
+      note = {R package version 1.3.1},
       url = {https://jhlee1408.github.io/assessor/},
     }

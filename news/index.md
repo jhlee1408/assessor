@@ -1,6 +1,35 @@
 # Changelog
 
+## assessor 1.3.1
+
+CRAN release: 2026-04-20
+
+- Fixed an error where `scale = "uniform"` did not produce a uniformly
+  scaled QQ plot.
+- Fixed the negative-binomial goodness-of-fit bootstrap so that each
+  replicate is refitted using the simulated response.
+- [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md),
+  [`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md),
+  and the distribution-specific calculators for binary, Poisson,
+  negative binomial, ordinal, zero-inflated, Tobit, and Tweedie outcomes
+  now return `dpit` objects. Use
+  [`residuals()`](https://rdrr.io/r/stats/residuals.html) to extract
+  values, [`summary()`](https://rdrr.io/r/base/summary.html) to
+  summarize them, and
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) to draw QQ
+  plots. The `scale` argument is now supplied to
+  [`residuals()`](https://rdrr.io/r/stats/residuals.html),
+  [`summary()`](https://rdrr.io/r/base/summary.html), or
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html), and
+  graphical arguments are supplied to
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html).
+- The [`print()`](https://rdrr.io/r/base/print.html) and
+  [`summary()`](https://rdrr.io/r/base/summary.html) methods now label
+  the number of residuals as the sample size.
+
 ## assessor 1.3.0
+
+CRAN release: 2026-03-22
 
 ### Breaking changes
 

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Two part • assessor</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Two part">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">assessor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,10 @@
 <p>The input arguments for the <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code> function differ
 from those of other functions in <code>assessor</code> package.
 Specifically, users can utilize this function with either models or
-Probability Integral Transform (PIT) as input.</p>
+Probability Integral Transform (PIT) as input. The function returns a
+<code>dpit</code> object; <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code>,
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> extract, summarize, and
+plot its residuals on the selected scale.</p>
 <p>For instance, in evaluating the distribution assumptions of a
 two-part model that combines a logistic and a gamma regression, you
 should provide the logistic regression model object as the argument for
@@ -94,18 +97,18 @@ respectively.</p>
 is essential to specify the <code>y</code> (outcome) values in the
 function arguments.</p>
 <p>The underlying model is a two-part model. The probability of zero is
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝐗</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mtext mathvariant="normal">logit</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>X</mi><mn>1</mn></msub><msub><mi>β</mi><mn>1</mn></msub><mo>+</mo><msub><mi>X</mi><mn>2</mn></msub><msub><mi>β</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">p_0(\mathbf{X})=\text{logit}^{-1}\left(\beta_0+X_{1}\beta_{1}+X_{2}\beta_{2} \right),</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>𝐗</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mtext mathvariant="normal">logit</mtext><mrow><mi>−</mi><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>X</mi><mn>1</mn></msub><msub><mi>β</mi><mn>1</mn></msub><mo>+</mo><msub><mi>X</mi><mn>2</mn></msub><msub><mi>β</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">p_0(\mathbf{X})=\text{logit}^{-1}\left(\beta_0+X_{1}\beta_{1}+X_{2}\beta_{2} \right),</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mn>1</mn></msub><annotation encoding="application/x-tex">X_1</annotation></semantics></math>
 is a standard normal variable,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mn>2</mn></msub><annotation encoding="application/x-tex">X_2</annotation></semantics></math>
 is binary with probability of one as 0.4, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>,</mo><msub><mi>β</mi><mn>1</mn></msub><mo>,</mo><msub><mi>β</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mo>−</mo><mn>2</mn><mo>,</mo><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(\beta_0,\beta_{1},\beta_{2})=(1,-2,-1)</annotation></semantics></math>.<br>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>β</mi><mn>0</mn></msub><mo>,</mo><msub><mi>β</mi><mn>1</mn></msub><mo>,</mo><msub><mi>β</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>,</mo><mi>−</mi><mn>2</mn><mo>,</mo><mi>−</mi><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\beta_0,\beta_{1},\beta_{2})=(1,-2,-1)</annotation></semantics></math>.<br>
 A gamma distribution is employed to generate positive data. The mean
 function of the positive part is described as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>S</mi></msub><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mrow><mn>0</mn><mi>S</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mrow><mn>1</mn><mi>S</mi></mrow></msub><msub><mi>X</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mrow><mn>2</mn><mi>S</mi></mrow></msub><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\lambda_S=\exp\left(\beta_{0S}+\beta_{1S}X_1+\beta_{2S}X_2\right).</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>S</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mrow><mn>0</mn><mi>S</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mrow><mn>1</mn><mi>S</mi></mrow></msub><msub><mi>X</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mrow><mn>2</mn><mi>S</mi></mrow></msub><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\lambda_S=\exp\left(\beta_{0S}+\beta_{1S}X_1+\beta_{2S}X_2\right).</annotation></semantics></math>
 We let
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>β</mi><mrow><mn>0</mn><mi>S</mi></mrow></msub><mo>,</mo><msub><mi>β</mi><mrow><mn>1</mn><mi>S</mi></mrow></msub><mo>,</mo><msub><mi>β</mi><mrow><mn>2</mn><mi>S</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mn>1</mn><mo>,</mo><mo>−</mo><mn>1</mn><mo>,</mo><mo>−</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(\beta_{0S},\beta_{1S},\beta_{2S})=(-1,-1,-2)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>β</mi><mrow><mn>0</mn><mi>S</mi></mrow></msub><mo>,</mo><msub><mi>β</mi><mrow><mn>1</mn><mi>S</mi></mrow></msub><mo>,</mo><msub><mi>β</mi><mrow><mn>2</mn><mi>S</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1</mn><mo>,</mo><mi>−</mi><mn>1</mn><mo>,</mo><mi>−</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\beta_{0S},\beta_{1S},\beta_{2S})=(-1,-1,-2)</annotation></semantics></math>.
 The dispersion parameter is set to be 0.5.</p>
 
 
@@ -141,7 +144,25 @@ The dispersion parameter is set to be 0.5.</p>
 <span><span class="va">mgamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span> <span class="op">~</span> <span class="va">x11</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span> <span class="op">+</span> <span class="va">x12</span><span class="op">[</span><span class="va">ind1</span><span class="op">]</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">Gamma</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Gamma regression</span></span>
 <span><span class="va">m10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="va">x12</span> <span class="op">+</span> <span class="va">x11</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span> <span class="co"># logistic regression</span></span>
 <span></span>
-<span><span class="va">resid.models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>model0 <span class="op">=</span> <span class="va">m10</span>, model1 <span class="op">=</span> <span class="va">mgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">dpit.models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>model0 <span class="op">=</span> <span class="va">m10</span>, model1 <span class="op">=</span> <span class="va">mgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">resid.models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">dpit.models</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dpit.models</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Summary of DPIT residuals</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model calls:</span></span>
+<span><span class="co">#&gt; model0:</span></span>
+<span><span class="co">#&gt; glm(formula = y == 0 ~ x12 + x11, family = binomial(link = "logit"))</span></span>
+<span><span class="co">#&gt; model1:</span></span>
+<span><span class="co">#&gt; glm(formula = y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual scale: normal</span></span>
+<span><span class="co">#&gt; Sample size: 500</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;          Min.       1st Qu.        Median          Mean       3rd Qu. </span></span>
+<span><span class="co">#&gt; -3.0345717620 -0.6707005462 -0.0110073257 -0.0004765426  0.6739872290 </span></span>
+<span><span class="co">#&gt;          Max.     Std. Dev. </span></span>
+<span><span class="co">#&gt;  3.2263350600  1.0120292496</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dpit.models</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="2pm_files/figure-html/2pm%202-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="tab-pane" id="pit-as-input" role="tabpanel" aria-labelledby="pit-as-input-tab">
@@ -177,7 +198,19 @@ The dispersion parameter is set to be 0.5.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">p1f</span> <span class="op">&lt;-</span> <span class="va">m10</span><span class="op">$</span><span class="va">fitted.values</span></span>
 <span></span>
-<span><span class="va">resid.pit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>part0<span class="op">=</span> <span class="va">p1f</span>, part1 <span class="op">=</span> <span class="va">cdfgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">dpit.pit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit_2pm.html">dpit_2pm</a></span><span class="op">(</span>part0 <span class="op">=</span> <span class="va">p1f</span>, part1 <span class="op">=</span> <span class="va">cdfgamma</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">resid.pit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">dpit.pit</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dpit.pit</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Summary of DPIT residuals</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual scale: uniform</span></span>
+<span><span class="co">#&gt; Sample size: 500</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. </span></span>
+<span><span class="co">#&gt; 0.0005183729 0.2553949759 0.5076375532 0.5019392730 0.7571177366 0.9996803816 </span></span>
+<span><span class="co">#&gt;    Std. Dev. </span></span>
+<span><span class="co">#&gt; 0.2889051341</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dpit.pit</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="2pm_files/figure-html/pit%20as%20input-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -192,7 +225,7 @@ The dispersion parameter is set to be 0.5.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

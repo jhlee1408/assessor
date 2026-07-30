@@ -14,14 +14,14 @@ as `lm` object as well as `glm`, `glm.nb`, or `polr`.
 
 In the example below, the underlying model is a logistic regression with
 the probability of 1 as
-${logit}^{- 1}\left( \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} + \beta_{3}X_{1}X_{2} \right)$,
-where
-$\left( \beta_{0},\beta_{1},\beta_{2},\beta_{3} \right) = ( - 5,2,1,3)$,
-$X_{1} \sim N(1,1)$, and $X_{2}$ is a dummy variable with a probability
+$`\mathrm{logit}^{-1}(\beta_0+\beta_1 X_1+\beta_2 X_2+\beta_3X_1 X_2)`$,
+where $`(\beta_0,\beta_1,\beta_2,\beta_3)=(-5,2,1,3)`$,
+$`X_1\sim N(1,1)`$, and $`X_2`$ is a dummy variable with a probability
 of one equal to 0.7. For the misspecified model, the binary covariate
 and the interaction term are omitted. \#### Example
 
 ``` r
+
 library(assessor)
 ## Binary example of ordered curve
 n <- 500
@@ -43,11 +43,11 @@ illustrate ordered curves plots corresponding to `model0` and `model1`.
 In the left panel, the curve closely aligns with the diagonal line,
 indicating that the mean structure of `model0` is correctly specified.
 On the contrary, `model1` exhibits a deviation from the diagonal line
-due to the omission of the variable $x_{2}$. This misspecification,
-coupled with the choice of the threshold value as $x_{2}$, results in
+due to the omission of the variable $`x_2`$. This misspecification,
+coupled with the choice of the threshold value as $`x_2`$, results in
 the observed discrepancy in the ordered curve in the right panel.
 
 The substantial disparity between the observed curve in `model1` and the
 diagonal line strongly suggests the necessity of including the variable
-$x_{2}$ in the model. This inclusion is crucial for accurately capturing
+$`x_2`$ in the model. This inclusion is crucial for accurately capturing
 the underlying mean structure.

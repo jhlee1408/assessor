@@ -27,13 +27,16 @@ in Poisson and Zero-inflated Poisson examples, respectively.
 - Poisson example
 - Zero-Inflation Poisson
 
-We simulate a Poisson random variable using covariates $X_{1}$ and
-$X_{2}$. The true mean of $Y$ is intricately connected to both $X_{1}$
-and $X_{2}$, as expressed in the ensuing relationship:
-$$Y \sim \text{Poisson}\left( \lambda = \exp\left( \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} \right) \right),$$
-where $\beta_{0} = - 2,\ \beta_{1} = 2,\ \beta_{2} = 1$.
+We simulate a Poisson random variable using covariates $`X_1`$ and
+$`X_2`$. The true mean of $`Y`$ is intricately connected to both $`X_1`$
+and $`X_2`$, as expressed in the ensuing relationship:
+``` math
+Y \sim \text{Poisson}(\lambda = \exp(\beta_0 + \beta_1 x_1 + \beta_2 x_2)),
+```
+where $`\beta_0=-2,~\beta_1=2,~\beta_2=1`$.
 
 ``` r
+
 library(assessor)
 ## Poisson example
 n <- 500
@@ -51,10 +54,10 @@ y <- rpois(n, lambda1)
 ```
 
 ``` r
+
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 quasi_plot(poismodel1)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 ```
 
 ![](quasi_files/figure-html/poisson%202-1.png) The figure presented
@@ -75,15 +78,16 @@ distribution.
 
 We generate simulated data using a zero-inflated Poisson model. The
 probability of excess zeros is modeled using
-${logit}\left( p_{0} \right) = \beta_{00} + \beta_{10}X_{1}$, while the
-Poisson component has a mean of
-$\lambda = \exp\left( \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} \right)$.
-Here, $X_{1}$ follows a normal distribution with mean 0 and standard
-deviation 1, and $X_{2}$ is a binary variable with a probability of 1
-set to 0.7. The parameter values are set to
-$\left( \beta_{00},\beta_{10},\beta_{0},\beta_{1},\beta_{2} \right) = ( - 2,2, - 2,2,1)$.
+$`\mathrm{logit}(p_0) = \beta_{00} + \beta_{10}X_1`$, while the Poisson
+component has a mean of
+$`\lambda = \exp(\beta_0 +\beta_1X_1 +\beta_2X_2)`$. Here, $`X_1`$
+follows a normal distribution with mean 0 and standard deviation 1, and
+$`X_2`$ is a binary variable with a probability of 1 set to 0.7. The
+parameter values are set to
+$`( \beta_{00} ,\beta_{10}, \beta_0, \beta_1, \beta_2) = (-2, 2, -2, 2, 1)`$.
 
 ``` r
+
 ## Zero-Inflated Poisson
 library(assessor)
 library(pscl)
@@ -110,16 +114,15 @@ y <- ifelse(y0 == 0, 0, y1)
 ```
 
 ``` r
+
 par(mfrow=c(1,2))
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
 quasi_plot(modelzero1)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 
 ## Zero inflation
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 quasi_plot(modelzero2)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 ```
 
 ![](quasi_files/figure-html/2-1.png) The QQ plots shown above correspond

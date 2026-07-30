@@ -4,9 +4,10 @@
 
 [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) is
 used for calculating the DPIT residuals for regression models with
-semicontinuous outcomes and constructing corresponding QQ-plots.
-Specifically, a Tobit regression and a Tweedie regression model are
-suitable models for
+semicontinuous outcomes, and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) constructs
+corresponding QQ-plots from the returned objects. Specifically, a Tobit
+regression and a Tweedie regression model are suitable models for
 [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md). The
 suitable model objects are as follows:
 
@@ -23,6 +24,7 @@ We simulate `y1` to follow Tweedie distribution depending on covariates
 `x11` and `x12`.
 
 ``` r
+
 ## Tweedie model
 library(assessor)
 library(tweedie)
@@ -48,6 +50,7 @@ strongly suggests that incorporating all covariates results in a more
 appropriate and improved model.
 
 ``` r
+
 # True model
 model1 <-
   glm(y1 ~ x11 + x12,
@@ -60,8 +63,13 @@ model2 <-  glm(y1 ~ x11 ,
   )
 
 par(mfrow=c(1,2))
-resid1 <- dpit(model1)
-resid2 <- dpit(model2)
+dpit1 <- dpit(model1)
+resid1 <- residuals(dpit1, scale = "normal")
+plot(dpit1, scale = "normal")
+
+dpit2 <- dpit(model2)
+resid2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
 ![](semiconti_files/figure-html/tweedie2-1.png)
@@ -71,15 +79,19 @@ function supports calculating DPIT residuals for a Tobit regression from
 both [`VGAM::vglm`](https://rdrr.io/pkg/VGAM/man/vglm.html) and
 [`AER::tobit`](https://rdrr.io/pkg/AER/man/tobit.html) packages.
 
-In this example, we assume that the latent variable $Y^{*}$ follows a
+In this example, we assume that the latent variable $`Y^*`$ follows a
 normal distribution with a mean given by
-$$\mu = \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2},$$ where
-$X_{1},X_{2} \sim Unif(0,1)$ independently, and
-$\beta_{0} = 1,\beta_{1} = - 3,\beta_{2} = 3$. We observe $Y = 0$ if
-$Y^{*} < 0$. These variables will be employed as inputs for Tobit
-regression analyses provided by the `VGAM` and `AER` packages.
+``` math
+\mu=\beta_0+\beta_1X_1+\beta_2X_2, 
+```
+where $`X_1, X_2 \sim Unif (0, 1)`$ independently, and
+$`\beta_0 = 1, \beta_1 = -3,
+ \beta_2 = 3`$. We observe $`Y=0`$ if $`Y^*<0`$. These variables will be
+employed as inputs for Tobit regression analyses provided by the `VGAM`
+and `AER` packages.
 
 ``` r
+
 ## Tobit regression model
 library(VGAM)
 beta13 <- 1
@@ -103,6 +115,7 @@ panel, corresponding to the model including all covariates, aligns
 closely along the diagonal line.
 
 ``` r
+
 # Using VGAM package
 # True model
 fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
@@ -110,8 +123,13 @@ fit1 <- vglm(formula = y ~ x11 + x12, tobit(Upper = Inf, Lower = 0, lmu = "ident
 fit1miss <- vglm(formula = y ~ x11, tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 
 par(mfrow=c(1,2))
-resid1 <- dpit(fit1, plot = TRUE)
-resid2 <- dpit(fit1miss, plot = TRUE)
+dpit1 <- dpit(fit1)
+resid1 <- residuals(dpit1, scale = "normal")
+plot(dpit1, scale = "normal")
+
+dpit2 <- dpit(fit1miss)
+resid2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
 ![](semiconti_files/figure-html/tobit%20vgam2-1.png)
@@ -121,6 +139,7 @@ results from the `AER` are exactly the same as those from the `VGAM`
 example.
 
 ``` r
+
 # Using AER package
 library(AER)
 # True model
@@ -128,8 +147,13 @@ fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
 # Missing covariate
 par(mfrow=c(1,2))
 fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
-reisd1 <- dpit(fit2, plot = TRUE)
-resid2 <- dpit(fit2miss, plot = TRUE)
+dpit1 <- dpit(fit2)
+resid1 <- residuals(dpit1, scale = "normal")
+plot(dpit1, scale = "normal")
+
+dpit2 <- dpit(fit2miss)
+resid2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
 ![](semiconti_files/figure-html/tobit%20aer-1.png)

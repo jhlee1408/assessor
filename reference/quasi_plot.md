@@ -1,8 +1,8 @@
-# Quasi emprical residuals functions
+# Quasi empirical residuals functions
 
 Draw the quasi-empirical residual distribution functions for regression
 models with discrete outcomes. Specifically, the model assumption of
-GLMs with binary, ordinal, Poisson, negative binomial, zero-inlated
+GLMs with binary, ordinal, Poisson, negative binomial, zero-inflated
 Poisson, and zero-inflated negative binomial outcomes can be assessed
 using `quasi_plot()`. A plot far apart from the diagonal indicates lack
 of fit.
@@ -75,13 +75,11 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
 resid.nb1 <- quasi_plot(model1)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 resid.nb2 <- quasi_plot(model2)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 
 
 ## Zero inflated Poisson example
@@ -109,5 +107,4 @@ y <- ifelse(y0 == 0, 0, y1)
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
 resid.zero1 <- quasi_plot(modelzero1)
-#> Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 |Multistart 1 of 1 /Multistart 1 of 1 |Multistart 1 of 1 |                   
 ```

@@ -7,7 +7,7 @@ power parameter (\\\xi\\), and the dispersion parameter (\\\phi\\).
 ## Usage
 
 ``` r
-dpit_tweedie(y, mu, xi, phi, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit_tweedie(y, mu, xi, phi)
 ```
 
 ## Arguments
@@ -28,35 +28,9 @@ dpit_tweedie(y, mu, xi, phi, plot=TRUE, scale="normal", line_args=list(), ...)
 
   Dispersion parameter \\\phi\\.
 
-- plot:
-
-  A logical value indicating whether or not to return QQ-plot The sample
-  quantiles of the residuals are plotted against
-
-- scale:
-
-  You can choose the scale of the residuals among `normal` and
-  `uniform`. the theoretical quantiles of a standard normal distribution
-  under the normal scale, and against the theoretical quantiles of a
-  uniform (0,1) distribution under the uniform scale. The default scale
-  is `normal`.
-
-- line_args:
-
-  A named list of graphical parameters passed to
-  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
-
-- ...:
-
-  Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
-
 ## Value
 
-DPIT residuals.
+A `dpit` object containing DPIT residuals.
 
 ## Details
 
@@ -69,7 +43,7 @@ For formulation details on semicontinuous outcomes, see
 ## Tweedie model
 library(tweedie)
 library(statmod)
-n <- 500
+n <- 300
 x11 <- rnorm(n)
 x12 <- rnorm(n)
 beta0 <- 5
@@ -87,5 +61,7 @@ y1 <- model1$y
 p.max <- get("p", envir = environment(model1$family$variance))
 lambda1f <- model1$fitted.values
 phi1f <- summary(model1)$dis
-resid.tweedie <- dpit_tweedie(y= y1, mu=lambda1f, xi=p.max, phi=phi1f)
+dpit.tweedie <- dpit_tweedie(y= y1, mu=lambda1f, xi=p.max, phi=phi1f)
+resid.tweedie <- residuals(dpit.tweedie)
+plot(dpit.tweedie)
 ```

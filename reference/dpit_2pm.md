@@ -7,8 +7,7 @@ and `part1` as arguments.
 ## Usage
 
 ``` r
-dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
- line_args= list(), ...)
+dpit_2pm(model0, model1, y, part0, part1)
 ```
 
 ## Arguments
@@ -37,31 +36,9 @@ dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
   Note that the length of `part1` is the number of positive values in
   `y` and can be shorter than `part0`.
 
-- plot:
-
-  A logical value indicating whether or not to return QQ-plot
-
-- scale:
-
-  You can choose the scale of the residuals among `normal` and
-  `uniform`. The default scale is `normal`.
-
-- line_args:
-
-  A named list of graphical parameters passed to
-  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
-
-- ...:
-
-  Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
-
 ## Value
 
-Residuals. If plot=TRUE, also produces a QQ plot.
+A `dpit` object containing DPIT residuals.
 
 ## Details
 
@@ -77,7 +54,12 @@ fitted probabilities of zeros \\\hat{p}\_0(\mathbf{X}\_i)
 ,~i=1,\ldots,n\\. `part1` should be the probability integral transform
 of the positive part \\\hat{G}(Y_i\|\mathbf{X}\_i)\\. Note that the
 length of `part1` is the number of positive values in `y` and can be
-shorter than `part0`.
+shorter than `part0`. Use
+[`residuals()`](https://rdrr.io/r/stats/residuals.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the returned
+object to select the residual scale, summarize the values, and draw the
+QQ plot.
 
 ## Examples
 
@@ -104,7 +86,25 @@ y[ind1] <- y2[ind1]
 # models as input
 mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-resid.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+dpit.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+resid.model <- residuals(dpit.model, scale = "normal")
+summary(dpit.model, scale = "normal")
+#> Summary of DPIT residuals
+#> 
+#> Model calls:
+#> model0:
+#> glm(formula = y == 0 ~ x12 + x11, family = binomial(link = "logit"))
+#> model1:
+#> glm(formula = y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
+#> 
+#> Residual scale: normal
+#> Sample size: 500
+#> 
+#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+#> -3.124463459 -0.675574534  0.002497113  0.002778959  0.680683613  3.441292442 
+#>    Std. Dev. 
+#>  1.009393758 
+plot(dpit.model, scale = "normal")
 
 
 # PIT as input
@@ -113,5 +113,17 @@ cdfgamma <- pgamma(y[ind1],
   shape = 1 / gamma.dispersion(mgamma)
 )
 p1f <- m10$fitted.values
-resid.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+dpit.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+resid.pit <- residuals(dpit.pit, scale = "uniform")
+summary(dpit.pit, scale = "uniform")
+#> Summary of DPIT residuals
+#> 
+#> Residual scale: uniform
+#> Sample size: 500
+#> 
+#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+#> 0.0008906482 0.2496560302 0.5009961817 0.5022602395 0.7519641402 0.9997105288 
+#>    Std. Dev. 
+#> 0.2873310116 
+plot(dpit.pit, scale = "uniform")
 ```

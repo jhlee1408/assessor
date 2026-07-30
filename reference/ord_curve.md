@@ -15,7 +15,7 @@ ord_curve(model, thr, line_args=list(), ...)
 
 - model:
 
-  Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`, `lm`)
+  Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`)
 
 - thr:
 
@@ -75,9 +75,9 @@ For more details, see the reference paper.
 
 ## References
 
-Yang, Lu. "Double Probability Integral Transform Residuals for
-Regression Models with Discrete Outcomes." arXiv preprint
-arXiv:2308.15596 (2023).
+L. Yang. Double probability integral transform residuals for regression
+models with discrete outcomes. Journal of Computational and Graphical
+Statistics, 33(3), pp.787–803, 2024.
 
 ## Examples
 

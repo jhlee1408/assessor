@@ -9,7 +9,7 @@ outcome models can be assessed using `dpit()`.
 ## Usage
 
 ``` r
-dpit(model, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit(model)
 ```
 
 ## Arguments
@@ -18,34 +18,9 @@ dpit(model, plot=TRUE, scale="normal", line_args=list(), ...)
 
   A model object.
 
-- plot:
-
-  A logical value indicating whether or not to return QQ-plot
-
-- scale:
-
-  You can choose the scale of the residuals among `normal` and
-  `uniform`. The sample quantiles of the residuals are plotted against
-  the theoretical quantiles of a standard normal distribution under the
-  normal scale, and against the theoretical quantiles of a uniform (0,1)
-  distribution under the uniform scale. The default scale is `normal`.
-
-- line_args:
-
-  A named list of graphical parameters passed to
-  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
-
-- ...:
-
-  Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
-
 ## Value
 
-DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
+A `dpit` object containing DPIT residuals.
 
 ## Details
 
@@ -107,7 +82,11 @@ The DPIT residual for the \\i\\th observation is defined as follows:
 = \frac{1}{n-1}\sum\_{j=1, j \neq
 i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}\_j)\bigg\|\mathbf{X}\_j\bigg)\$\$
 and \\\hat{F}\\ refers to the fitted cumulative distribution function.
-When `scale="uniform"`, DPIT residuals should closely follow a uniform
+The `scale` argument is supplied to
+[`residuals()`](https://rdrr.io/r/stats/residuals.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), or
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html). When
+`scale="uniform"`, DPIT residuals should closely follow a uniform
 distribution, otherwise it implies model deficiency. When
 `scale="normal"`, it applies the normal quantile transformation to the
 DPIT residuals
@@ -155,12 +134,37 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resid.nb1 <- dpit(model1, plot = TRUE, scale = "uniform")
+dpit.nb1 <- dpit(model1)
+dpit.nb1
+#> DPIT residual object
+#> 
+#> Model call:
+#> glm.nb(formula = y ~ x1 + x2, init.theta = 2.029756983, link = log)
+#> 
+#> Sample size: 500
+#> Use residuals() to extract the residual values.
+resid.nb1 <- residuals(dpit.nb1, scale = "uniform")
+summary(dpit.nb1, scale = "uniform")
+#> Summary of DPIT residuals
+#> 
+#> Model call:
+#> glm.nb(formula = y ~ x1 + x2, init.theta = 2.029756983, link = log)
+#> 
+#> Residual scale: uniform
+#> Sample size: 500
+#> 
+#>        Min.     1st Qu.      Median        Mean     3rd Qu.        Max. 
+#> 0.001241498 0.248373508 0.505942013 0.500198548 0.755124913 0.999406407 
+#>   Std. Dev. 
+#> 0.291892977 
+plot(dpit.nb1, scale = "uniform")
 
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.nb2 <- dpit(model2, plot = TRUE, scale = "normal")
+dpit.nb2 <- dpit(model2)
+resid.nb2 <- residuals(dpit.nb2, scale = "normal")
+plot(dpit.nb2, scale = "normal")
 
 
 ## Binary example
@@ -179,12 +183,16 @@ y1 <- rbinom(n, size = 1, prob = 1 - q1)
 
 # True model
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid.bin1 <- dpit(model01, plot = TRUE)
+dpit.bin1 <- dpit(model01)
+resid.bin1 <- residuals(dpit.bin1)
+plot(dpit.bin1)
 
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid.bin2 <- dpit(model02, plot = TRUE)
+dpit.bin2 <- dpit(model02)
+resid.bin2 <- residuals(dpit.bin2)
+plot(dpit.bin2)
 
 
 ## Poisson example
@@ -202,13 +210,17 @@ y <- rpois(n, lambda1)
 
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi1 <- dpit(poismodel1, plot = TRUE)
+dpit.poi1 <- dpit(poismodel1)
+resid.poi1 <- residuals(dpit.poi1)
+plot(dpit.poi1)
 
 
 # Enlarge three outcomes
 y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi2 <- dpit(poismodel2, plot = TRUE)
+dpit.poi2 <- dpit(poismodel2)
+resid.poi2 <- residuals(dpit.poi2)
+plot(dpit.poi2)
 
 
 ## Ordinal example
@@ -232,7 +244,9 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord1 <- dpit(multimodel, plot = TRUE)
+dpit.ord1 <- dpit(multimodel)
+resid.ord1 <- residuals(dpit.ord1)
+plot(dpit.ord1)
 
 
 ## Non-Proportionality
@@ -253,5 +267,7 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord2 <- dpit(multimodel, plot = TRUE)
+dpit.ord2 <- dpit(multimodel)
+resid.ord2 <- residuals(dpit.ord2)
+plot(dpit.ord2)
 ```

@@ -4,8 +4,10 @@
 
 [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) is
 used for calculating the DPIT residuals for regression models with
-zero-inflation outcomes and drawing corresponding QQ-plots. The suitable
-model objects are as follows:
+zero-inflation outcomes, and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) draws
+corresponding QQ-plots from the returned objects. The suitable model
+objects are as follows:
 
 - Zero-Inflated Poisson, `pscl::zeroinfl(dist = "poisson")`
 - Zero-Inflated negative binomial, `pscl::zeroinfl(dist = "negbin")`
@@ -17,14 +19,15 @@ model objects are as follows:
 
 We simulate data using a zero-inflated Poisson model. The probability of
 excess zeros is modeled with
-${logit}\left( p_{0} \right) = \beta_{00} + \beta_{10}X_{1}$, and the
-Poisson component has a mean
-$\lambda = \exp\left( \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} \right)$,
-where $X_{1} \sim N(0,1)$ and $X_{2}$ is a dummy variable with a
-probability of 1 equal to 0.7, and
-$\left( \beta_{00},\beta_{10},\beta_{0},\beta_{1},\beta_{2} \right) = ( - 2,2, - 2,2,1)$.
+$`\mathrm{logit}(p_0) = \beta_{00} + \beta_{10}X_1`$, and the Poisson
+component has a mean
+$`\lambda = \exp(\beta_0 +\beta_1X_1 +\beta_2X_2)`$, where
+$`X_1 \sim N(0,1)`$ and $`X_2`$ is a dummy variable with a probability
+of 1 equal to 0.7, and
+$`( \beta_{00} ,\beta_{10}, \beta_0, \beta_1, \beta_2) = (-2, 2, -2, 2, 1)`$.
 
 ``` r
+
 ## Zero-Inflated Poisson
 library(assessor)
 library(pscl)
@@ -51,22 +54,22 @@ y <- ifelse(y0 == 0, 0, y1)
 ```
 
 ``` r
+
 par(mfrow=c(1,2))
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid1 <- dpit(modelzero1, plot = TRUE, scale = "uniform")
-```
-
-![](zeroinfl_files/figure-html/2-1.png)
-
-``` r
+dpit1 <- dpit(modelzero1)
+resid1 <- residuals(dpit1, scale = "uniform")
+plot(dpit1, scale = "uniform")
 
 ## Zero inflation
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- dpit(modelzero2, plot = TRUE, scale = "normal")
+dpit2 <- dpit(modelzero2)
+resid2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
-![](zeroinfl_files/figure-html/2-2.png) The figure above illustrates QQ
+![](zeroinfl_files/figure-html/2-1.png) The figure above illustrates QQ
 plots corresponding to `modelzero1` and `modelzero2`. Given that the
 true underlying distribution of `y` follows a zero-inflated Poisson
 distribution, we anticipate observing deviations from the diagonal line
@@ -83,6 +86,7 @@ zero-inflated Poisson distribution, which may better capture the
 characteristics of the simulated data.
 
 ``` r
+
 ## Zero-inflated Negative Binomial
 library(assessor)
 library(pscl)
@@ -117,20 +121,21 @@ simulation involves modeling the occurrence of zeros in the variable `y`
 through a zero-inflated negative binomial distribution.
 
 ``` r
+
 model.negbin1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin")
 model.negbin2 <- glm.nb(y ~ x1 + x2)
 
 par(mfrow=c(1,2))
-resid.zero1 <- dpit(model.negbin1, plot = TRUE, scale = "uniform")
+dpit1 <- dpit(model.negbin1)
+resid.zero1 <- residuals(dpit1, scale = "uniform")
+plot(dpit1, scale = "uniform")
+
+dpit2 <- dpit(model.negbin2)
+resid.zero2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
 ![](zeroinfl_files/figure-html/zero2%20nb-1.png)
-
-``` r
-resid.zero2 <- dpit(model.negbin2, plot = TRUE, scale = "normal")
-```
-
-![](zeroinfl_files/figure-html/zero2%20nb-2.png)
 
 The figure also presents QQ plots corresponding to `model.negbin1` and
 `model.negbin2`. In contrast to our simulation setting, `model.negbin2`

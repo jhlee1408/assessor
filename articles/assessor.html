@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to assessor • assessor</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to assessor">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">assessor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,12 +75,15 @@
 <h2 id="assessor">assessor<a class="anchor" aria-label="anchor" href="#assessor"></a>
 </h2>
 <p>The goal of assessor is to provide assessment tools for regression
-models with discrete and semicontinuous outcomes proposed in <a href="https://arxiv.org/pdf/2308.15596.pdf" class="external-link">Yang (2024)</a> and and <a href="https://arxiv.org/pdf/2401.06347.pdf" class="external-link">Yang(2024)</a>. It
-calculates the double probability integral transform (DPIT) residuals,
-constructs QQ plots of residuals for model diagnostics, and constructs
-the ordered curve for assessing mean structures.</p>
+models with discrete and semicontinuous outcomes proposed in Yang’s
+papers on <a href="https://doi.org/10.1080/10618600.2024.2303336" class="external-link">discrete outcomes
+(2024)</a> and <a href="https://doi.org/10.1093/biomtc/ujae007" class="external-link">semicontinuous outcomes
+(2024)</a>. It calculates the double probability integral transform
+(DPIT) residuals, constructs QQ plots of residuals for model
+diagnostics, and constructs the ordered curve for assessing mean
+structures.</p>
 <div class="section level3">
-<h3 id="general-function-arguments">General function arguments<a class="anchor" aria-label="anchor" href="#general-function-arguments"></a>
+<h3 id="general-workflow">General workflow<a class="anchor" aria-label="anchor" href="#general-workflow"></a>
 </h3>
 <p>In <code>assessor</code>, there are functions for calculating DPIT
 residuals for the various type of models: discrete, zero-inflated, and
@@ -90,49 +93,63 @@ discrete, zero-inflated discrete, semicontinuous, and two-part outcomes
 (the former functions <code>resid_disc()</code>,
 <code>resid_semiconti()</code>, and <code>resid_zeroinfl()</code> have
 been unified under <code><a href="../reference/dpit.html">dpit()</a></code>, and <code>resid_2pm()</code> has
-been renamed to <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code>). They share the same
-arguments:</p>
+been renamed to <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code>). Both functions return a
+<code>dpit</code> object. After supplying a fitted model to
+<code><a href="../reference/dpit.html">dpit()</a></code>, or model objects or fitted probabilities to
+<code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code>, use the returned object’s methods:</p>
 <ul>
-<li><p><code>model</code>: Each function supports certain types of model
-objects. Check below on which model objects are applicable.</p></li>
-<li><p><code>plot</code>: If you set <code>plot=TRUE</code>, the
-function will return a QQ-plot of DPIT residuals. Some users may only
-need the QQ-plot. In that case, <code>qqresid()</code> only returns the
-QQ-plot without returning the DPIT residuals.</p></li>
-<li><p><code>scale</code>: You can choose the scale of the residuals
-among <code>normal</code> and <code>uniform</code> scales. The sample
-quantiles of the residuals are plotted against the theoretical quantiles
-of a standard normal distribution under the normal scale, and against
-the theoretical quantiles of a uniform (0,1) distribution under the
-uniform scale. The default scale is <code>normal</code>.</p></li>
+<li><p><code>model</code>: <code><a href="../reference/dpit.html">dpit()</a></code> supports certain types of
+model objects. <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code> accepts models for the zero and
+positive parts or their fitted probabilities. Check below on which model
+objects are applicable.</p></li>
+<li><p><code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code>: Use this accessor to obtain the numeric
+DPIT residual values from the returned object.</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>: Use this method to summarize the DPIT
+residual values on the selected scale.</p></li>
+<li><p><code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>: Use this method to draw a QQ-plot of the
+DPIT residuals from the returned object.</p></li>
+<li><p><code>scale</code>: In <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code>,
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, you can choose the
+scale of the residuals among <code>normal</code> and
+<code>uniform</code> scales. The sample quantiles of the residuals are
+plotted against the theoretical quantiles of a standard normal
+distribution under the normal scale, and against the theoretical
+quantiles of a uniform (0,1) distribution under the uniform scale. The
+default scale is <code>normal</code>.</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="real-data-example">Real data example<a class="anchor" aria-label="anchor" href="#real-data-example"></a>
 </h3>
-<p>The <code>solder</code> data, extracted from the <code>faraway</code>
-package, lends itself to fitting through either Poisson regression or
-Negative Binomial regression. The selection between these models depends
-on the underlying distribution characteristics of the data. To validate
-the distribution assumption, a comprehensive approach involves assessing
-the DPIT residuals and scrutinizing the QQ plot derived from these
-residuals.</p>
+<p>The <code>bballHR</code> data included in <code>assessor</code>
+contain annual home run counts and batted-ball characteristics for Major
+League Baseball players. The count outcome can be fitted using either
+Poisson or negative binomial regression. To assess the distributional
+assumption, we compare the DPIT residuals and their QQ plots.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jhlee1408.github.io/assessor/">assessor</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/julianfaraway/faraway" class="external-link">faraway</a></span><span class="op">)</span> </span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"solder"</span><span class="op">)</span> <span class="co"># from faraway package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"bballHR"</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co">## Negative Binomial</span></span>
-<span><span class="va">modpnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">skips</span><span class="op">~</span><span class="va">.</span>,data<span class="op">=</span><span class="va">solder</span><span class="op">)</span></span>
-<span><span class="va">modp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">skips</span><span class="op">~</span><span class="va">.</span>,famil<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link<span class="op">=</span><span class="st">"log"</span><span class="op">)</span>,data<span class="op">=</span><span class="va">solder</span><span class="op">)</span></span>
+<span><span class="va">model_formula</span> <span class="op">&lt;-</span> <span class="va">HR</span> <span class="op">~</span> <span class="va">mean_exit_velo</span> <span class="op">+</span> <span class="va">mean_launch_angle</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">AB</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">modpnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">model_formula</span>, data <span class="op">=</span> <span class="va">bballHR</span><span class="op">)</span></span>
+<span><span class="va">modp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">model_formula</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">bballHR</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## QQ-plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modp</span>,plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
-<span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modpnb</span>,plot <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">poi.dpit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modp</span><span class="op">)</span></span>
+<span><span class="va">poi.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">poi.dpit</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">poi.dpit</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">norm.dpit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modpnb</span><span class="op">)</span></span>
+<span><span class="va">norm.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">norm.dpit</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">norm.dpit</span>, scale <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">unif.dpit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dpit.html">dpit</a></span><span class="op">(</span><span class="va">modpnb</span><span class="op">)</span></span>
+<span><span class="va">unif.resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">unif.dpit</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">unif.dpit</span>, scale <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="assessor_files/figure-html/example-1.png" class="r-plt" alt="" width="672"></p>
 <p>The left panel of the figure above presents the QQ plot of the DPIT
 residuals when we use a Poisson GLM (<code>modp</code>). The residuals
@@ -142,8 +159,9 @@ overdispersion.</p>
 negative binomial regression (<code>modpnb</code>) on different scales.
 Both plots align closely along the diagonal line, suggesting that the
 assumption of negative binomial distribution appears appropriate. The
-only distinction between them lies in the <code>scale</code> parameter;
-the middle panel displays the plot on the normal scale, with the
+only distinction between them lies in the <code>scale</code> parameter
+of <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>; the middle panel displays the plot on the normal
+scale, with the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
@@ -162,7 +180,7 @@ range of 0 to 1.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

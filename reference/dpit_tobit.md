@@ -7,7 +7,7 @@ responses (`y`) and their corresponding fitted distributional parameters
 ## Usage
 
 ``` r
-dpit_tobit(y, mu, sd, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit_tobit(y, mu, sd)
 ```
 
 ## Arguments
@@ -24,34 +24,9 @@ dpit_tobit(y, mu, sd, plot=TRUE, scale="normal", line_args=list(), ...)
 
   A standard deviation of latent variables.
 
-- plot:
-
-  A logical value indicating whether or not to return QQ-plot
-
-- scale:
-
-  You can choose the scale of the residuals among `normal` and
-  `uniform`. The sample quantiles of the residuals are plotted against
-  the theoretical quantiles of a standard normal distribution under the
-  normal scale, and against the theoretical quantiles of a uniform (0,1)
-  distribution under the uniform scale. The default scale is `normal`.
-
-- line_args:
-
-  A named list of graphical parameters passed to
-  [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
-
-- ...:
-
-  Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
-
 ## Value
 
-DPIT residuals.
+A `dpit` object containing DPIT residuals.
 
 ## Details
 
@@ -86,8 +61,14 @@ fit1 <- vglm(formula = y ~ x11 + x12,
 fit1miss <- vglm(formula = y ~ x11,
                  tobit(Upper = Inf, Lower = 0, lmu = "identitylink"))
 
-resid.tobit1 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1), sd = sd0)
-resid.tobit2 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1miss), sd = sd0)
+dpit.tobit1 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1), sd = sd0)
+resid.tobit1 <- residuals(dpit.tobit1)
+plot(dpit.tobit1)
+
+dpit.tobit2 <- dpit_tobit(y = y, mu = VGAM::fitted(fit1miss), sd = sd0)
+resid.tobit2 <- residuals(dpit.tobit2)
+plot(dpit.tobit2)
+
 
 # Using AER package
 library(AER)
@@ -117,6 +98,11 @@ fit2 <- tobit(y ~ x11 + x12, left = 0, right = Inf, dist = "gaussian")
 # Missing covariate
 fit2miss <- tobit(y ~ x11, left = 0, right = Inf, dist = "gaussian")
 
-resid.aer1 <- dpit_tobit(y = y, mu = fitted(fit2), sd = sd0)
-resid.aer2 <- dpit_tobit(y = y, mu = fitted(fit2miss), sd = sd0)
+dpit.aer1 <- dpit_tobit(y = y, mu = fitted(fit2), sd = sd0)
+resid.aer1 <- residuals(dpit.aer1)
+plot(dpit.aer1)
+
+dpit.aer2 <- dpit_tobit(y = y, mu = fitted(fit2miss), sd = sd0)
+resid.aer2 <- residuals(dpit.aer2)
+plot(dpit.aer2)
 ```
