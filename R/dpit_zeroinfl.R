@@ -1,14 +1,9 @@
 #' @rawNamespace S3method(dpit,zeroinfl)
-dpit.zeroinfl <- function(model,
-                          plot = TRUE,
-                          scale = "normal",
-                          line_args = list(),
-                          ...) {
-  res_u <- .dpit_zeroinfl(model, ...)
-  .dpit_finalize(res_u, plot = plot, scale = scale, line_args = line_args, ...)
+dpit.zeroinfl <- function(model) {
+  .attach_model_call(.dpit_zeroinfl(model), model)
 }
 
-.dpit_zeroinfl <- function(model, ...) {
+.dpit_zeroinfl <- function(model) {
   key <- list(model = model)
   dist <- NULL
   if (!is.null(model$dist)) {
@@ -31,15 +26,15 @@ dpit.zeroinfl <- function(model,
     "zeroinfl_default"
   }
 
-  .dpit_zeroinfl_key(key, ...)
+  .dpit_zeroinfl_key(key)
 }
 
-.dpit_zeroinfl_key <- function(key, ...) {
+.dpit_zeroinfl_key <- function(key) {
   UseMethod(".dpit_zeroinfl_key")
 }
 
 #' @rawNamespace S3method(.dpit_zeroinfl_key,zeroinfl_poisson)
-.dpit_zeroinfl_key.zeroinfl_poisson <- function(key, ...) {
+.dpit_zeroinfl_key.zeroinfl_poisson <- function(key) {
   model <- key$model
 
   # response y
@@ -62,7 +57,7 @@ dpit.zeroinfl <- function(model,
 }
 
 #' @rawNamespace S3method(.dpit_zeroinfl_key,zeroinfl_negbin)
-.dpit_zeroinfl_key.zeroinfl_negbin <- function(key, ...) {
+.dpit_zeroinfl_key.zeroinfl_negbin <- function(key) {
   model <- key$model
   mf <- try(stats::model.frame(model), silent = TRUE)
   if (inherits(mf, "try-error")) {
@@ -85,7 +80,7 @@ dpit.zeroinfl <- function(model,
 }
 
 #' @rawNamespace S3method(.dpit_zeroinfl_key,zeroinfl_default)
-.dpit_zeroinfl_key.zeroinfl_default <- function(key, ...) {
+.dpit_zeroinfl_key.zeroinfl_default <- function(key) {
   model <- key$model
   dist <- if (!is.null(model$dist)) model$dist else NULL
   msg <- if (is.null(dist)) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/quasi.R
 \name{quasi_plot}
 \alias{quasi_plot}
-\title{Quasi emprical residuals functions}
+\title{Quasi empirical residuals functions}
 \usage{
 quasi_plot(model, line_args=list(), ...)
 }
@@ -23,7 +23,7 @@ A plot of quasi-empirial residual distribution function \eqn{\hat{U}(s;\beta)} a
 \description{
 Draw the quasi-empirical residual distribution functions for regression models with discrete outcomes.
 Specifically, the model assumption of GLMs with binary, ordinal, Poisson, negative binomial,
-zero-inlated Poisson, and zero-inflated negative binomial outcomes can be assessed using \code{quasi_plot()}.
+zero-inflated Poisson, and zero-inflated negative binomial outcomes can be assessed using \code{quasi_plot()}.
 A plot far apart from the diagonal indicates lack of fit.
 }
 \details{

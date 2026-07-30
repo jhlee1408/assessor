@@ -1,3 +1,14 @@
+# assessor 1.3.1
+* Fixed an error where `scale = "uniform"` did not produce a uniformly scaled QQ plot.
+* Fixed the negative-binomial goodness-of-fit bootstrap so that each replicate is refitted using the simulated response.
+* `dpit()`, `dpit_2pm()`, and the distribution-specific calculators for binary,
+  Poisson, negative binomial, ordinal, zero-inflated, Tobit, and Tweedie
+  outcomes now return `dpit` objects. Use `residuals()` to extract values,
+  `summary()` to summarize them, and `plot()` to draw QQ plots. The `scale`
+  argument is now supplied to `residuals()`, `summary()`, or `plot()`, and
+  graphical arguments are supplied to `plot()`.
+* The `print()` and `summary()` methods now label the number of residuals as
+  the sample size.
 
 # assessor 1.3.0
 ## Breaking changes

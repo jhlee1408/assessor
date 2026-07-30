@@ -4,7 +4,7 @@
 \alias{dpit_ordi}
 \title{Residuals for regression models with ordinal outcomes}
 \usage{
-dpit_ordi(y, level, fitprob, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit_ordi(y, level, fitprob)
 }
 \arguments{
 \item{y}{An observed ordinal outcome vector.}
@@ -12,25 +12,9 @@ dpit_ordi(y, level, fitprob, plot=TRUE, scale="normal", line_args=list(), ...)
 \item{level}{The names of the response levels. For instance, c(0,1,2).}
 
 \item{fitprob}{A matrix of fitted category probabilities. Each row corresponds to an observation, and column j contains the fitted probability P(Y_i = j).}
-
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
-
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
-The sample quantiles of the residuals are plotted against
-the theoretical quantiles of a standard normal distribution under the normal scale,
-and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-The default scale is \code{normal}.}
-
-\item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
-
-\item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-DPIT residuals.
+A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for regression models with ordinal outcomes
@@ -64,5 +48,7 @@ y1 <- multimodel$model[,1]
 lev1 <- multimodel$lev
 fitprob1 <- fitted(multimodel)
 
-resid.ord <- dpit_ordi(y=y1, level=lev1, fitprob=fitprob1)
+dpit.ord <- dpit_ordi(y=y1, level=lev1, fitprob=fitprob1)
+resid.ord <- residuals(dpit.ord)
+plot(dpit.ord)
 }

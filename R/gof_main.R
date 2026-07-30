@@ -27,15 +27,16 @@
 #' complements residual-based diagnostics by providing a formal check of model adequacy.
 #' @references Yang L, Genest C, Neslehova J (2025). “A goodness-of-fit test for regression models with discrete outcomes.” Canadian Journal of Statistics
 #'
-#' @returns Test statistics and p-values
+#' @returns An object of class \code{"htest"} containing the test statistic,
+#' the number of bootstrap samples, the p-value, the method description, and
+#' the model call.
 #' @importFrom stats family
 #' @import tweedie
 #' @export
 #' @examples
 #' library(MASS)
 #' library(pscl)
-#' n <- 500
-#' B <- 1000
+#' n <- 100
 #' beta1 <- 1;  beta2 <- 1
 #' beta0 <- -2; beta00 <- -2; beta10 <- 2
 #' size1 <- 2
@@ -48,7 +49,7 @@
 #' y1 <- rnegbin(n, mu=lambda1, theta=size1)
 #' y <- ifelse(y0 == 0, 0, y1)
 #' model1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
-#' gof_disc(model1)
+#' gof_disc(model1, B=50)
 gof_disc <- function(model, B = 1e2, seed = NULL) UseMethod("gof_disc")
 
 #' @rawNamespace S3method(gof_disc,default)
@@ -105,25 +106,16 @@ gof_disc.glm <- function(model, B = 1e2, seed = NULL) {
 
 #' @rawNamespace S3method(.gof_glm_key, poisson)
 .gof_glm_key.poisson <- function(key) {
-  if (!exists("gof_pois", mode = "function", inherits = TRUE)) {
-    stop("gof_pois() not found.", call. = FALSE)
-  }
   gof_pois(B = key$B, poismodel = key$model, seed = key$seed)
 }
 
 #' @rawNamespace S3method(.gof_glm_key,binomial)
 .gof_glm_key.binomial <- function(key) {
-  if (!exists("gof_bin", mode = "function", inherits = TRUE)) {
-    stop("gof_bin() not found.", call. = FALSE)
-  }
   gof_bin(B = key$B, bimodel = key$model, seed = key$seed)
 }
 
 #' @rawNamespace S3method(.gof_glm_key,negbin)
 .gof_glm_key.negbin <- function(key) {
-  if (!exists("gof_nb", mode = "function", inherits = TRUE)) {
-    stop("gof_nb() not found.", call. = FALSE)
-  }
   gof_nb(B = key$B, nbmodel = key$model, seed = key$seed)
 }
 
@@ -152,17 +144,11 @@ gof_disc.zeroinfl <- function(model, B = 1e2, seed = NULL) {
 
 #' @rawNamespace S3method(.gof_zeroinfl_key,poisson)
 .gof_zeroinfl_key.poisson <- function(key) {
-  if (!exists("gof_zpois", mode = "function", inherits = TRUE)) {
-    stop("gof_zpois() not found.", call. = FALSE)
-  }
   gof_zpois(B = key$B, model1 = key$model, seed = key$seed)
 }
 
 #' @rawNamespace S3method(.gof_zeroinfl_key,negbin)
 .gof_zeroinfl_key.negbin <- function(key) {
-  if (!exists("gof_znb", mode = "function", inherits = TRUE)) {
-    stop("gof_znb() not found.", call. = FALSE)
-  }
   gof_znb(B = key$B, model1 = key$model, seed = key$seed)
 }
 
@@ -176,8 +162,16 @@ gof_disc.zeroinfl <- function(model, B = 1e2, seed = NULL) {
 
 #' @rawNamespace S3method(gof_disc,polr)
 gof_disc.polr <- function(model, B = 1e2, seed = NULL) {
-  if (!exists("gof_ordi", mode = "function", inherits = TRUE)) {
-    stop("gof_ordi() not found.", call. = FALSE)
-  }
   gof_ordi(B = B, multimodel = model, seed = seed)
+}
+
+
+.gof_htest <- function(stat, pvalue, B, what, data.name) {
+  structure(list(
+    statistic = c(S = stat),
+    parameter = c(B = B),
+    p.value   = pvalue,
+    method    = paste0("Goodness-of-fit test for regression models with discrete outcomes (", what, ")"),
+    data.name = data.name
+  ), class = "htest")
 }

@@ -5,23 +5,11 @@
 #' probabilities (`fitprob`).
 #'
 #'
-#' @usage dpit_ordi(y, level, fitprob, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit_ordi(y, level, fitprob)
 #' @param y An observed ordinal outcome vector.
 #' @param level The names of the response levels. For instance, c(0,1,2).
 #' @param fitprob A matrix of fitted category probabilities. Each row corresponds to an observation, and column j contains the fitted probability P(Y_i = j).
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
-#' The sample quantiles of the residuals are plotted against
-#' the theoretical quantiles of a standard normal distribution under the normal scale,
-#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
-#' @returns DPIT residuals.
+#' @returns A `dpit` object containing DPIT residuals.
 #'
 #' @details
 #' For formulation details on discrete outcomes, see \code{\link{dpit}}.
@@ -50,9 +38,11 @@
 #' lev1 <- multimodel$lev
 #' fitprob1 <- fitted(multimodel)
 #'
-#' resid.ord <- dpit_ordi(y=y1, level=lev1, fitprob=fitprob1)
+#' dpit.ord <- dpit_ordi(y=y1, level=lev1, fitprob=fitprob1)
+#' resid.ord <- residuals(dpit.ord)
+#' plot(dpit.ord)
 #' @export
-dpit_ordi <- function(y, level, fitprob,plot=TRUE, scale="normal", line_args=list(), ...) {
+dpit_ordi <- function(y, level, fitprob) {
   k <- length(level)
   out <- as.numeric(factor(y, ordered = TRUE))
   n <- length(out)
@@ -81,5 +71,5 @@ dpit_ordi <- function(y, level, fitprob,plot=TRUE, scale="normal", line_args=lis
     pses[i] <- 0
     empcdf[i] <- sum(pses)/(n-1)
   }
-  .dpit_finalize(empcdf, plot=plot, scale=scale,line_args=line_args,...)
+  .new_dpit(empcdf, method = "Ordinal")
 }

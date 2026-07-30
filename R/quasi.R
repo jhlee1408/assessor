@@ -115,25 +115,16 @@ quasi_plot.glm <- function(model, line_args = list(), ...) {
 
 #' @rawNamespace S3method(.quasi_plot_glm_key,nb)
 .quasi_plot_glm_key.nb <- function(key, ...) {
-  if (!exists("resid.nb_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.nb_quasi() not found.", call. = FALSE)
-  }
   resid.nb_quasi(key$model, line_args = key$line_args, ...)
 }
 
 #' @rawNamespace S3method(.quasi_plot_glm_key,poisson)
 .quasi_plot_glm_key.poisson <- function(key, ...) {
-  if (!exists("resid.pois_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.pois_quasi() not found.", call. = FALSE)
-  }
   resid.pois_quasi(key$model, line_args = key$line_args, ...)
 }
 
 #' @rawNamespace S3method(.quasi_plot_glm_key,binomial)
 .quasi_plot_glm_key.binomial <- function(key, ...) {
-  if (!exists("resid.bin_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.bin_quasi() not found.", call. = FALSE)
-  }
   resid.bin_quasi(key$model, line_args = key$line_args, ...)
 }
 
@@ -170,17 +161,11 @@ quasi_plot.zeroinfl <- function(model, line_args = list(), ...) {
 
 #' @rawNamespace S3method(.quasi_plot_zeroinfl_key,poisson)
 .quasi_plot_zeroinfl_key.poisson <- function(key, ...) {
-  if (!exists("resid.zpois_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.zpois_quasi() not found.", call. = FALSE)
-  }
   resid.zpois_quasi(key$model, line_args = key$line_args, ...)
 }
 
 #' @rawNamespace S3method(.quasi_plot_zeroinfl_key,negbin)
 .quasi_plot_zeroinfl_key.negbin <- function(key, ...) {
-  if (!exists("resid.znb_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.znb_quasi() not found.", call. = FALSE)
-  }
   resid.znb_quasi(key$model, line_args = key$line_args, ...)
 }
 
@@ -192,9 +177,6 @@ quasi_plot.zeroinfl <- function(model, line_args = list(), ...) {
 
 #' @rawNamespace S3method(quasi_plot,polr)
 quasi_plot.polr <- function(model, line_args = list(), ...) {
-  if (!exists("resid.ordi_quasi", mode = "function", inherits = TRUE)) {
-    stop("resid.ordi_quasi() not found.", call. = FALSE)
-  }
   resid.ordi_quasi(model, line_args = line_args, ...)
 }
 

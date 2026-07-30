@@ -13,24 +13,12 @@ inv.znb <- function(s, pzero, mu.hat, size1f) {
 #' binomial outcomes using the observed counts (`y`) and their fitted distributional
 #' parameters (`mu`, `pzero`, `size`).
 #'
-#' @usage dpit_znb(y, mu, pzero, size, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit_znb(y, mu, pzero, size)
 #' @param y An observed outcome vector.
 #' @param mu A vector of fitted mean values for the count (non-zero) component.
 #' @param pzero A vector of fitted probabilities for the zero-inflation component.
 #' @param size A dispersion parameter of the negative binomial distribution.
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
-#' The sample quantiles of the residuals are plotted against
-#' the theoretical quantiles of a standard normal distribution under the normal scale,
-#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
-#' @returns DPIT residuals.
+#' @returns A `dpit` object containing DPIT residuals.
 #' @importFrom stats family
 #' @export
 #'
@@ -75,16 +63,20 @@ inv.znb <- function(s, pzero, mu.hat, size1f) {
 #' mu1    <- stats::predict(modelzero1, type = "count")
 #' pzero1 <- stats::predict(modelzero1, type = "zero")
 #' theta1 <- modelzero1$theta
-#' resid.zero1 <- dpit_znb(y = y1, pzero = pzero1, mu = mu1, size = theta1)
+#' dpit.zero1 <- dpit_znb(y = y1, pzero = pzero1, mu = mu1, size = theta1)
+#' resid.zero1 <- residuals(dpit.zero1)
+#' plot(dpit.zero1)
 #'
 #' ## Ignoring zero-inflation: NB only
 #' modelzero2 <- MASS::glm.nb(y ~ x1 + x2)
 #' y2 <- modelzero2$y
 #' mu2    <- fitted(modelzero2)
 #' theta2 <- modelzero2$theta
-#' resid.zero2 <- dpit_nb(y = y2, mu = mu2, size = theta2)
+#' dpit.zero2 <- dpit_nb(y = y2, mu = mu2, size = theta2)
+#' resid.zero2 <- residuals(dpit.zero2)
+#' plot(dpit.zero2)
 #' @export
-dpit_znb <- function(y, mu, pzero, size, plot=TRUE, scale="normal", line_args=list(), ...) {
+dpit_znb <- function(y, mu, pzero, size) {
   mu.hat <- mu
   pzero <- pzero
   size1f <- size
@@ -98,5 +90,5 @@ dpit_znb <- function(y, mu, pzero, size, plot=TRUE, scale="normal", line_args=li
     pres[i] <-0
     empcdf[i] <- sum(pres)/(n-1)
   }
-  .dpit_finalize(empcdf, plot=plot, scale=scale, line_args=line_args, ...)
+  .new_dpit(empcdf, method = "Zero-inflated negative binomial")
 }

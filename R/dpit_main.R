@@ -5,20 +5,8 @@
 #' regression models, zero-inflated regression models, and semicontinuous outcome
 #' models can be assessed using \code{dpit()}.
 #'
-#' @usage dpit(model, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit(model)
 #' @param model A model object.
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
-#' The sample quantiles of the residuals are plotted against
-#' the theoretical quantiles of a standard normal distribution under the normal scale,
-#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #' @details
 #' This function determines the appropriate computation based on the class of
@@ -68,6 +56,7 @@
 #' where
 #' \deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
 #' and \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+#' The `scale` argument is supplied to `residuals()`, `summary()`, or `plot()`.
 #' When `scale="uniform"`, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
 #' When `scale="normal"`, it applies the normal quantile transformation to the DPIT residuals
 #' \deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.
@@ -79,7 +68,7 @@
 #' where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
 #' where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
 #'
-#' @returns DPIT residuals. If `plot=TRUE`, also produces a QQ plot.
+#' @returns A `dpit` object containing DPIT residuals.
 #'
 #'
 #' @import stats
@@ -110,11 +99,17 @@
 #'
 #' # True model
 #' model1 <- glm.nb(y ~ x1 + x2)
-#' resid.nb1 <- dpit(model1, plot = TRUE, scale = "uniform")
+#' dpit.nb1 <- dpit(model1)
+#' dpit.nb1
+#' resid.nb1 <- residuals(dpit.nb1, scale = "uniform")
+#' summary(dpit.nb1, scale = "uniform")
+#' plot(dpit.nb1, scale = "uniform")
 #'
 #' # Overdispersion
 #' model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-#' resid.nb2 <- dpit(model2, plot = TRUE, scale = "normal")
+#' dpit.nb2 <- dpit(model2)
+#' resid.nb2 <- residuals(dpit.nb2, scale = "normal")
+#' plot(dpit.nb2, scale = "normal")
 #'
 #' ## Binary example
 #' n <- 500
@@ -132,11 +127,15 @@
 #'
 #' # True model
 #' model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-#' resid.bin1 <- dpit(model01, plot = TRUE)
+#' dpit.bin1 <- dpit(model01)
+#' resid.bin1 <- residuals(dpit.bin1)
+#' plot(dpit.bin1)
 #'
 #' # Missing covariates
 #' model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-#' resid.bin2 <- dpit(model02, plot = TRUE)
+#' dpit.bin2 <- dpit(model02)
+#' resid.bin2 <- residuals(dpit.bin2)
+#' plot(dpit.bin2)
 #'
 #' ## Poisson example
 #' n <- 500
@@ -153,12 +152,16 @@
 #'
 #' # True model
 #' poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-#' resid.poi1 <- dpit(poismodel1, plot = TRUE)
+#' dpit.poi1 <- dpit(poismodel1)
+#' resid.poi1 <- residuals(dpit.poi1)
+#' plot(dpit.poi1)
 #'
 #' # Enlarge three outcomes
 #' y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 #' poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-#' resid.poi2 <- dpit(poismodel2, plot = TRUE)
+#' dpit.poi2 <- dpit(poismodel2)
+#' resid.poi2 <- residuals(dpit.poi2)
+#' plot(dpit.poi2)
 #'
 #' ## Ordinal example
 #' n <- 500
@@ -181,7 +184,9 @@
 #' y1[which(test[2, ] == 1)] <- 1
 #' y1[which(test[3, ] == 1)] <- 2
 #' multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-#' resid.ord1 <- dpit(multimodel, plot = TRUE)
+#' dpit.ord1 <- dpit(multimodel)
+#' resid.ord1 <- residuals(dpit.ord1)
+#' plot(dpit.ord1)
 #'
 #' ## Non-Proportionality
 #' n <- 500
@@ -201,11 +206,9 @@
 #' y1[which(test[2, ] == 1)] <- 1
 #' y1[which(test[3, ] == 1)] <- 2
 #' multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-#' resid.ord2 <- dpit(multimodel, plot = TRUE)
-dpit <- function(model,
-                 plot = TRUE,
-                 scale = "normal",
-                 line_args = list(),
-                 ...) {
+#' dpit.ord2 <- dpit(multimodel)
+#' resid.ord2 <- residuals(dpit.ord2)
+#' plot(dpit.ord2)
+dpit <- function(model) {
   UseMethod("dpit")
 }

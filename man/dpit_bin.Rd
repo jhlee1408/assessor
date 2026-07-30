@@ -4,31 +4,15 @@
 \alias{dpit_bin}
 \title{Residuals for regression models with binary outcomes}
 \usage{
-dpit_bin(y, prob, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit_bin(y, prob)
 }
 \arguments{
 \item{y}{An observed outcome vector.}
 
 \item{prob}{A vector of fitted probabilities of one.}
-
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
-
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
-The sample quantiles of the residuals are plotted against
-the theoretical quantiles of a standard normal distribution under the normal scale,
-and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-The default scale is \code{normal}.}
-
-\item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
-
-\item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-DPIT residuals.
+A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for regression models with binary outcomes
@@ -56,11 +40,15 @@ y1 <- rbinom(n, size = 1, prob = 1 - q1)
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
 fitted1 <- fitted(model01)
 y1 <- model01$y
-resid.bin1 <- dpit_bin(y=y1, prob=fitted1)
+dpit.bin1 <- dpit_bin(y=y1, prob=fitted1)
+resid.bin1 <- residuals(dpit.bin1)
+plot(dpit.bin1)
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
 y2 <- model02$y
 fitted2 <- fitted(model02)
-resid.bin2 <- dpit_bin(y=y2, prob=fitted2)
+dpit.bin2 <- dpit_bin(y=y2, prob=fitted2)
+resid.bin2 <- residuals(dpit.bin2)
+plot(dpit.bin2)
 }

@@ -4,7 +4,7 @@
 \alias{dpit_znb}
 \title{Residuals for regression models with zero-inflated negative binomial outcomes}
 \usage{
-dpit_znb(y, mu, pzero, size, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit_znb(y, mu, pzero, size)
 }
 \arguments{
 \item{y}{An observed outcome vector.}
@@ -14,25 +14,9 @@ dpit_znb(y, mu, pzero, size, plot=TRUE, scale="normal", line_args=list(), ...)
 \item{pzero}{A vector of fitted probabilities for the zero-inflation component.}
 
 \item{size}{A dispersion parameter of the negative binomial distribution.}
-
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
-
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
-The sample quantiles of the residuals are plotted against
-the theoretical quantiles of a standard normal distribution under the normal scale,
-and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-The default scale is \code{normal}.}
-
-\item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
-
-\item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-DPIT residuals.
+A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for regression models with zero-inflated negative
@@ -79,12 +63,16 @@ y1 <- modelzero1$y
 mu1    <- stats::predict(modelzero1, type = "count")
 pzero1 <- stats::predict(modelzero1, type = "zero")
 theta1 <- modelzero1$theta
-resid.zero1 <- dpit_znb(y = y1, pzero = pzero1, mu = mu1, size = theta1)
+dpit.zero1 <- dpit_znb(y = y1, pzero = pzero1, mu = mu1, size = theta1)
+resid.zero1 <- residuals(dpit.zero1)
+plot(dpit.zero1)
 
 ## Ignoring zero-inflation: NB only
 modelzero2 <- MASS::glm.nb(y ~ x1 + x2)
 y2 <- modelzero2$y
 mu2    <- fitted(modelzero2)
 theta2 <- modelzero2$theta
-resid.zero2 <- dpit_nb(y = y2, mu = mu2, size = theta2)
+dpit.zero2 <- dpit_nb(y = y2, mu = mu2, size = theta2)
+resid.zero2 <- residuals(dpit.zero2)
+plot(dpit.zero2)
 }

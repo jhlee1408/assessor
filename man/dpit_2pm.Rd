@@ -4,8 +4,7 @@
 \alias{dpit_2pm}
 \title{Residuals for regression models with two-part outcomes}
 \usage{
-dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
- line_args= list(), ...)
+dpit_2pm(model0, model1, y, part0, part1)
 }
 \arguments{
 \item{model0}{Model object for 0 outcomes (e.g., logistic regression)}
@@ -17,21 +16,9 @@ dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
 \item{part0}{Alternative argument to \code{model0}. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.}
 
 \item{part1}{Alternative argument to \code{model1}. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.}
-
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
-
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}. The default scale is \code{normal}.}
-
-\item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
-
-\item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-Residuals. If plot=TRUE, also produces a QQ plot.
+A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Calculates DPIT residuals with model for semi-continuous outcomes.
@@ -46,6 +33,8 @@ Users can choose to use different models and supply the resulting probabilities 
 \code{part0} should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 \code{part1} should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.
+Use \code{residuals()}, \code{summary()}, and \code{plot()} on the returned object to select
+the residual scale, summarize the values, and draw the QQ plot.
 }
 \examples{
 library(MASS)
@@ -70,7 +59,10 @@ y[ind1] <- y2[ind1]
 # models as input
 mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-resid.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+dpit.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+resid.model <- residuals(dpit.model, scale = "normal")
+summary(dpit.model, scale = "normal")
+plot(dpit.model, scale = "normal")
 
 # PIT as input
 cdfgamma <- pgamma(y[ind1],
@@ -78,5 +70,8 @@ cdfgamma <- pgamma(y[ind1],
   shape = 1 / gamma.dispersion(mgamma)
 )
 p1f <- m10$fitted.values
-resid.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+dpit.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+resid.pit <- residuals(dpit.pit, scale = "uniform")
+summary(dpit.pit, scale = "uniform")
+plot(dpit.pit, scale = "uniform")
 }

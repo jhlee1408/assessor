@@ -3,22 +3,10 @@
 #' Computes DPIT residuals for Poisson outcomes regression using the observed counts (`y`) and their
 #' corresponding fitted mean values (`mu`).
 #'
-#' @usage dpit_pois(y, mu, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit_pois(y, mu)
 #' @param y An observed outcome vector.
 #' @param mu A vector of fitted mean values.
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
-#' The sample quantiles of the residuals are plotted against
-#' the theoretical quantiles of a standard normal distribution under the normal scale,
-#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
-#' @returns DPIT residuals.
+#' @returns A `dpit` object containing DPIT residuals.
 #'
 #' @details
 #' For formulation details on discrete outcomes, see \code{\link{dpit}}.
@@ -41,10 +29,12 @@
 #' poismodel <- glm(y ~ x1 + x2, family = poisson(link = "log"))
 #' y1 <- poismodel$y
 #' p1f <- fitted(poismodel)
-#' resid.poi <- dpit_pois(y=y1, mu=p1f)
+#' dpit.poi <- dpit_pois(y=y1, mu=p1f)
+#' resid.poi <- residuals(dpit.poi)
+#' plot(dpit.poi)
 #'
 #' @export
-dpit_pois <- function(y, mu, plot=TRUE, scale="normal", line_args=list(), ...) {
+dpit_pois <- function(y, mu) {
   n <- length(y)
   lambda1f <- mu
   res <- ppois(y, lambda = lambda1f)
@@ -56,5 +46,5 @@ dpit_pois <- function(y, mu, plot=TRUE, scale="normal", line_args=list(), ...) {
     pres[i] <- 0
     empcdf[i] <-sum(pres)/(n-1)
   }
-  .dpit_finalize(empcdf, plot=plot, scale=scale, line_args = line_args, ...)
+  .new_dpit(empcdf, method = "Poisson")
 }

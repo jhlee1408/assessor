@@ -27,11 +27,11 @@
 #'
 #' For more details, see the reference paper.
 #'
-#' @references Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
+#' @references L. Yang. Double probability integral transform residuals for regression models with discrete outcomes. Journal of Computational and Graphical Statistics, 33(3), pp.787–803, 2024.
 #'
 #' @usage ord_curve(model, thr, line_args=list(), ...)
 #'
-#' @param model Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`, `lm`)
+#' @param model Regression model object (e.g.,`lm`, `glm`, `glm.nb`, `polr`)
 #' @param thr Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
 #' @param line_args A named list of graphical parameters passed to
 #'   \code{graphics::abline()} to modify the reference (red) 45° line
@@ -102,17 +102,14 @@ ord_curve.glm <- function(model, thr, line_args = list(), ...) {
   .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
 }
 
-#' @rawNamespace S3method(ord_curve,negbin)
-ord_curve.negbin <- function(model, thr, line_args = list(), ...) {
-  y1 <- model$y
-  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
-}
-
 #' @rawNamespace S3method(ord_curve,polr)
 ord_curve.polr <- function(model, thr, line_args = list(), ...) {
-  y1 <- model$y
-  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+  y1 <- as.numeric(factor(model$model[, 1], ordered = TRUE))
+  probs <- stats::fitted.values(model)
+  q10 <- as.vector(probs %*% seq_len(ncol(probs)))
+  .ord_curve_core(y1 = y1, q10 = q10, thr = thr, line_args = line_args, ...)
 }
+
 
 #' @rawNamespace S3method(ord_curve,lm)
 ord_curve.lm <- function(model, thr, line_args = list(), ...) {

@@ -3,8 +3,7 @@
 #' Calculates DPIT residuals with model for semi-continuous outcomes.
 #' `dpit_2pm` can be used either with `model0` and `model1` or with `part0` and `part1` as arguments.
 #'
-#' @usage dpit_2pm(model0, model1, y, part0, part1, plot=TRUE, scale = "normal",
-#'  line_args= list(), ...)
+#' @usage dpit_2pm(model0, model1, y, part0, part1)
 #'
 #'
 #' @param model0 Model object for 0 outcomes (e.g., logistic regression)
@@ -12,14 +11,6 @@
 #' @param y Semicontinuous outcomes.
 #' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.
 #' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`. The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
 #'
 #' @details
@@ -31,9 +22,11 @@
 #'  `part0` should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 #'  `part1` should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
+#' Use `residuals()`, `summary()`, and `plot()` on the returned object to select
+#' the residual scale, summarize the values, and draw the QQ plot.
 #'
 #'
-#' @returns Residuals. If plot=TRUE, also produces a QQ plot.
+#' @returns A `dpit` object containing DPIT residuals.
 #'
 #' @importFrom stats ecdf
 #' @importFrom MASS gamma.dispersion
@@ -62,7 +55,10 @@
 #' # models as input
 #' mgamma <- glm(y[ind1] ~ x11[ind1] + x12[ind1], family = Gamma(link = "log"))
 #' m10 <- glm(y == 0 ~ x12 + x11, family = binomial(link = "logit"))
-#' resid.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+#' dpit.model <- dpit_2pm(model0 = m10, model1 = mgamma, y = y)
+#' resid.model <- residuals(dpit.model, scale = "normal")
+#' summary(dpit.model, scale = "normal")
+#' plot(dpit.model, scale = "normal")
 #'
 #' # PIT as input
 #' cdfgamma <- pgamma(y[ind1],
@@ -70,14 +66,12 @@
 #'   shape = 1 / gamma.dispersion(mgamma)
 #' )
 #' p1f <- m10$fitted.values
-#' resid.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+#' dpit.pit <- dpit_2pm(y = y, part0 = p1f, part1 = cdfgamma)
+#' resid.pit <- residuals(dpit.pit, scale = "uniform")
+#' summary(dpit.pit, scale = "uniform")
+#' plot(dpit.pit, scale = "uniform")
 
-# dpit_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...){
-#   UseMethod("dpit_2pm")
-# }
-
-dpit_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "normal", line_args=list(), ...) {
-  if (!(scale %in% c("normal", "uniform"))) stop("scale has to be either normal or uniform")
+dpit_2pm <- function(model0, model1, y, part0, part1) {
   if (missing(y)) stop("argument y is missing, with no default")
   if (sum(!(y >= 0)) != 0) stop("y has to be nonnegative")
 
@@ -143,11 +137,16 @@ dpit_2pm <- function(model0, model1, y, part0, part1, plot = TRUE, scale = "norm
     newp <- cdf1 * ecdf(part0)(cdf1)
   }
 
-  if (plot == TRUE) {
-    qqplot.resid(newp, scale, line_args,...)
-  } else {
-    if (scale == "normal") newp <- qnorm(newp)
-    if (scale == "uniform") newp <- newp
+  out <- .new_dpit(newp, method = "Two-part")
+  model_calls <- list()
+  if (!missing(model0)) {
+    model_calls$model0 <- stats::getCall(model0)
   }
-  return(newp)
+  if (!missing(model1)) {
+    model_calls$model1 <- stats::getCall(model1)
+  }
+  if (length(model_calls) > 0L) {
+    out$call <- model_calls
+  }
+  out
 }

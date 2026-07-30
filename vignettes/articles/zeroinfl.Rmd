@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 ```
 
 ### Zero-Inflation regression models {.tabset .tabset-pills}
-`dpit()` is used for calculating the DPIT residuals for regression models with zero-inflation outcomes and drawing corresponding QQ-plots. The suitable model objects are as follows: 
+`dpit()` is used for calculating the DPIT residuals for regression models with zero-inflation outcomes, and `plot()` draws corresponding QQ-plots from the returned objects. The suitable model objects are as follows:
 
 * Zero-Inflated Poisson, `pscl::zeroinfl(dist = "poisson")` 
 * Zero-Inflated negative binomial, `pscl::zeroinfl(dist = "negbin")`
@@ -53,11 +53,15 @@ y <- ifelse(y0 == 0, 0, y1)
 par(mfrow=c(1,2))
 ## True model
 modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
-resid1 <- dpit(modelzero1, plot = TRUE, scale = "uniform")
+dpit1 <- dpit(modelzero1)
+resid1 <- residuals(dpit1, scale = "uniform")
+plot(dpit1, scale = "uniform")
 
 ## Zero inflation
 modelzero2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid2 <- dpit(modelzero2, plot = TRUE, scale = "normal")
+dpit2 <- dpit(modelzero2)
+resid2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 The figure above illustrates QQ plots corresponding to `modelzero1` and `modelzero2`. Given that the true underlying distribution of `y` follows a zero-inflated Poisson distribution, 
 we anticipate observing deviations from the diagonal line in the QQ plot of `modelzero2`. 
@@ -101,8 +105,13 @@ model.negbin1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin")
 model.negbin2 <- glm.nb(y ~ x1 + x2)
 
 par(mfrow=c(1,2))
-resid.zero1 <- dpit(model.negbin1, plot = TRUE, scale = "uniform")
-resid.zero2 <- dpit(model.negbin2, plot = TRUE, scale = "normal")
+dpit1 <- dpit(model.negbin1)
+resid.zero1 <- residuals(dpit1, scale = "uniform")
+plot(dpit1, scale = "uniform")
+
+dpit2 <- dpit(model.negbin2)
+resid.zero2 <- residuals(dpit2, scale = "normal")
+plot(dpit2, scale = "normal")
 ```
 
 The figure also presents QQ plots corresponding to `model.negbin1` and `model.negbin2`. In contrast to our simulation setting, `model.negbin2` assumes a negative binomial distribution rather than a zero-inflated negative binomial distribution. Consequently, the right panel of the figure displays deviations at both the left and right tails. While these deviations may not be substantial, a comparison with the left panel suggests that the QQ plots lean towards supporting the zero-inflated negative binomial regression.

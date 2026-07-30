@@ -4,29 +4,13 @@
 \alias{dpit}
 \title{DPIT residuals for regression models with various non-continuous outcomes}
 \usage{
-dpit(model, plot=TRUE, scale="normal", line_args=list(), ...)
+dpit(model)
 }
 \arguments{
 \item{model}{A model object.}
-
-\item{plot}{A logical value indicating whether or not to return QQ-plot}
-
-\item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
-The sample quantiles of the residuals are plotted against
-the theoretical quantiles of a standard normal distribution under the normal scale,
-and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-The default scale is \code{normal}.}
-
-\item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
-
-\item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-\code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
-DPIT residuals. If \code{plot=TRUE}, also produces a QQ plot.
+A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Calculates DPIT residuals for regression models with non-continuous outcomes.
@@ -82,6 +66,7 @@ The DPIT residual for the \eqn{i}th observation is defined as follows:
 where
 \deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
 and \eqn{\hat{F}} refers to the fitted cumulative distribution function.
+The \code{scale} argument is supplied to \code{residuals()}, \code{summary()}, or \code{plot()}.
 When \code{scale="uniform"}, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
 When \code{scale="normal"}, it applies the normal quantile transformation to the DPIT residuals
 \deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.
@@ -112,11 +97,17 @@ y <- rnbinom(n, mu = lambda1, size = size1)
 
 # True model
 model1 <- glm.nb(y ~ x1 + x2)
-resid.nb1 <- dpit(model1, plot = TRUE, scale = "uniform")
+dpit.nb1 <- dpit(model1)
+dpit.nb1
+resid.nb1 <- residuals(dpit.nb1, scale = "uniform")
+summary(dpit.nb1, scale = "uniform")
+plot(dpit.nb1, scale = "uniform")
 
 # Overdispersion
 model2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.nb2 <- dpit(model2, plot = TRUE, scale = "normal")
+dpit.nb2 <- dpit(model2)
+resid.nb2 <- residuals(dpit.nb2, scale = "normal")
+plot(dpit.nb2, scale = "normal")
 
 ## Binary example
 n <- 500
@@ -134,11 +125,15 @@ y1 <- rbinom(n, size = 1, prob = 1 - q1)
 
 # True model
 model01 <- glm(y1 ~ x1 * x2, family = binomial(link = "logit"))
-resid.bin1 <- dpit(model01, plot = TRUE)
+dpit.bin1 <- dpit(model01)
+resid.bin1 <- residuals(dpit.bin1)
+plot(dpit.bin1)
 
 # Missing covariates
 model02 <- glm(y1 ~ x1, family = binomial(link = "logit"))
-resid.bin2 <- dpit(model02, plot = TRUE)
+dpit.bin2 <- dpit(model02)
+resid.bin2 <- residuals(dpit.bin2)
+plot(dpit.bin2)
 
 ## Poisson example
 n <- 500
@@ -155,12 +150,16 @@ y <- rpois(n, lambda1)
 
 # True model
 poismodel1 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi1 <- dpit(poismodel1, plot = TRUE)
+dpit.poi1 <- dpit(poismodel1)
+resid.poi1 <- residuals(dpit.poi1)
+plot(dpit.poi1)
 
 # Enlarge three outcomes
 y <- rpois(n, lambda1) + c(rep(0, (n - 3)), c(10, 15, 20))
 poismodel2 <- glm(y ~ x1 + x2, family = poisson(link = "log"))
-resid.poi2 <- dpit(poismodel2, plot = TRUE)
+dpit.poi2 <- dpit(poismodel2)
+resid.poi2 <- residuals(dpit.poi2)
+plot(dpit.poi2)
 
 ## Ordinal example
 n <- 500
@@ -183,7 +182,9 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord1 <- dpit(multimodel, plot = TRUE)
+dpit.ord1 <- dpit(multimodel)
+resid.ord1 <- residuals(dpit.ord1)
+plot(dpit.ord1)
 
 ## Non-Proportionality
 n <- 500
@@ -203,7 +204,9 @@ y1[which(test[1, ] == 1)] <- 0
 y1[which(test[2, ] == 1)] <- 1
 y1[which(test[3, ] == 1)] <- 2
 multimodel <- polr(as.factor(y1) ~ x1, method = "logistic")
-resid.ord2 <- dpit(multimodel, plot = TRUE)
+dpit.ord2 <- dpit(multimodel)
+resid.ord2 <- residuals(dpit.ord2)
+plot(dpit.ord2)
 }
 \references{
 L. Yang. Double probability integral transform residuals for regression models with discrete outcomes. Journal of Computational and Graphical Statistics, 33(3), pp.787–803, 2024. \cr

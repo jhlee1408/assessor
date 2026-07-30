@@ -7,7 +7,7 @@
 ord_curve(model, thr, line_args=list(), ...)
 }
 \arguments{
-\item{model}{Regression model object (e.g.,\code{lm}, \code{glm}, \code{glm.nb}, \code{polr}, \code{lm})}
+\item{model}{Regression model object (e.g.,\code{lm}, \code{glm}, \code{glm.nb}, \code{polr})}
 
 \item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
 
@@ -97,5 +97,5 @@ ord_curve(poismodel2, thr = x2)
 
 }
 \references{
-Yang, Lu. "Double Probability Integral Transform Residuals for Regression Models with Discrete Outcomes." arXiv preprint arXiv:2308.15596 (2023).
+L. Yang. Double probability integral transform residuals for regression models with discrete outcomes. Journal of Computational and Graphical Statistics, 33(3), pp.787–803, 2024.
 }

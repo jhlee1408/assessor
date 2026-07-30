@@ -4,25 +4,13 @@
 #' their fitted mean values (\code{mu}), the variance power parameter
 #' (\eqn{\xi}), and the dispersion parameter (\eqn{\phi}).
 #'
-#' @usage dpit_tweedie(y, mu, xi, phi, plot=TRUE, scale="normal", line_args=list(), ...)
+#' @usage dpit_tweedie(y, mu, xi, phi)
 #' @param y Observed outcome vector.
 #' @param mu Vector of fitted mean values of each outcomes.
 #' @param xi Value of \eqn{\xi} such that the variance is \eqn{Var[Y] = \phi\mu^\xi}
 #' @param phi Dispersion parameter \eqn{\phi}.
-#' @param plot A logical value indicating whether or not to return QQ-plot
-#' The sample quantiles of the residuals are plotted against
-#' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
-#' the theoretical quantiles of a standard normal distribution under the normal scale,
-#' and against the theoretical quantiles of a uniform (0,1) distribution under the uniform scale.
-#'  The default scale is `normal`.
-#' @param line_args A named list of graphical parameters passed to
-#'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
-#' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
-#'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
-#' @returns DPIT residuals.
+#' @returns A `dpit` object containing DPIT residuals.
 #'
 #' @details
 #' For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.
@@ -33,7 +21,7 @@
 #' ## Tweedie model
 #' library(tweedie)
 #' library(statmod)
-#' n <- 500
+#' n <- 300
 #' x11 <- rnorm(n)
 #' x12 <- rnorm(n)
 #' beta0 <- 5
@@ -51,9 +39,11 @@
 #' p.max <- get("p", envir = environment(model1$family$variance))
 #' lambda1f <- model1$fitted.values
 #' phi1f <- summary(model1)$dis
-#' resid.tweedie <- dpit_tweedie(y= y1, mu=lambda1f, xi=p.max, phi=phi1f)
+#' dpit.tweedie <- dpit_tweedie(y= y1, mu=lambda1f, xi=p.max, phi=phi1f)
+#' resid.tweedie <- residuals(dpit.tweedie)
+#' plot(dpit.tweedie)
 #' @export
-dpit_tweedie <- function(y, mu, xi, phi, plot=TRUE, scale="normal", line_args=list(), ...){
+dpit_tweedie <- function(y, mu, xi, phi) {
   n <- length(y)
   p.max <- xi
   lambda1f <- mu
@@ -62,5 +52,5 @@ dpit_tweedie <- function(y, mu, xi, phi, plot=TRUE, scale="normal", line_args=li
   cdf1 <- ptweedie(y, mu = lambda1f, xi = p.max, phi = phi1f)
   func <- ecdf(p1f)
   newp <- cdf1 * func(cdf1)
-  .dpit_finalize(newp, plot=plot, scale=scale, line_args=line_args, ...)
+  .new_dpit(newp, method = "Tweedie")
 }
