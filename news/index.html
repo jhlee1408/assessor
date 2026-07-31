@@ -44,7 +44,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.1" id="assessor-131">assessor 1.3.1<a class="anchor" aria-label="anchor" href="#assessor-131"></a></h2><p class="text-muted">CRAN release: 2026-04-20</p>
-<ul><li>Fixed an error where <code>scale = "uniform"</code> did not produce a uniformly scaled QQ plot.</li>
+<ul><li>
+<code><a href="../reference/dpit.html">dpit()</a></code> now rejects non-Tobit <code><a href="https://rdrr.io/pkg/VGAM/man/vglm.html" class="external-link">VGAM::vglm</a></code> objects and non-constant-scale VGAM Tobit fits with informative errors.</li>
+<li>
+<code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code> now requires exactly one model or supplied-probability input for each component and uses one common calculation path.</li>
+<li>Corrected the <code><a href="../reference/ord_curve.html">ord_curve()</a></code> axis documentation and threshold label, and clarified the plotting documentation for <code><a href="../reference/ord_curve.html">ord_curve()</a></code> and <code><a href="../reference/quasi_plot.html">quasi_plot()</a></code>.</li>
+<li>
+<code><a href="../reference/dpit_ordi.html">dpit_ordi()</a></code> now respects the ordering supplied in <code>level</code> and validates the fitted category-probability matrix.</li>
+<li>Corrected the zero-inflated negative-binomial bandwidth calculation to use the negative-binomial CDF.</li>
+<li>Goodness-of-fit bootstrap refits now preserve offsets for binomial, Poisson, and negative-binomial regression models.</li>
+<li>
+<code><a href="../reference/gof_disc.html">gof_disc()</a></code> now requires <code>B</code> to be a positive integer.</li>
+<li>Fixed an error where <code>scale = "uniform"</code> did not produce a uniformly scaled QQ plot.</li>
 <li>Fixed the negative-binomial goodness-of-fit bootstrap so that each replicate is refitted using the simulated response.</li>
 <li>
 <code><a href="../reference/dpit.html">dpit()</a></code>, <code><a href="../reference/dpit_2pm.html">dpit_2pm()</a></code>, and the distribution-specific calculators for binary, Poisson, negative binomial, ordinal, zero-inflated, Tobit, and Tweedie outcomes now return <code>dpit</code> objects. Use <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> to extract values, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to summarize them, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> to draw QQ plots. The <code>scale</code> argument is now supplied to <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, or <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, and graphical arguments are supplied to <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</li>

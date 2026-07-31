@@ -23,18 +23,20 @@ quasi_plot(model, line_args=list(), ...)
 
   A named list of graphical parameters passed to
   [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
+  modify the reference (red) 45° line in the quasi-empirical plot. If
+  left empty, a default red dashed line is drawn.
 
 - ...:
 
   Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `lty`, `col`, `lwd`, `xlab`, `ylab`).
+  [`graphics::plot()`](https://rdrr.io/r/graphics/plot.default.html) for
+  customizing the quasi-empirical plot (e.g., `lty`, `col`, `lwd`,
+  `xlab`, `ylab`).
 
 ## Value
 
-A plot of quasi-empirial residual distribution function
+Invisibly returns `NULL`. The function is called for its side effect of
+plotting the quasi-empirical residual distribution function
 \\\hat{U}(s;\beta)\\ against \\s\\.
 
 ## Details

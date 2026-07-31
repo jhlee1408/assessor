@@ -72,18 +72,20 @@ A plot far apart from the diagonal indicates lack of fit.</p>
 <dt id="arg-line-args">line_args<a class="anchor" aria-label="anchor" href="#arg-line-args"></a></dt>
 <dd><p>A named list of graphical parameters passed to
 <code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">graphics::abline()</a></code> to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.</p></dd>
+in the quasi-empirical plot. If left empty, a default red dashed line is drawn.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional graphical arguments passed to
-<code><a href="https://rdrr.io/r/stats/qqnorm.html" class="external-link">stats::qqplot()</a></code> for customizing the QQ plot (e.g., <code>lty</code>,
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">graphics::plot()</a></code> for customizing the quasi-empirical plot (e.g., <code>lty</code>,
 <code>col</code>, <code>lwd</code>, <code>xlab</code>, <code>ylab</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A plot of quasi-empirial residual distribution function \(\hat{U}(s;\beta)\) against \(s\).</p>
+    <p>Invisibly returns <code>NULL</code>. The function is called for its side
+effect of plotting the quasi-empirical residual distribution function
+\(\hat{U}(s;\beta)\) against \(s\).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

@@ -67,11 +67,14 @@ probabilities (<code>fitprob</code>).</p>
 
 
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
-<dd><p>The names of the response levels. For instance, c(0,1,2).</p></dd>
+<dd><p>The response levels in their ordinal order. For instance,
+<code>c(0, 1, 2)</code> or <code>c("low", "medium", "high")</code>.</p></dd>
 
 
 <dt id="arg-fitprob">fitprob<a class="anchor" aria-label="anchor" href="#arg-fitprob"></a></dt>
-<dd><p>A matrix of fitted category probabilities. Each row corresponds to an observation, and column j contains the fitted probability P(Y_i = j).</p></dd>
+<dd><p>A matrix of fitted category probabilities. Each row
+corresponds to an observation, and the columns must follow the order in
+<code>level</code>. Each row must sum to one.</p></dd>
 
 </dl></div>
     <div class="section level2">

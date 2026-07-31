@@ -4,6 +4,29 @@
 
 CRAN release: 2026-04-20
 
+- [`dpit()`](https://jhlee1408.github.io/assessor/reference/dpit.md) now
+  rejects non-Tobit
+  [`VGAM::vglm`](https://rdrr.io/pkg/VGAM/man/vglm.html) objects and
+  non-constant-scale VGAM Tobit fits with informative errors.
+- [`dpit_2pm()`](https://jhlee1408.github.io/assessor/reference/dpit_2pm.md)
+  now requires exactly one model or supplied-probability input for each
+  component and uses one common calculation path.
+- Corrected the
+  [`ord_curve()`](https://jhlee1408.github.io/assessor/reference/ord_curve.md)
+  axis documentation and threshold label, and clarified the plotting
+  documentation for
+  [`ord_curve()`](https://jhlee1408.github.io/assessor/reference/ord_curve.md)
+  and
+  [`quasi_plot()`](https://jhlee1408.github.io/assessor/reference/quasi_plot.md).
+- [`dpit_ordi()`](https://jhlee1408.github.io/assessor/reference/dpit_ordi.md)
+  now respects the ordering supplied in `level` and validates the fitted
+  category-probability matrix.
+- Corrected the zero-inflated negative-binomial bandwidth calculation to
+  use the negative-binomial CDF.
+- Goodness-of-fit bootstrap refits now preserve offsets for binomial,
+  Poisson, and negative-binomial regression models.
+- [`gof_disc()`](https://jhlee1408.github.io/assessor/reference/gof_disc.md)
+  now requires `B` to be a positive integer.
 - Fixed an error where `scale = "uniform"` did not produce a uniformly
   scaled QQ plot.
 - Fixed the negative-binomial goodness-of-fit bootstrap so that each

@@ -18,12 +18,14 @@ dpit_ordi(y, level, fitprob)
 
 - level:
 
-  The names of the response levels. For instance, c(0,1,2).
+  The response levels in their ordinal order. For instance, `c(0, 1, 2)`
+  or `c("low", "medium", "high")`.
 
 - fitprob:
 
   A matrix of fitted category probabilities. Each row corresponds to an
-  observation, and column j contains the fitted probability P(Y_i = j).
+  observation, and the columns must follow the order in `level`. Each
+  row must sum to one.
 
 ## Value
 

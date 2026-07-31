@@ -73,20 +73,19 @@ Deviation from the diagonal suggests the possibility that the mean structure of 
 <dt id="arg-line-args">line_args<a class="anchor" aria-label="anchor" href="#arg-line-args"></a></dt>
 <dd><p>A named list of graphical parameters passed to
 <code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">graphics::abline()</a></code> to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.</p></dd>
+in the ordered curve. If left empty, a default red dashed line is drawn.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional graphical arguments passed to
-<code><a href="https://rdrr.io/r/stats/qqnorm.html" class="external-link">stats::qqplot()</a></code> for customizing the QQ plot (e.g., <code>pch</code>,
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">graphics::plot()</a></code> for customizing the ordered curve (e.g., <code>pch</code>,
 <code>col</code>, <code>cex</code>, <code>xlab</code>, <code>ylab</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-
-<ul><li><p>x-axis: \(\hat L_1(t)\)</p></li>
-<li><p>y-axis: \(\hat L_2(t)\)</p></li>
+    <p>Invisibly returns <code>NULL</code>. The plotted axes are</p><ul><li><p>x-axis: \(\hat L_2(t)\)</p></li>
+<li><p>y-axis: \(\hat L_1(t)\)</p></li>
 </ul><p>which are defined in Details.</p>
     </div>
     <div class="section level2">

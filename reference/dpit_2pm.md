@@ -1,8 +1,9 @@
 # Residuals for regression models with two-part outcomes
 
-Calculates DPIT residuals with model for semi-continuous outcomes.
-`dpit_2pm` can be used either with `model0` and `model1` or with `part0`
-and `part1` as arguments.
+Calculates DPIT residuals with model for semi-continuous outcomes. For
+each component, `dpit_2pm` accepts either a fitted model or supplied
+probabilities: exactly one of `model0` and `part0`, and exactly one of
+`model1` and `part1`.
 
 ## Usage
 
@@ -49,7 +50,9 @@ In two-part models, the probability of zero can be modeled using a
 logistic regression, `model0`, while the positive observations can be
 modeled using a gamma regression, `model1.` Users can choose to use
 different models and supply the resulting probabilities of zero and
-probability integral transforms. `part0` should be the sequence of
+probability integral transforms. Exactly one of `model0` and `part0`,
+and exactly one of `model1` and `part1`, must be supplied. Model and
+probability inputs may be mixed. `part0` should be the sequence of
 fitted probabilities of zeros \\\hat{p}\_0(\mathbf{X}\_i)
 ,~i=1,\ldots,n\\. `part1` should be the probability integral transform
 of the positive part \\\hat{G}(Y_i\|\mathbf{X}\_i)\\. Note that the

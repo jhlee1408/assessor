@@ -26,20 +26,23 @@ ord_curve(model, thr, line_args=list(), ...)
 
   A named list of graphical parameters passed to
   [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the QQ plot. If left empty, a
-  default red dashed line is drawn.
+  modify the reference (red) 45° line in the ordered curve. If left
+  empty, a default red dashed line is drawn.
 
 - ...:
 
   Additional graphical arguments passed to
-  [`stats::qqplot()`](https://rdrr.io/r/stats/qqnorm.html) for
-  customizing the QQ plot (e.g., `pch`, `col`, `cex`, `xlab`, `ylab`).
+  [`graphics::plot()`](https://rdrr.io/r/graphics/plot.default.html) for
+  customizing the ordered curve (e.g., `pch`, `col`, `cex`, `xlab`,
+  `ylab`).
 
 ## Value
 
-- x-axis: \\\hat L_1(t)\\
+Invisibly returns `NULL`. The plotted axes are
 
-- y-axis: \\\hat L_2(t)\\
+- x-axis: \\\hat L_2(t)\\
+
+- y-axis: \\\hat L_1(t)\\
 
 which are defined in Details.
 

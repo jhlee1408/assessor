@@ -24,7 +24,8 @@ gof_disc(model, B=1e2, seed=NULL)
 
 - B:
 
-  Number of bootstrap samples. Default is 1e2.
+  A positive integer giving the number of bootstrap samples. Default is
+  1e2.
 
 - seed:
 
