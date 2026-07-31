@@ -35,15 +35,15 @@
 #' @param thr Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)
 #' @param line_args A named list of graphical parameters passed to
 #'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#'   in the ordered curve. If left empty, a default red dashed line is drawn.
 #' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+#'   \code{graphics::plot()} for customizing the ordered curve (e.g., \code{pch},
 #'   \code{col}, \code{cex}, \code{xlab}, \code{ylab}).
 #'
-#' @returns
+#' @returns Invisibly returns `NULL`. The plotted axes are
 #' \itemize{
-#'  \item x-axis: \eqn{\hat L_1(t)}
-#'  \item y-axis: \eqn{\hat L_2(t)}
+#'  \item x-axis: \eqn{\hat L_2(t)}
+#'  \item y-axis: \eqn{\hat L_1(t)}
 #' }
 #' which are defined in Details.
 #'
@@ -99,7 +99,15 @@ ord_curve <- function(model, thr, line_args = list(), ...) {
 #' @rawNamespace S3method(ord_curve,glm)
 ord_curve.glm <- function(model, thr, line_args = list(), ...) {
   y1 <- model$y
-  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+  thr_label <- paste(deparse(substitute(thr)), collapse = " ")
+  .ord_curve_core(
+    y1 = y1,
+    q10 = stats::fitted.values(model),
+    thr = thr,
+    thr_label = thr_label,
+    line_args = line_args,
+    ...
+  )
 }
 
 #' @rawNamespace S3method(ord_curve,polr)
@@ -107,14 +115,30 @@ ord_curve.polr <- function(model, thr, line_args = list(), ...) {
   y1 <- as.numeric(factor(model$model[, 1], ordered = TRUE))
   probs <- stats::fitted.values(model)
   q10 <- as.vector(probs %*% seq_len(ncol(probs)))
-  .ord_curve_core(y1 = y1, q10 = q10, thr = thr, line_args = line_args, ...)
+  thr_label <- paste(deparse(substitute(thr)), collapse = " ")
+  .ord_curve_core(
+    y1 = y1,
+    q10 = q10,
+    thr = thr,
+    thr_label = thr_label,
+    line_args = line_args,
+    ...
+  )
 }
 
 
 #' @rawNamespace S3method(ord_curve,lm)
 ord_curve.lm <- function(model, thr, line_args = list(), ...) {
   y1 <- model$model[, 1]
-  .ord_curve_core(y1 = y1, q10 = stats::fitted.values(model), thr = thr, line_args = line_args, ...)
+  thr_label <- paste(deparse(substitute(thr)), collapse = " ")
+  .ord_curve_core(
+    y1 = y1,
+    q10 = stats::fitted.values(model),
+    thr = thr,
+    thr_label = thr_label,
+    line_args = line_args,
+    ...
+  )
 }
 
 #' @rawNamespace S3method(ord_curve,default)
@@ -127,7 +151,7 @@ ord_curve.default <- function(model, thr, line_args = list(), ...) {
 }
 
 
-.ord_curve_core <- function(y1, q10, thr, line_args = list(), ...) {
+.ord_curve_core <- function(y1, q10, thr, thr_label, line_args = list(), ...) {
   if (length(thr) != length(y1)) {
     stop("Length of thr and response has to match.", call. = FALSE)
   }
@@ -135,7 +159,7 @@ ord_curve.default <- function(model, thr, line_args = list(), ...) {
   ord <- order(thr)
 
   plot_defaults <- list(
-    main = paste("Z:", deparse(substitute(thr))),
+    main = paste("Z:", thr_label),
     xlab = expression(L[2](t)),
     ylab = expression(L[1](t)),
     cex.lab = 1,

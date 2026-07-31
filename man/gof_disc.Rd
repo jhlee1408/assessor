@@ -9,7 +9,8 @@ gof_disc(model, B=1e2, seed=NULL)
 \arguments{
 \item{model}{A fitted model object (e.g., from \code{glm()}, \code{polr()}, \code{glm.nb()} or \code{zeroinfl()}).}
 
-\item{B}{Number of bootstrap samples. Default is 1e2.}
+\item{B}{A positive integer giving the number of bootstrap samples. Default
+is 1e2.}
 
 \item{seed}{random seed for bootstrap.}
 }

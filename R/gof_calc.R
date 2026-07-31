@@ -55,11 +55,16 @@ gof_bin <- function(B, bimodel = NULL, seed=NULL) {
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   ## Bootstrap
   disin <- rep(0,B)
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     yr <- rbinom(n,size=1,p1f)
     #dfr <- data.frame(yr=yr,dfx[,-1])
     #fit marginal model
-    bimodelr <- glm.fit(x = dfx, y = yr, family = fam)
+    bimodelr <- glm.fit(
+      x = dfx,
+      y = yr,
+      family = fam,
+      offset = bimodel$offset
+    )
     p1fr <- bimodelr$fitted.values
     Fyr <- ifelse(yr==1,1,1-p1fr)
     Fy1r <-  ifelse(yr==0,0,1-p1fr)
@@ -159,17 +164,34 @@ gof_nb <- function(B,nbmodel=NULL, seed = NULL) {
   ## Test statistic
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   dfr <- data.frame(yr=y,dfx[,-1])
+  dfr$.bootstrap_offset <- if (is.null(nbmodel$offset)) {
+    rep.int(0, n)
+  } else {
+    nbmodel$offset
+  }
   ## Bootstrap
   disin <- rep(0,B)
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     yr <- rnegbin(n, mu=lambda1f, theta=size1f)
     dfr[, 1] <- yr
     if (lin == "log") {
-      model1r <- MASS::glm.nb(yr ~ ., data = dfr, link = log)
+      model1r <- MASS::glm.nb(
+        yr ~ . - .bootstrap_offset + offset(.bootstrap_offset),
+        data = dfr,
+        link = log
+      )
     } else if (lin == "identity") {
-      model1r <- MASS::glm.nb(yr ~ ., data = dfr, link = identity)
+      model1r <- MASS::glm.nb(
+        yr ~ . - .bootstrap_offset + offset(.bootstrap_offset),
+        data = dfr,
+        link = identity
+      )
     } else if (lin == "sqrt") {
-      model1r <- MASS::glm.nb(yr ~ ., data = dfr, link = sqrt)
+      model1r <- MASS::glm.nb(
+        yr ~ . - .bootstrap_offset + offset(.bootstrap_offset),
+        data = dfr,
+        link = sqrt
+      )
     } else {
       stop("Unsupported nb link: ", lin)
     }
@@ -285,7 +307,7 @@ gof_ordi <- function(B, multimodel=NULL, seed=NULL){
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   ## Bootstrap
   disin <- rep(0,B)
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     testr <- apply(fitprob,1,genemult)
     yr <- apply(testr,2,which.max)
     dfr <- data.frame(yr=yr,dfx[,-1])
@@ -394,11 +416,16 @@ gof_pois <- function(B, poismodel = NULL, seed = NULL) {
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   ## Bootstrap
   disin <- rep(0,B)
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     yr <- rpois(n, lambda1f)
     #dfr <- data.frame(yr=yr,dfx[,-1])
     #fit marginal model
-    poismodelr <- glm.fit(x = dfx, y = yr, family = fam)
+    poismodelr <- glm.fit(
+      x = dfx,
+      y = yr,
+      family = fam,
+      offset = poismodel$offset
+    )
     lambda1fr <- poismodelr$fitted.values
     Fyr <- ppois(yr,lambda1fr)
     Fy1r <- ppois(yr-1,lambda1fr)
@@ -504,7 +531,7 @@ gof_znb <- function(B, model1 =NULL, seed = NULL) {
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   disin <- rep(0,B)
   dfr <- df
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     y0r <- rbinom(n, size = 1, prob = 1 - pzero)
     y1r <- rnegbin(n, mu=lambda1f, theta=size1f)
     yr <- ifelse(y0r == 0, 0, y1r)
@@ -614,7 +641,7 @@ gof_zpois <- function(B, model1=NULL, seed = NULL) {
   disnull <- int1new+2*(ind2new1+ind2new2+indnew3p1+indnew3p2+indnew3p3)
   disin <- rep(0,B)
   dfr <- df
-  for(repin in 1:B){
+  for(repin in seq_len(B)){
     y0r <- rbinom(n, size = 1, prob = 1 - pzero)
     y1r <- rpois(n, meanpoisson)
     yr <- ifelse(y0r == 0, 0, y1r)

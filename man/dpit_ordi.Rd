@@ -9,9 +9,12 @@ dpit_ordi(y, level, fitprob)
 \arguments{
 \item{y}{An observed ordinal outcome vector.}
 
-\item{level}{The names of the response levels. For instance, c(0,1,2).}
+\item{level}{The response levels in their ordinal order. For instance,
+\code{c(0, 1, 2)} or \code{c("low", "medium", "high")}.}
 
-\item{fitprob}{A matrix of fitted category probabilities. Each row corresponds to an observation, and column j contains the fitted probability P(Y_i = j).}
+\item{fitprob}{A matrix of fitted category probabilities. Each row
+corresponds to an observation, and the columns must follow the order in
+\code{level}. Each row must sum to one.}
 }
 \value{
 A \code{dpit} object containing DPIT residuals.

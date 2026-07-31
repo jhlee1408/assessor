@@ -22,7 +22,9 @@ A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Calculates DPIT residuals with model for semi-continuous outcomes.
-\code{dpit_2pm} can be used either with \code{model0} and \code{model1} or with \code{part0} and \code{part1} as arguments.
+For each component, \code{dpit_2pm} accepts either a fitted model or supplied
+probabilities: exactly one of \code{model0} and \code{part0}, and exactly one of
+\code{model1} and \code{part1}.
 }
 \details{
 For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.
@@ -30,6 +32,8 @@ For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.
 In two-part models, the probability of zero can be modeled using a logistic regression, \code{model0},
 while the positive observations can be modeled using a gamma regression, \code{model1.}
 Users can choose to use different models and supply the resulting probabilities of zero and probability integral transforms.
+Exactly one of \code{model0} and \code{part0}, and exactly one of \code{model1} and
+\code{part1}, must be supplied. Model and probability inputs may be mixed.
 \code{part0} should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 \code{part1} should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.

@@ -13,16 +13,17 @@ ord_curve(model, thr, line_args=list(), ...)
 
 \item{line_args}{A named list of graphical parameters passed to
 \code{graphics::abline()} to modify the reference (red) 45° line
-in the QQ plot. If left empty, a default red dashed line is drawn.}
+in the ordered curve. If left empty, a default red dashed line is drawn.}
 
 \item{...}{Additional graphical arguments passed to
-\code{stats::qqplot()} for customizing the QQ plot (e.g., \code{pch},
+\code{graphics::plot()} for customizing the ordered curve (e.g., \code{pch},
 \code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 }
 \value{
+Invisibly returns \code{NULL}. The plotted axes are
 \itemize{
-\item x-axis: \eqn{\hat L_1(t)}
-\item y-axis: \eqn{\hat L_2(t)}
+\item x-axis: \eqn{\hat L_2(t)}
+\item y-axis: \eqn{\hat L_1(t)}
 }
 which are defined in Details.
 }

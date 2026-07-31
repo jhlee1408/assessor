@@ -1,4 +1,17 @@
 # assessor 1.3.1
+* `dpit()` now rejects non-Tobit `VGAM::vglm` objects and non-constant-scale
+  VGAM Tobit fits with informative errors.
+* `dpit_2pm()` now requires exactly one model or supplied-probability input
+  for each component and uses one common calculation path.
+* Corrected the `ord_curve()` axis documentation and threshold label, and
+  clarified the plotting documentation for `ord_curve()` and `quasi_plot()`.
+* `dpit_ordi()` now respects the ordering supplied in `level` and validates
+  the fitted category-probability matrix.
+* Corrected the zero-inflated negative-binomial bandwidth calculation to use
+  the negative-binomial CDF.
+* Goodness-of-fit bootstrap refits now preserve offsets for binomial, Poisson,
+  and negative-binomial regression models.
+* `gof_disc()` now requires `B` to be a positive integer.
 * Fixed an error where `scale = "uniform"` did not produce a uniformly scaled QQ plot.
 * Fixed the negative-binomial goodness-of-fit bootstrap so that each replicate is refitted using the simulated response.
 * `dpit()`, `dpit_2pm()`, and the distribution-specific calculators for binary,

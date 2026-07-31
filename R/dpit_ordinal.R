@@ -7,8 +7,11 @@
 #'
 #' @usage dpit_ordi(y, level, fitprob)
 #' @param y An observed ordinal outcome vector.
-#' @param level The names of the response levels. For instance, c(0,1,2).
-#' @param fitprob A matrix of fitted category probabilities. Each row corresponds to an observation, and column j contains the fitted probability P(Y_i = j).
+#' @param level The response levels in their ordinal order. For instance,
+#'   `c(0, 1, 2)` or `c("low", "medium", "high")`.
+#' @param fitprob A matrix of fitted category probabilities. Each row
+#'   corresponds to an observation, and the columns must follow the order in
+#'   `level`. Each row must sum to one.
 #' @returns A `dpit` object containing DPIT residuals.
 #'
 #' @details
@@ -43,18 +46,43 @@
 #' plot(dpit.ord)
 #' @export
 dpit_ordi <- function(y, level, fitprob) {
+  fitprob <- as.matrix(fitprob)
   k <- length(level)
-  out <- as.numeric(factor(y, ordered = TRUE))
+
+  if (k < 2L) {
+    stop("level must contain at least two ordinal levels.", call. = FALSE)
+  }
+  if (anyDuplicated(level)) {
+    stop("level must not contain duplicates.", call. = FALSE)
+  }
+  if (length(y) != nrow(fitprob)) {
+    stop("nrow(fitprob) must equal length(y).", call. = FALSE)
+  }
+  if (k != ncol(fitprob)) {
+    stop("length(level) must equal ncol(fitprob).", call. = FALSE)
+  }
+  if (any(!is.finite(fitprob)) || any(fitprob < 0) || any(fitprob > 1)) {
+    stop("fitprob must contain finite probabilities between 0 and 1.", call. = FALSE)
+  }
+  if (any(abs(rowSums(fitprob) - 1) > 1e-6)) {
+    stop("Each row of fitprob must sum to 1.", call. = FALSE)
+  }
+
+  out <- match(as.character(y), as.character(level))
+  if (anyNA(out)) {
+    stop("All values of y must occur in level.", call. = FALSE)
+  }
+
   n <- length(out)
   q <- t(apply(fitprob, 1, cumsum))
-  inde <- cbind(1:n, out)
+  inde <- cbind(seq_len(n), out)
   res <- q[inde]
 
   empcdf <- rep(NA, n)
-  for(i in 1:n){
+  for(i in seq_len(n)){
     if(i %in% which(out==k)) next
     note <- matrix(NA, ncol=k, nrow=n)
-    for(p in 1:k){
+    for(p in seq_len(k)){
         note[,p] <- fitprob[, p] * (res[i] > q[, p])
     }
     note.sum <- rowSums(note)
@@ -64,7 +92,7 @@ dpit_ordi <- function(y, level, fitprob) {
 
   # for loop with max values
   ses <- ifelse(out == k, q[, 1], 0)
-  for(i in 1:n){
+  for(i in seq_len(n)){
     if(i %in% which(out != k)) next
     pses <- (ses[i] < q[,1])*q[,k-1]
     pses[pses==0] <- 1

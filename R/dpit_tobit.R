@@ -71,11 +71,38 @@ dpit_tobit <- function(y, mu, sd) {
 
 #' @rawNamespace S3method(dpit,vglm)
 dpit.vglm <- function(model) {
+  if (!"tobit" %in% model@family@vfamily) {
+    stop(
+      "dpit() supports vglm objects fitted with VGAM::tobit() only.",
+      call. = FALSE
+    )
+  }
+
+  coef_matrix <- stats::coef(model, matrix = TRUE)
+  if (ncol(coef_matrix) < 2L || !"(Intercept)" %in% rownames(coef_matrix)) {
+    stop("Cannot extract the Tobit scale parameter from the vglm object.", call. = FALSE)
+  }
+
+  scale_coef <- coef_matrix[, 2L]
+  non_intercept <- setdiff(names(scale_coef), "(Intercept)")
+  if (
+    length(non_intercept) > 0L &&
+      any(abs(scale_coef[non_intercept]) > sqrt(.Machine$double.eps))
+  ) {
+    stop(
+      "dpit() currently supports VGAM Tobit models with constant scale only.",
+      call. = FALSE
+    )
+  }
+
   y <- model@y
   fitted <- VGAM::fitted(model)
   link_fun <- get(model@misc$link[2], envir = asNamespace("VGAM"))
   sd <- do.call(link_fun,
-                args = list(theta = coef(model)[2], inverse = TRUE))
+                args = list(
+                  theta = unname(scale_coef["(Intercept)"]),
+                  inverse = TRUE
+                ))
 
   out <- dpit_tobit(y = y, mu = fitted, sd = sd)
   .attach_model_call(out, model)

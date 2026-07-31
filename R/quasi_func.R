@@ -267,7 +267,8 @@ bandwidth0p <- function(y, pzero, meanpoisson) {
   newzero <- rep(pzero, times = qpois(0.9, meanpoisson) - qpois(0.1, meanpoisson) + 1)
   newx <- newzero + (1 - newzero) * ppois(newout, newlambda)
   newy <- 1 * (rep(y, times = qpois(0.9, meanpoisson) - qpois(0.1, meanpoisson) + 1) <= newout)
-  return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
+  keep <- newx >= 0.1 & newx <= 0.9
+  return(npregbw(ydat = newy[keep], xdat = newx[keep], ckertype = "epanechnikov")$bw)
 }
 
 #' @keywords internal
@@ -332,10 +333,11 @@ bandwidth0p.nb <- function(y, pzero, mu.hat, size1f) {
   newout <- unlist(sapply(split(cbind(qnbinom(0.1, mu=mu.hat, size=size1f), qnbinom(0.9, mu=mu.hat, size=size1f)), 1:n), listvec))
   newlambda <- rep(mu.hat, times = qnbinom(0.9, mu=mu.hat, size=size1f) - qnbinom(0.1, mu=mu.hat, size=size1f) + 1)
   newzero <- rep(pzero, times = qnbinom(0.9, mu=mu.hat, size=size1f) - qnbinom(0.1, mu=mu.hat, size=size1f) + 1)
-  newx <- newzero + (1 - newzero) * ppois(newout, newlambda)
+  newx <- newzero + (1 - newzero) * pnbinom(newout, mu = newlambda, size = size1f)
   newy <- 1 * (rep(y, times = qnbinom(0.9, mu=mu.hat, size=size1f) - qnbinom(0.1, mu=mu.hat, size=size1f) + 1) <= newout)
 
-  return(npregbw(ydat = newy[which(newx <= 0.9 & newx >= 0.1)], xdat = newx[which(newx <= 0.9 & newx > 0.1)], ckertype = "epanechnikov")$bw)
+  keep <- newx >= 0.1 & newx <= 0.9
+  return(npregbw(ydat = newy[keep], xdat = newx[keep], ckertype = "epanechnikov")$bw)
 }
 
 #' @keywords internal
@@ -371,6 +373,5 @@ resid.znb_quasi <- function(model, line_args, ...){
     ...
   )
 }
-
 
 

@@ -1,3 +1,17 @@
+.validate_B <- function(B) {
+  if (
+    !is.numeric(B) ||
+      length(B) != 1L ||
+      !is.finite(B) ||
+      B < 1 ||
+      B != floor(B)
+  ) {
+    stop("B must be a positive integer.", call. = FALSE)
+  }
+
+  invisible(B)
+}
+
 #' Goodness-of-fit test for discrete outcome regression models
 #'
 #' Goodness-of-fit test for discrete-outcome regression models.
@@ -7,7 +21,8 @@
 #'
 #' @usage gof_disc(model, B=1e2, seed=NULL)
 #' @param model A fitted model object (e.g., from `glm()`, `polr()`, `glm.nb()` or `zeroinfl()`).
-#' @param B Number of bootstrap samples. Default is 1e2.
+#' @param B A positive integer giving the number of bootstrap samples. Default
+#'   is 1e2.
 #' @param seed random seed for bootstrap.
 #'
 #' @details
@@ -50,7 +65,10 @@
 #' y <- ifelse(y0 == 0, 0, y1)
 #' model1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
 #' gof_disc(model1, B=50)
-gof_disc <- function(model, B = 1e2, seed = NULL) UseMethod("gof_disc")
+gof_disc <- function(model, B = 1e2, seed = NULL) {
+  .validate_B(B)
+  UseMethod("gof_disc")
+}
 
 #' @rawNamespace S3method(gof_disc,default)
 gof_disc.default <- function(model, B = 1e2, seed = NULL) {

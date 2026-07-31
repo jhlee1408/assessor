@@ -11,14 +11,16 @@
 #' @param model Model object (e.g., `glm`, `glm.nb`, `polr`, `zeroinfl`)
 #' @param line_args A named list of graphical parameters passed to
 #'   \code{graphics::abline()} to modify the reference (red) 45° line
-#'   in the QQ plot. If left empty, a default red dashed line is drawn.
+#'   in the quasi-empirical plot. If left empty, a default red dashed line is drawn.
 #' @param ... Additional graphical arguments passed to
-#'   \code{stats::qqplot()} for customizing the QQ plot (e.g., \code{lty},
+#'   \code{graphics::plot()} for customizing the quasi-empirical plot (e.g., \code{lty},
 #'   \code{col}, \code{lwd}, \code{xlab}, \code{ylab}).
 #'
 #' @import np
 #'
-#' @returns A plot of quasi-empirial residual distribution function \eqn{\hat{U}(s;\beta)} against \eqn{s}.
+#' @returns Invisibly returns `NULL`. The function is called for its side
+#'   effect of plotting the quasi-empirical residual distribution function
+#'   \eqn{\hat{U}(s;\beta)} against \eqn{s}.
 #'
 #' @details
 #' The quasi-empirical residual distribution function is defined as follows:
