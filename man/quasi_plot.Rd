@@ -10,7 +10,7 @@ quasi_plot(model, line_args=list(), ...)
 \item{model}{Model object (e.g., \code{glm}, \code{glm.nb}, \code{polr}, \code{zeroinfl})}
 
 \item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
+\code{graphics::abline()} to modify the reference 45° line
 in the quasi-empirical plot. If left empty, a default red dashed line is drawn.}
 
 \item{...}{Additional graphical arguments passed to
@@ -33,7 +33,7 @@ The quasi-empirical residual distribution function is defined as follows:
 \deqn{\hat{U}(s; \beta) = \sum_{i=1}^{n} W_{n}(s;\mathbf{X}_{i},\beta) 1[F(Y_{i}| X_{i}) < H(s;X_{i})]}
 where
 \deqn{W_n(s; \mathbf{X}_i, \beta) = \frac{K[(H(s; \mathbf{X}_i)-s)/ \epsilon_n]}{\sum_{j=1}^{n} K[(H(s; \mathbf{X}_j)-s)/ \epsilon_n]},}
-\eqn{\epsilon_n} is the bandwidth; \eqn{H(s, X_i) = \mathrm{argmin}_{F(k \mid X_i)} |F(k \mid X_i) - s|} and \eqn{K} is a bounded, symmetric, and Lipschitz continuous kernel.
+\eqn{\epsilon_n} is the bandwidth selected suing cross validation; \eqn{H(s, X_i) = \mathrm{argmin}_{F(k \mid X_i)} |F(k \mid X_i) - s|}, \eqn{F} is the CDF and \eqn{K} is a bounded, symmetric, and Lipschitz continuous kernel.
 }
 \examples{
 ## Negative Binomial example
@@ -86,5 +86,5 @@ modelzero1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "poisson", link = "logit")
 resid.zero1 <- quasi_plot(modelzero1)
 }
 \references{
-Lu Yang (2021). Assessment of Regression Models with Discrete Outcomes Using Quasi-Empirical Residual Distribution Functions, Journal of Computational and Graphical Statistics, 30(4), 1019-1035.
+Yang, L. (2021). "Assessment of regression models with discrete outcomes using quasi-empirical residual distribution functions." \emph{Journal of Computational and Graphical Statistics}, 30(4), 1019--1035.
 }

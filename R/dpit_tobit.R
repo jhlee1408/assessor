@@ -7,7 +7,7 @@
 #' @param y An observed outcome vector.
 #' @param mu A vector of fitted mean values of latent variables.
 #' @param sd A standard deviation of latent variables.
-#' @returns A `dpit` object containing DPIT residuals.
+#' @returns The `dpit` object containing DPIT residuals.
 #'
 #' @details
 #' For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.

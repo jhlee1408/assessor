@@ -12,23 +12,23 @@ gof_disc(model, B=1e2, seed=NULL)
 \item{B}{A positive integer giving the number of bootstrap samples. Default
 is 1e2.}
 
-\item{seed}{random seed for bootstrap.}
+\item{seed}{Random seed for bootstrap.}
 }
 \value{
-An object of class \code{"htest"} containing the test statistic,
-the number of bootstrap samples, the p-value, the method description, and
+An object of class \code{"htest"} containing the test statistic (\code{S}),
+the number of bootstrap samples (\code{B}), the p-value, the method description, and
 the model call.
 }
 \description{
 Goodness-of-fit test for discrete-outcome regression models.
-Works with GLMs (Poisson, binomial/logistic, negative binomial),
+Works with GLMs (Poisson, binomial, negative binomial),
 ordinal outcome regression (\code{MASS::polr}), and
-zero-inflated regressions (zero-inflated Poisson and negative binomial via \code{pscl::zeroinfl()}).
+zero-inflated regressions (zero-inflated Poisson and negative binomial fit via \code{pscl::zeroinfl()}).
 }
 \details{
 Let \eqn{(Y_i,\mathbf{X}_i),\ i=1,\ldots,n} denote independent observations, and let
 \eqn{\hat F_M(\cdot \mid \mathbf{X}_i)} be the fitted model-based CDF.
-It was shown in \emph{Yang (2025)} that under the correctly specified model,
+It was shown in \emph{Yang et al. (2026)} that under the correctly specified model,
 \deqn{\hat{H}(u) = \frac{1}{n}\sum_{i=1}^n \hat{h}(u, Y_i, \mathbf{X}_i)}
 should be close to the identity function, where
 \deqn{\hat{h}(u, y, \mathbf{x}) =
@@ -60,5 +60,5 @@ model1 <- zeroinfl(y ~ x1 + x2 | x1, dist = "negbin", link = "logit")
 gof_disc(model1, B=50)
 }
 \references{
-Yang L, Genest C, Neslehova J (2025). “A goodness-of-fit test for regression models with discrete outcomes.” Canadian Journal of Statistics
+Yang, L., Genest, C., & Nešlehová, J. G. (2026). "A goodness-of-fit test for regression models with discrete outcomes." \emph{Canadian Journal of Statistics}, 54(2), e70046.
 }

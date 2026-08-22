@@ -19,11 +19,11 @@ regression models, zero-inflated regression models, and semicontinuous outcome
 models can be assessed using \code{dpit()}.
 }
 \details{
-This function determines the appropriate computation based on the class of
+This function deploys the appropriate computation based on the class of
 \code{model}. The supported model objects and outcome types are listed below.
 
 In addition to the class-based interface, the package also provides
-distribution-specific DPIT calculators. If a fitted model comes from a
+distribution-specific DPIT residual calculators. If a fitted model comes from a
 different class but has a supported outcome distribution, users can call
 the corresponding distribution-based function directly.
 For instance, for a regression model with Poisson outcomes,
@@ -62,11 +62,11 @@ the model is fit using \code{glm} function, or to use \code{dpit_pois} upon supp
 \strong{Formulation for Discrete and Zero-Inflated Outcomes:}
 \cr
 The DPIT residual for the \eqn{i}th observation is defined as follows:
-\deqn{\hat{r}(Y_i|X_i) = \hat{G}\bigg(\hat{F}(Y_i|\mathbf{X}_i)\bigg)}
+\deqn{\hat{r}(Y_i|X_i) = \hat{G}\bigg(\hat{F}_M(Y_i|\mathbf{X}_i)\bigg)}
 where
-\deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}\bigg(\hat{F}^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
-and \eqn{\hat{F}} refers to the fitted cumulative distribution function.
-The \code{scale} argument is supplied to \code{residuals()}, \code{summary()}, or \code{plot()}.
+\deqn{\hat{G}(s) = \frac{1}{n-1}\sum_{j=1, j \neq i}^{n}\hat{F}_M\bigg(\hat{F}_M^{(-1)}(\mathbf{X}_j)\bigg|\mathbf{X}_j\bigg)}
+and \eqn{\hat{F}_M} refers to the fitted cumulative distribution function.
+The \code{scale} argument is supplied to \code{residuals()}, \code{summary()}, or \code{plot()}, methods for further displaying basic object information, extracting residuals, summarizing residuals, and producing a QQ-plot, respectively.
 When \code{scale="uniform"}, DPIT residuals should closely follow a uniform distribution, otherwise it implies model deficiency.
 When \code{scale="normal"}, it applies the normal quantile transformation to the DPIT residuals
 \deqn{\Phi^{-1}\left[\hat{r}(Y_i|\mathbf{X}_i)\right],i=1,\ldots,n.} The null pattern is the standard normal distribution in this case.
@@ -74,9 +74,9 @@ When \code{scale="normal"}, it applies the normal quantile transformation to the
 
 \strong{Formulation for Semicontinuous Outcomes:}
 \cr
-The DPIT residuals for regression models with semi-continuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
-where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}(y|\mathbf{x})}
-where \eqn{\hat{G}} is the fitted cumulative distribution for the positive data.
+The DPIT residuals for regression models with semicontinuous outcomes are \deqn{\hat{r}_i=\frac{\hat{F}_M(Y_i|\mathbf{X}_i)}{n}\sum_{j=1}^n1\left(\hat{p}_0(\mathbf{X}_j)\leq \hat{F}_M(Y_i|\mathbf{X}_i)\right), i=1,\ldots,n,}
+where \eqn{\hat{p}_0(\mathbf{X}_i)} is the fitted probability of zero, and \eqn{\hat{F}_M(\cdot|\mathbf{X}_i)} is the  fitted cumulative distribution function for the \eqn{i}th observation. Furthermore, \deqn{\hat{F}_M(y|\mathbf{x})=\hat{p}_0(\mathbf{x})+\left(1-\hat{p}_0(\mathbf{x})\right)\hat{G}_M(y|\mathbf{x})}
+where \eqn{\hat{G}_M} is the fitted cumulative distribution for the positive data.
 }
 \examples{
 library(MASS)
@@ -209,6 +209,6 @@ resid.ord2 <- residuals(dpit.ord2)
 plot(dpit.ord2)
 }
 \references{
-L. Yang. Double probability integral transform residuals for regression models with discrete outcomes. Journal of Computational and Graphical Statistics, 33(3), pp.787–803, 2024. \cr
-L. Yang. Diagnostics for regression models with semicontinuous outcomes. Biometrics, 80(1), ujae007, 2024.
+Yang, L. (2024). "Double probability integral transform residuals for regression models with discrete outcomes." \emph{Journal of Computational and Graphical Statistics}, 33(3), 787--803. \cr
+Yang, L. (2024). "Diagnostics for regression models with semicontinuous outcomes." \emph{Biometrics}, 80(1), ujae007.
 }

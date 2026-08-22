@@ -12,7 +12,7 @@ ord_curve(model, thr, line_args=list(), ...)
 \item{thr}{Threshold variable (e.g., predictor, fitted values, or variable to be included as a covariate)}
 
 \item{line_args}{A named list of graphical parameters passed to
-\code{graphics::abline()} to modify the reference (red) 45° line
+\code{graphics::abline()} to modify the reference 45° line
 in the ordered curve. If left empty, a default red dashed line is drawn.}
 
 \item{...}{Additional graphical arguments passed to
@@ -98,5 +98,5 @@ ord_curve(poismodel2, thr = x2)
 
 }
 \references{
-L. Yang. Double probability integral transform residuals for regression models with discrete outcomes. Journal of Computational and Graphical Statistics, 33(3), pp.787–803, 2024.
+Yang, L. (2024). "Double probability integral transform residuals for regression models with discrete outcomes." \emph{Journal of Computational and Graphical Statistics}, 33(3), 787--803.
 }

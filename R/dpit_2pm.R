@@ -1,8 +1,8 @@
 #' Residuals for regression models with two-part outcomes
 #'
-#' Calculates DPIT residuals with model for semi-continuous outcomes.
+#' Calculates DPIT residuals with model for two-part models with semicontinuous outcomes.
 #' For each component, `dpit_2pm` accepts either a fitted model or supplied
-#' probabilities: exactly one of `model0` and `part0`, and exactly one of
+#' probability integral transforms: exactly one of `model0` and `part0`, and exactly one of
 #' `model1` and `part1`.
 #'
 #' @usage dpit_2pm(model0, model1, y, part0, part1)
@@ -12,7 +12,7 @@
 #' @param model1 Model object for the continuous part (gamma regression)
 #' @param y Semicontinuous outcomes.
 #' @param part0 Alternative argument to `model0`. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.
-#' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
+#' @param part1 Alternative argument to `model1`. One can fit a regression model on the positive data and supply their probability integral transforms. Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
 #'
 #'
 #' @details
@@ -21,11 +21,11 @@
 #' In two-part models, the probability of zero can be modeled using a logistic regression, `model0`,
 #' while the positive observations can be modeled using a gamma regression, `model1.`
 #' Users can choose to use different models and supply the resulting probabilities of zero and probability integral transforms.
-#' Exactly one of `model0` and `part0`, and exactly one of `model1` and
-#' `part1`, must be supplied. Model and probability inputs may be mixed.
-#'  `part0` should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
+#' `part0` should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 #'  `part1` should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 #'  Note that the length of `part1` is the number of positive values in `y` and can be shorter than `part0`.
+#' Exactly one of `model0` and `part0`, and exactly one of `model1` and
+#' `part1`, must be supplied. Model and probability inputs may be mixed.
 #' Use `residuals()`, `summary()`, and `plot()` on the returned object to select
 #' the residual scale, summarize the values, and draw the QQ plot.
 #'

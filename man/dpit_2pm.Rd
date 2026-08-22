@@ -15,15 +15,15 @@ dpit_2pm(model0, model1, y, part0, part1)
 
 \item{part0}{Alternative argument to \code{model0}. One can supply the sequence of probabilities \eqn{P(Y_i=0),~i=1,\ldots,n}.}
 
-\item{part1}{Alternative argument to \code{model1}. One can fit a regression model on the positive data and supply their probability integral transform. Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.}
+\item{part1}{Alternative argument to \code{model1}. One can fit a regression model on the positive data and supply their probability integral transforms. Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.}
 }
 \value{
 A \code{dpit} object containing DPIT residuals.
 }
 \description{
-Calculates DPIT residuals with model for semi-continuous outcomes.
+Calculates DPIT residuals with model for two-part models with semicontinuous outcomes.
 For each component, \code{dpit_2pm} accepts either a fitted model or supplied
-probabilities: exactly one of \code{model0} and \code{part0}, and exactly one of
+probability integral transforms: exactly one of \code{model0} and \code{part0}, and exactly one of
 \code{model1} and \code{part1}.
 }
 \details{
@@ -32,11 +32,11 @@ For formulation details on semicontinuous outcomes, see \code{\link{dpit}}.
 In two-part models, the probability of zero can be modeled using a logistic regression, \code{model0},
 while the positive observations can be modeled using a gamma regression, \code{model1.}
 Users can choose to use different models and supply the resulting probabilities of zero and probability integral transforms.
-Exactly one of \code{model0} and \code{part0}, and exactly one of \code{model1} and
-\code{part1}, must be supplied. Model and probability inputs may be mixed.
 \code{part0} should be the sequence of fitted probabilities of zeros \eqn{\hat{p}_0(\mathbf{X}_i) ,~i=1,\ldots,n}.
 \code{part1} should be the probability integral transform of the positive part \eqn{\hat{G}(Y_i|\mathbf{X}_i)}.
 Note that the length of \code{part1} is the number of positive values in \code{y} and can be shorter than \code{part0}.
+Exactly one of \code{model0} and \code{part0}, and exactly one of \code{model1} and
+\code{part1}, must be supplied. Model and probability inputs may be mixed.
 Use \code{residuals()}, \code{summary()}, and \code{plot()} on the returned object to select
 the residual scale, summarize the values, and draw the QQ plot.
 }

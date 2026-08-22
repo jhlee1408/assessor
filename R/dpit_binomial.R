@@ -2,7 +2,7 @@
 #'
 #'
 #' Computes DPIT residuals for regression models with binary outcomes
-#' using the observed responses (`y`) and their fitted distributional parameters(`prob`).
+#' using the observed responses (`y`) and their fitted distributional parameters (`prob`).
 #'
 #' @usage dpit_bin(y, prob)
 #' @param y An observed outcome vector.

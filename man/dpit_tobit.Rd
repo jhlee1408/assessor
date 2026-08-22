@@ -14,7 +14,7 @@ dpit_tobit(y, mu, sd)
 \item{sd}{A standard deviation of latent variables.}
 }
 \value{
-A \code{dpit} object containing DPIT residuals.
+The \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for tobit regression models using the observed

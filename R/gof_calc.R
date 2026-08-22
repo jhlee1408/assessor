@@ -103,7 +103,7 @@ gof_bin <- function(B, bimodel = NULL, seed=NULL) {
   }
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "binomial",
-             data.name = paste(deparse(bimodel$call), collapse = ""))
+             data.name = .format_gof_data_name(bimodel$call))
 }
 
 #' @importFrom utils combn
@@ -236,7 +236,7 @@ gof_nb <- function(B,nbmodel=NULL, seed = NULL) {
   ##p-value
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "negative binomial",
-             data.name = paste(deparse(nbmodel$call), collapse = ""))
+             data.name = .format_gof_data_name(nbmodel$call))
 
 }
 
@@ -355,7 +355,7 @@ gof_ordi <- function(B, multimodel=NULL, seed=NULL){
   }
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "ordinal",
-             data.name = paste(deparse(multimodel$call), collapse = ""))
+             data.name = .format_gof_data_name(multimodel$call))
 }
 
 #' @importFrom utils combn
@@ -466,7 +466,7 @@ gof_pois <- function(B, poismodel = NULL, seed = NULL) {
   ##p-value
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "Poisson",
-             data.name = paste(deparse(poismodel$call), collapse = ""))
+             data.name = .format_gof_data_name(poismodel$call))
 }
 
 #' @importFrom utils combn
@@ -578,7 +578,7 @@ gof_znb <- function(B, model1 =NULL, seed = NULL) {
   }
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "zero-inflated negative binomial",
-             data.name = paste(deparse(model1$call), collapse = ""))
+             data.name = .format_gof_data_name(model1$call))
 }
 
 #' @importFrom utils combn
@@ -688,5 +688,5 @@ gof_zpois <- function(B, model1=NULL, seed = NULL) {
   ##p-value
   pvalue <- length(which(disin>disnull))/B
   .gof_htest(stat = disnull, pvalue = pvalue, B = B, what = "zero-inflated Poisson",
-             data.name = paste(deparse(model1$call), collapse = ""))
+             data.name = .format_gof_data_name(model1$call))
 }

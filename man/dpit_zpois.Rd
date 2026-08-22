@@ -18,8 +18,8 @@ A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for regression models with zero-inflated Poisson
-outcomes using the observed counts(\code{y}) and their fitted distributional
-parameters(\code{mu}, \code{pzero}).
+outcomes using the observed counts (\code{y}) and their fitted distributional
+parameters (\code{mu}, \code{pzero}).
 }
 \details{
 For formulation details on discrete outcomes, see \code{\link{dpit}}.

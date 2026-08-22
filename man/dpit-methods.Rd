@@ -20,13 +20,13 @@
 \method{plot}{dpit}(x, scale = c("normal", "uniform"), line_args = list(), ...)
 }
 \arguments{
-\item{x}{A \code{dpit} object.}
+\item{x}{A \code{dpit} object to be printed or plotted by \code{print.dpit()} or \code{plot.dpit()}, or a \code{summary.dpit} object to be printed by \code{print.summary.dpit()}.}
 
 \item{...}{Additional arguments passed to or from methods. For \code{plot.dpit()},
 graphical arguments are passed to \code{stats::qqplot()} for customizing the QQ
 plot (e.g., \code{pch}, \code{col}, \code{cex}, \code{xlab}, \code{ylab}).}
 
-\item{object}{A \code{dpit} object.}
+\item{object}{A \code{dpit} object whose residuals are extracted by \code{residuals.dpit()} or summarized by \code{summary.dpit()}.}
 
 \item{scale}{You can choose the scale of the residuals among \code{normal} and \code{uniform}.
 The sample quantiles of the residuals are plotted against
@@ -51,4 +51,5 @@ The print method displays the fitted model call or calls, when available,
 and the sample size.
 The summary method reports quantiles, mean, and standard deviation for the
 selected scale.
+The residuals method extracts the DPIT residuals, and the plot method constructs a QQ plot of the DPIT residuals against its reference distribution.
 }

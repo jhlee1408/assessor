@@ -16,7 +16,7 @@ A \code{dpit} object containing DPIT residuals.
 }
 \description{
 Computes DPIT residuals for regression models with binary outcomes
-using the observed responses (\code{y}) and their fitted distributional parameters(\code{prob}).
+using the observed responses (\code{y}) and their fitted distributional parameters (\code{prob}).
 }
 \details{
 For formulation details on discrete outcomes, see \code{\link{dpit_pois}}.

@@ -1,6 +1,6 @@
 #' MLB Players' Home Run and Batted Ball Statistics with Red Zone Metrics (2017-2019)
 #'
-#' This dataset provides annual statistics for Major League Baseball (MLB) players, including home run counts, at-bats, mean exit velocities, launch angles, quantile statistics of exit velocities and launch angles, and red zone metrics. It is intended for analyzing batted ball performance, with additional variables on the red zone, which is defined as balls in play with a launch angle between 20 and 35 degrees and an exit velocity of at least 95 mph.
+#' This dataset provides annual statistics for Major League Baseball (MLB) players, including home run counts, at-bats, mean exit velocities, launch angles, quantile statistics of exit velocities and launch angles, and red zone metrics. It is intended for analyzing batted ball performance, with additional variables on the red zone, which are defined as balls in play with a launch angle between 20 and 35 degrees and an exit velocity of at least 95 mph.
 #'
 #' @format A data frame with the following columns:
 #' \describe{

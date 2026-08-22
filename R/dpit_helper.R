@@ -43,9 +43,10 @@ dpit.default <- function(model) {
 #' and the sample size.
 #' The summary method reports quantiles, mean, and standard deviation for the
 #' selected scale.
+#' The residuals method extracts the DPIT residuals, and the plot method constructs a QQ plot of the DPIT residuals against its reference distribution.
 #'
-#' @param x A `dpit` object.
-#' @param object A `dpit` object.
+#' @param x A `dpit` object to be printed or plotted by `print.dpit()` or `plot.dpit()`, or a `summary.dpit` object to be printed by `print.summary.dpit()`.
+#' @param object A `dpit` object whose residuals are extracted by `residuals.dpit()` or summarized by `summary.dpit()`.
 #' @param scale You can choose the scale of the residuals among `normal` and `uniform`.
 #' The sample quantiles of the residuals are plotted against
 #' the theoretical quantiles of a standard normal distribution under the normal scale,

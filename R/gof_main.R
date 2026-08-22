@@ -15,20 +15,20 @@
 #' Goodness-of-fit test for discrete outcome regression models
 #'
 #' Goodness-of-fit test for discrete-outcome regression models.
-#' Works with GLMs (Poisson, binomial/logistic, negative binomial),
+#' Works with GLMs (Poisson, binomial, negative binomial),
 #' ordinal outcome regression (`MASS::polr`), and
-#' zero-inflated regressions (zero-inflated Poisson and negative binomial via `pscl::zeroinfl()`).
+#' zero-inflated regressions (zero-inflated Poisson and negative binomial fit via `pscl::zeroinfl()`).
 #'
 #' @usage gof_disc(model, B=1e2, seed=NULL)
 #' @param model A fitted model object (e.g., from `glm()`, `polr()`, `glm.nb()` or `zeroinfl()`).
 #' @param B A positive integer giving the number of bootstrap samples. Default
 #'   is 1e2.
-#' @param seed random seed for bootstrap.
+#' @param seed Random seed for bootstrap.
 #'
 #' @details
 #' Let \eqn{(Y_i,\mathbf{X}_i),\ i=1,\ldots,n} denote independent observations, and let
 #' \eqn{\hat F_M(\cdot \mid \mathbf{X}_i)} be the fitted model-based CDF.
-#' It was shown in \emph{Yang (2025)} that under the correctly specified model,
+#' It was shown in \emph{Yang et al. (2026)} that under the correctly specified model,
 #' \deqn{\hat{H}(u) = \frac{1}{n}\sum_{i=1}^n \hat{h}(u, Y_i, \mathbf{X}_i)}
 #' should be close to the identity function, where
 #' \deqn{\hat{h}(u, y, \mathbf{x}) =
@@ -40,10 +40,10 @@
 #' \deqn{S_n = \int_0^1 \{ \hat{H}(u) - u \}^2 du} measures the deviation of \eqn{\hat{h}(u,y,\mathbf{x})} from the
 #' identity function, with p-values obtained by bootstrap. This method
 #' complements residual-based diagnostics by providing a formal check of model adequacy.
-#' @references Yang L, Genest C, Neslehova J (2025). “A goodness-of-fit test for regression models with discrete outcomes.” Canadian Journal of Statistics
+#' @references Yang, L., Genest, C., & Nešlehová, J. G. (2026). "A goodness-of-fit test for regression models with discrete outcomes." \emph{Canadian Journal of Statistics}, 54(2), e70046.
 #'
-#' @returns An object of class \code{"htest"} containing the test statistic,
-#' the number of bootstrap samples, the p-value, the method description, and
+#' @returns An object of class \code{"htest"} containing the test statistic (\code{S}),
+#' the number of bootstrap samples (\code{B}), the p-value, the method description, and
 #' the model call.
 #' @importFrom stats family
 #' @import tweedie
@@ -181,6 +181,13 @@ gof_disc.zeroinfl <- function(model, B = 1e2, seed = NULL) {
 #' @rawNamespace S3method(gof_disc,polr)
 gof_disc.polr <- function(model, B = 1e2, seed = NULL) {
   gof_ordi(B = B, multimodel = model, seed = seed)
+}
+
+.format_gof_data_name <- function(call) {
+  paste(
+    trimws(deparse(call, width.cutoff = 500L)),
+    collapse = " "
+  )
 }
 
 
