@@ -1,8 +1,8 @@
 # Residuals for regression models with binary outcomes
 
 Computes DPIT residuals for regression models with binary outcomes using
-the observed responses (`y`) and their fitted distributional
-parameters(`prob`).
+the observed responses (`y`) and their fitted distributional parameters
+(`prob`).
 
 ## Usage
 

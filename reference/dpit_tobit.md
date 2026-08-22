@@ -26,7 +26,7 @@ dpit_tobit(y, mu, sd)
 
 ## Value
 
-A `dpit` object containing DPIT residuals.
+The `dpit` object containing DPIT residuals.
 
 ## Details
 

@@ -7,7 +7,9 @@ objects returned by
 and the distribution-specific DPIT calculators. The print method
 displays the fitted model call or calls, when available, and the sample
 size. The summary method reports quantiles, mean, and standard deviation
-for the selected scale.
+for the selected scale. The residuals method extracts the DPIT
+residuals, and the plot method constructs a QQ plot of the DPIT
+residuals against its reference distribution.
 
 ## Usage
 
@@ -32,7 +34,9 @@ plot(x, scale = c("normal", "uniform"), line_args = list(), ...)
 
 - x:
 
-  A `dpit` object.
+  A `dpit` object to be printed or plotted by `print.dpit()` or
+  `plot.dpit()`, or a `summary.dpit` object to be printed by
+  `print.summary.dpit()`.
 
 - ...:
 
@@ -43,7 +47,8 @@ plot(x, scale = c("normal", "uniform"), line_args = list(), ...)
 
 - object:
 
-  A `dpit` object.
+  A `dpit` object whose residuals are extracted by `residuals.dpit()` or
+  summarized by `summary.dpit()`.
 
 - scale:
 

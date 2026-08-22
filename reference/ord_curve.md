@@ -26,8 +26,8 @@ ord_curve(model, thr, line_args=list(), ...)
 
   A named list of graphical parameters passed to
   [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the ordered curve. If left
-  empty, a default red dashed line is drawn.
+  modify the reference 45° line in the ordered curve. If left empty, a
+  default red dashed line is drawn.
 
 - ...:
 
@@ -78,9 +78,9 @@ For more details, see the reference paper.
 
 ## References
 
-L. Yang. Double probability integral transform residuals for regression
-models with discrete outcomes. Journal of Computational and Graphical
-Statistics, 33(3), pp.787–803, 2024.
+Yang, L. (2024). "Double probability integral transform residuals for
+regression models with discrete outcomes." *Journal of Computational and
+Graphical Statistics*, 33(3), 787–803.
 
 ## Examples
 

@@ -71,7 +71,7 @@ A plot far apart from the diagonal indicates lack of fit.</p>
 
 <dt id="arg-line-args">line_args<a class="anchor" aria-label="anchor" href="#arg-line-args"></a></dt>
 <dd><p>A named list of graphical parameters passed to
-<code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">graphics::abline()</a></code> to modify the reference (red) 45° line
+<code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">graphics::abline()</a></code> to modify the reference 45° line
 in the quasi-empirical plot. If left empty, a default red dashed line is drawn.</p></dd>
 
 
@@ -93,11 +93,11 @@ effect of plotting the quasi-empirical residual distribution function
 $$\hat{U}(s; \beta) = \sum_{i=1}^{n} W_{n}(s;\mathbf{X}_{i},\beta) 1[F(Y_{i}| X_{i}) &lt; H(s;X_{i})]$$
 where
 $$W_n(s; \mathbf{X}_i, \beta) = \frac{K[(H(s; \mathbf{X}_i)-s)/ \epsilon_n]}{\sum_{j=1}^{n} K[(H(s; \mathbf{X}_j)-s)/ \epsilon_n]},$$
-\(\epsilon_n\) is the bandwidth; \(H(s, X_i) = \mathrm{argmin}_{F(k \mid X_i)} |F(k \mid X_i) - s|\) and \(K\) is a bounded, symmetric, and Lipschitz continuous kernel.</p>
+\(\epsilon_n\) is the bandwidth selected suing cross validation; \(H(s, X_i) = \mathrm{argmin}_{F(k \mid X_i)} |F(k \mid X_i) - s|\), \(F\) is the CDF and \(K\) is a bounded, symmetric, and Lipschitz continuous kernel.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Lu Yang (2021). Assessment of Regression Models with Discrete Outcomes Using Quasi-Empirical Residual Distribution Functions, Journal of Computational and Graphical Statistics, 30(4), 1019-1035.</p>
+    <p>Yang, L. (2021). "Assessment of regression models with discrete outcomes using quasi-empirical residual distribution functions." <em>Journal of Computational and Graphical Statistics</em>, 30(4), 1019–1035.</p>
     </div>
 
     <div class="section level2">

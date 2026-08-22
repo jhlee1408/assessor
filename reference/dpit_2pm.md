@@ -1,9 +1,9 @@
 # Residuals for regression models with two-part outcomes
 
-Calculates DPIT residuals with model for semi-continuous outcomes. For
-each component, `dpit_2pm` accepts either a fitted model or supplied
-probabilities: exactly one of `model0` and `part0`, and exactly one of
-`model1` and `part1`.
+Calculates DPIT residuals with model for two-part models with
+semicontinuous outcomes. For each component, `dpit_2pm` accepts either a
+fitted model or supplied probability integral transforms: exactly one of
+`model0` and `part0`, and exactly one of `model1` and `part1`.
 
 ## Usage
 
@@ -33,7 +33,7 @@ dpit_2pm(model0, model1, y, part0, part1)
 - part1:
 
   Alternative argument to `model1`. One can fit a regression model on
-  the positive data and supply their probability integral transform.
+  the positive data and supply their probability integral transforms.
   Note that the length of `part1` is the number of positive values in
   `y` and can be shorter than `part0`.
 
@@ -50,14 +50,14 @@ In two-part models, the probability of zero can be modeled using a
 logistic regression, `model0`, while the positive observations can be
 modeled using a gamma regression, `model1.` Users can choose to use
 different models and supply the resulting probabilities of zero and
-probability integral transforms. Exactly one of `model0` and `part0`,
-and exactly one of `model1` and `part1`, must be supplied. Model and
-probability inputs may be mixed. `part0` should be the sequence of
+probability integral transforms. `part0` should be the sequence of
 fitted probabilities of zeros \\\hat{p}\_0(\mathbf{X}\_i)
 ,~i=1,\ldots,n\\. `part1` should be the probability integral transform
 of the positive part \\\hat{G}(Y_i\|\mathbf{X}\_i)\\. Note that the
 length of `part1` is the number of positive values in `y` and can be
-shorter than `part0`. Use
+shorter than `part0`. Exactly one of `model0` and `part0`, and exactly
+one of `model1` and `part1`, must be supplied. Model and probability
+inputs may be mixed. Use
 [`residuals()`](https://rdrr.io/r/stats/residuals.html),
 [`summary()`](https://rdrr.io/r/base/summary.html), and
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the returned

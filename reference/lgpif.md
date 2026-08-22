@@ -18,171 +18,171 @@ LGPIF
 
 A data frame with 5677 rows and 41 variables:
 
-- `PolicyNum`:
+- PolicyNum:
 
   Policy number
 
-- `Year`:
+- Year:
 
   Policy year
 
-- `ClaimBC`:
+- ClaimBC:
 
   Total building and contents (BC) claims in the year
 
-- `ClaimIM`:
+- ClaimIM:
 
   Total inland marine (IM) claims in the year (contractor’s equipment)
 
-- `ClaimPN`:
+- ClaimPN:
 
   Total comprehensive claims from new motor vehicles in the year
 
-- `ClaimPO`:
+- ClaimPO:
 
   Total comprehensive claims from old motor vehicles in the year
 
-- `ClaimCN`:
+- ClaimCN:
 
   Total collision claims from new vehicles in the year
 
-- `ClaimCO`:
+- ClaimCO:
 
   Total collision claims from old vehicles in the year
 
-- `TypeCity`:
+- TypeCity:
 
   Indicator for city entity
 
-- `TypeCounty`:
+- TypeCounty:
 
   Indicator for county entity
 
-- `TypeMisc`:
+- TypeMisc:
 
   Indicator for miscellaneous entity
 
-- `TypeSchool`:
+- TypeSchool:
 
   Indicator for school entity
 
-- `TypeTown`:
+- TypeTown:
 
   Indicator for town entity
 
-- `TypeVillage`:
+- TypeVillage:
 
   Indicator for village entity
 
-- `IsRC`:
+- IsRC:
 
   Indicator for replacement cost (motor vehicles)
 
-- `CoverageBC`:
+- CoverageBC:
 
   Log coverage amount for building and contents (in millions of dollars)
 
-- `lnDeductBC`:
+- lnDeductBC:
 
   Log deductible amount for building and contents
 
-- `NoClaimCreditBC`:
+- NoClaimCreditBC:
 
   Indicator for no BC claims in prior year
 
-- `yAvgBC`:
+- yAvgBC:
 
   Average BC claim amount
 
-- `FreqBC`:
+- FreqBC:
 
   Frequency of BC claims
 
-- `CoverageIM`:
+- CoverageIM:
 
   Log coverage amount for inland marine (in millions of dollars)
 
-- `lnDeductIM`:
+- lnDeductIM:
 
   Log deductible amount for inland marine
 
-- `NoClaimCreditIM`:
+- NoClaimCreditIM:
 
   Indicator for no IM claims in prior year
 
-- `yAvgIM`:
+- yAvgIM:
 
   Average IM claim amount
 
-- `FreqIM`:
+- FreqIM:
 
   Frequency of IM claims
 
-- `CoveragePN`:
+- CoveragePN:
 
   Log coverage amount for comprehensive new vehicles (in millions of
   dollars)
 
-- `NoClaimCreditPN`:
+- NoClaimCreditPN:
 
   Indicator for no PN claims in prior year
 
-- `yAvgPN`:
+- yAvgPN:
 
   Average PN claim amount
 
-- `FreqPN`:
+- FreqPN:
 
   Frequency of PN claims
 
-- `CoveragePO`:
+- CoveragePO:
 
   Log coverage amount for comprehensive old vehicles (in millions of
   dollars)
 
-- `NoClaimCreditPO`:
+- NoClaimCreditPO:
 
   Indicator for no PO claims in prior year
 
-- `yAvgPO`:
+- yAvgPO:
 
   Average PO claim amount
 
-- `FreqPO`:
+- FreqPO:
 
   Frequency of PO claims
 
-- `CoverageCN`:
+- CoverageCN:
 
   Log coverage amount for collision of new vehicles (in millions of
   dollars)
 
-- `NoClaimCreditCN`:
+- NoClaimCreditCN:
 
   Indicator for no CN claims in prior year
 
-- `yAvgCN`:
+- yAvgCN:
 
   Average CN claim amount
 
-- `FreqCN`:
+- FreqCN:
 
   Frequency of CN claims
 
-- `CoverageCO`:
+- CoverageCO:
 
   Log coverage amount for collision of old vehicles (in millions of
   dollars)
 
-- `NoClaimCreditCO`:
+- NoClaimCreditCO:
 
   Indicator for no CO claims in prior year
 
-- `yAvgCO`:
+- yAvgCO:
 
   Average CO claim amount
 
-- `FreqCO`:
+- FreqCO:
 
   Frequency of CO claims
 
@@ -192,5 +192,5 @@ https://sites.google.com/a/wisc.edu/jed-frees/
 
 ## References
 
-Frees, E. W., Lee, G., & Yang, L. (2016). Multivariate
-frequency-severity regression models in insurance. Risks, 4(1), 4.
+Frees, E. W., Lee, G., & Yang, L. (2016). "Multivariate
+frequency-severity regression models in insurance." *Risks*, 4(1), 4.

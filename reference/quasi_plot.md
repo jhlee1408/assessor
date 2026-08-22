@@ -23,8 +23,8 @@ quasi_plot(model, line_args=list(), ...)
 
   A named list of graphical parameters passed to
   [`graphics::abline()`](https://rdrr.io/r/graphics/abline.html) to
-  modify the reference (red) 45° line in the quasi-empirical plot. If
-  left empty, a default red dashed line is drawn.
+  modify the reference 45° line in the quasi-empirical plot. If left
+  empty, a default red dashed line is drawn.
 
 - ...:
 
@@ -46,15 +46,16 @@ follows: \$\$\hat{U}(s; \beta) = \sum\_{i=1}^{n}
 W\_{n}(s;\mathbf{X}\_{i},\beta) 1\[F(Y\_{i}\| X\_{i}) \<
 H(s;X\_{i})\]\$\$ where \$\$W_n(s; \mathbf{X}\_i, \beta) =
 \frac{K\[(H(s; \mathbf{X}\_i)-s)/ \epsilon_n\]}{\sum\_{j=1}^{n} K\[(H(s;
-\mathbf{X}\_j)-s)/ \epsilon_n\]},\$\$ \\\epsilon_n\\ is the bandwidth;
-\\H(s, X_i) = \mathrm{argmin}\_{F(k \mid X_i)} \|F(k \mid X_i) - s\|\\
-and \\K\\ is a bounded, symmetric, and Lipschitz continuous kernel.
+\mathbf{X}\_j)-s)/ \epsilon_n\]},\$\$ \\\epsilon_n\\ is the bandwidth
+selected suing cross validation; \\H(s, X_i) = \mathrm{argmin}\_{F(k
+\mid X_i)} \|F(k \mid X_i) - s\|\\, \\F\\ is the CDF and \\K\\ is a
+bounded, symmetric, and Lipschitz continuous kernel.
 
 ## References
 
-Lu Yang (2021). Assessment of Regression Models with Discrete Outcomes
-Using Quasi-Empirical Residual Distribution Functions, Journal of
-Computational and Graphical Statistics, 30(4), 1019-1035.
+Yang, L. (2021). "Assessment of regression models with discrete outcomes
+using quasi-empirical residual distribution functions." *Journal of
+Computational and Graphical Statistics*, 30(4), 1019–1035.
 
 ## Examples
 

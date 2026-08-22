@@ -5,13 +5,15 @@ DPIT calculators.
 The print method displays the fitted model call or calls, when available,
 and the sample size.
 The summary method reports quantiles, mean, and standard deviation for the
-selected scale."><meta property="og:description" content="Methods for printing, summarizing, plotting, and extracting values from
+selected scale.
+The residuals method extracts the DPIT residuals, and the plot method constructs a QQ plot of the DPIT residuals against its reference distribution."><meta property="og:description" content="Methods for printing, summarizing, plotting, and extracting values from
 objects returned by dpit(), dpit_2pm(), and the distribution-specific
 DPIT calculators.
 The print method displays the fitted model call or calls, when available,
 and the sample size.
 The summary method reports quantiles, mean, and standard deviation for the
-selected scale."></head><body>
+selected scale.
+The residuals method extracts the DPIT residuals, and the plot method constructs a QQ plot of the DPIT residuals against its reference distribution."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -62,7 +64,8 @@ DPIT calculators.
 The print method displays the fitted model call or calls, when available,
 and the sample size.
 The summary method reports quantiles, mean, and standard deviation for the
-selected scale.</p>
+selected scale.
+The residuals method extracts the DPIT residuals, and the plot method constructs a QQ plot of the DPIT residuals against its reference distribution.</p>
     </div>
 
     <div class="section level2">
@@ -88,7 +91,7 @@ selected scale.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A <code>dpit</code> object.</p></dd>
+<dd><p>A <code>dpit</code> object to be printed or plotted by <code>print.dpit()</code> or <code>plot.dpit()</code>, or a <code>summary.dpit</code> object to be printed by <code>print.summary.dpit()</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -98,7 +101,7 @@ plot (e.g., <code>pch</code>, <code>col</code>, <code>cex</code>, <code>xlab</co
 
 
 <dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
-<dd><p>A <code>dpit</code> object.</p></dd>
+<dd><p>A <code>dpit</code> object whose residuals are extracted by <code>residuals.dpit()</code> or summarized by <code>summary.dpit()</code>.</p></dd>
 
 
 <dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>

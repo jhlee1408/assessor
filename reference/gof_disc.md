@@ -1,10 +1,11 @@
 # Goodness-of-fit test for discrete outcome regression models
 
 Goodness-of-fit test for discrete-outcome regression models. Works with
-GLMs (Poisson, binomial/logistic, negative binomial), ordinal outcome
-regression ([`MASS::polr`](https://rdrr.io/pkg/MASS/man/polr.html)), and
+GLMs (Poisson, binomial, negative binomial), ordinal outcome regression
+([`MASS::polr`](https://rdrr.io/pkg/MASS/man/polr.html)), and
 zero-inflated regressions (zero-inflated Poisson and negative binomial
-via [`pscl::zeroinfl()`](https://rdrr.io/pkg/pscl/man/zeroinfl.html)).
+fit via
+[`pscl::zeroinfl()`](https://rdrr.io/pkg/pscl/man/zeroinfl.html)).
 
 ## Usage
 
@@ -29,20 +30,20 @@ gof_disc(model, B=1e2, seed=NULL)
 
 - seed:
 
-  random seed for bootstrap.
+  Random seed for bootstrap.
 
 ## Value
 
-An object of class `"htest"` containing the test statistic, the number
-of bootstrap samples, the p-value, the method description, and the model
-call.
+An object of class `"htest"` containing the test statistic (`S`), the
+number of bootstrap samples (`B`), the p-value, the method description,
+and the model call.
 
 ## Details
 
 Let \\(Y_i,\mathbf{X}\_i),\\ i=1,\ldots,n\\ denote independent
 observations, and let \\\hat F_M(\cdot \mid \mathbf{X}\_i)\\ be the
-fitted model-based CDF. It was shown in *Yang (2025)* that under the
-correctly specified model, \$\$\hat{H}(u) = \frac{1}{n}\sum\_{i=1}^n
+fitted model-based CDF. It was shown in *Yang et al. (2026)* that under
+the correctly specified model, \$\$\hat{H}(u) = \frac{1}{n}\sum\_{i=1}^n
 \hat{h}(u, Y_i, \mathbf{X}\_i)\$\$ should be close to the identity
 function, where \$\$\hat{h}(u, y, \mathbf{x}) = \frac{u - \hat{F}\_M
 (y-1 \mid \mathbf{x})} {\hat{F}\_M (y \mid \mathbf{x}) - \hat{F}\_M (y-1
@@ -56,9 +57,9 @@ diagnostics by providing a formal check of model adequacy.
 
 ## References
 
-Yang L, Genest C, Neslehova J (2025). “A goodness-of-fit test for
-regression models with discrete outcomes.” Canadian Journal of
-Statistics
+Yang, L., Genest, C., & Nešlehová, J. G. (2026). "A goodness-of-fit test
+for regression models with discrete outcomes." *Canadian Journal of
+Statistics*, 54(2), e70046.
 
 ## Examples
 

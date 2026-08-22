@@ -1,8 +1,8 @@
 # Residuals for regression models with zero-inflated Poisson outcomes
 
 Computes DPIT residuals for regression models with zero-inflated Poisson
-outcomes using the observed counts(`y`) and their fitted distributional
-parameters(`mu`, `pzero`).
+outcomes using the observed counts (`y`) and their fitted distributional
+parameters (`mu`, `pzero`).
 
 ## Usage
 
